@@ -1,0 +1,31 @@
+{
+  "name": "looot-chrome",
+  "version": "0.1.0",
+  "description": "Chrome side panel for looot: search 2,500+ data APIs with prices, enrich the company or find a work email for the site you are on.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "pack": "node scripts/pack.mjs",
+    "scan": "bash scripts/leak-scan.sh .",
+    "check": "npm run scan && npm run typecheck && npm test && npm run build"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@types/chrome": "0.3.4",
+    "@types/node": "22.20.4",
+    "esbuild": "0.28.2",
+    "typescript": "5.9.3",
+    "vitest": "5.0.3"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loootai/looot-chrome.git"
+  },
+  "homepage": "https://looot.ai"
+}

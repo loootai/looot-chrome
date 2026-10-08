@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>looot</title>
+    <link rel="stylesheet" href="sidepanel.css" />
+  </head>
+  <body>
+    <header class="top">
+      <a class="brand" href="https://looot.ai" target="_blank" rel="noopener" aria-label="looot.ai">
+        <picture>
+          <source srcset="brand/looot-wordmark-white.png" media="(prefers-color-scheme: dark)" />
+          <img src="brand/looot-wordmark.png" alt="looot.ai" height="30" />
+        </picture>
+      </a>
+      <div id="balance" class="balance" hidden></div>
+    </header>
+
+    <section id="site" class="site" aria-label="Site"></section>
+
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" id="tab-lookup" aria-controls="view-lookup" aria-selected="true" data-tab="lookup">Lookup</button>
+      <button role="tab" id="tab-catalog" aria-controls="view-catalog" aria-selected="false" data-tab="catalog" tabindex="-1">Catalog</button>
+      <button role="tab" id="tab-settings" aria-controls="view-settings" aria-selected="false" data-tab="settings" tabindex="-1">Settings</button>
+    </nav>
+
+    <main>
+      <section id="view-lookup" role="tabpanel" aria-labelledby="tab-lookup"></section>
+      <section id="view-catalog" role="tabpanel" aria-labelledby="tab-catalog" hidden></section>
+      <section id="view-settings" role="tabpanel" aria-labelledby="tab-settings" hidden></section>
+    </main>
+
+    <footer id="meter" class="meter" aria-live="polite"></footer>
+    <script type="module" src="sidepanel.js"></script>
+  </body>
+</html>
