@@ -17,7 +17,7 @@ looot: company and email lookup
 **Summary** (115 of 132 characters; read from the manifest)
 
 ```
-Search 2,500+ data APIs with prices. Enrich the company or find a work email for the site you are on. Pay per call.
+Search 4,200+ data APIs with prices. Enrich the company or find a work email for the site you are on. Pay per call.
 ```
 
 **Description**
@@ -26,7 +26,7 @@ Search 2,500+ data APIs with prices. Enrich the company or find a work email for
 looot puts company and contact lookups in Chrome's side panel, with the price on screen before anything runs.
 
 FREE, NO ACCOUNT
-Search the looot catalog: 2,500+ data API endpoints from 90+ providers. Type a task such as "verify email" or "company news" and see each endpoint and what one call costs.
+Search the looot catalog: 4,200+ data API endpoints from 300+ providers. Type a task such as "verify email" or "company news" and see each endpoint and what one call costs.
 
 WITH YOUR OWN LOOOT TOKEN
 Open the panel on a company's website and run a lookup on that domain:

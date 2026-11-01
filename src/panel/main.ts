@@ -418,7 +418,7 @@ function renderCatalogResults(): void {
   if (c.status === "idle") {
     mount(box,
       h("div", { class: "empty" },
-        h("p", { class: "empty-title" }, "Search 2,500+ endpoints from 90+ providers"),
+        h("p", { class: "empty-title" }, "Search 4,200+ endpoints from 300+ providers"),
         h("p", { class: "help" }, "Describe the task. Start with one of these:"),
         h("ul", { class: "chips click" }, ...SUGGESTIONS.map((s) =>
           h("li", {}, h("button", { type: "button", onclick: () => { state.catalog.q = s; renderCatalog(); void search(s); } }, s)))),

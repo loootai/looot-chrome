@@ -76,7 +76,7 @@ async function open(params, viewport, dark = false) {
 const SHOTS = [
   {
     file: "1-catalog-search.png",
-    params: { scene: "catalog", url: `${SITE}/bikes`, h: "Search 2,500+ data APIs", p: "Free, no account. Every endpoint shows what one call costs.", f1: "90+", l1: "providers, one catalog", f2: "$0", l2: "to search" },
+    params: { scene: "catalog", url: `${SITE}/bikes`, h: "Search 4,200+ data APIs", p: "Free, no account. Every endpoint shows what one call costs.", f1: "90+", l1: "providers, one catalog", f2: "$0", l2: "to search" },
     drive: async (panel) => {
       await panel.locator("#tab-catalog").click();
       await panel.locator("#catalog-q").fill("verify email");

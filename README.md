@@ -4,9 +4,9 @@
 
 # looot for Chrome
 
-A Chrome side panel for [looot](https://looot.ai). Search 2,500+ data API endpoints and their prices for free, then run a lookup on the company whose site you have open: company profile, a work email, the tech stack. Every paid lookup shows its price and waits for a click.
+A Chrome side panel for [looot](https://looot.ai). Search 4,200+ data API endpoints and their prices for free, then run a lookup on the company whose site you have open: company profile, a work email, the tech stack. Every paid lookup shows its price and waits for a click.
 
-looot gives one key and one prepaid balance for data APIs from 90+ providers. You pay per call, a failed call costs nothing, and there is no subscription. Docs: [docs.looot.ai](https://docs.looot.ai).
+looot gives one key and one prepaid balance for data APIs from 300+ providers. You pay per call, a failed call costs nothing, and there is no subscription. Docs: [docs.looot.ai](https://docs.looot.ai).
 
 ## What it does
 

@@ -1,7 +1,7 @@
 {
   "name": "looot-chrome",
   "version": "0.1.0",
-  "description": "Chrome side panel for looot: search 2,500+ data APIs with prices, enrich the company or find a work email for the site you are on.",
+  "description": "Chrome side panel for looot: search 4,200+ data APIs with prices, enrich the company or find a work email for the site you are on.",
   "private": true,
   "type": "module",
   "scripts": {

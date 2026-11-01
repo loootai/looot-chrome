@@ -3,7 +3,7 @@
   "name": "looot: company and email lookup",
   "short_name": "looot",
   "version": "0.1.0",
-  "description": "Search 2,500+ data APIs with prices. Enrich the company or find a work email for the site you are on. Pay per call.",
+  "description": "Search 4,200+ data APIs with prices. Enrich the company or find a work email for the site you are on. Pay per call.",
   "homepage_url": "https://looot.ai",
   "minimum_chrome_version": "116",
   "icons": {
