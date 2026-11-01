@@ -16,9 +16,10 @@ describe("manifest", () => {
     expect(manifest.optional_permissions).toBeUndefined();
     expect(manifest.content_scripts).toBeUndefined();
   });
-  it("fits the Chrome Web Store limits and matches package.json", () => {
-    expect(manifest.name.length).toBeLessThanOrEqual(45);
-    expect(manifest.description.length).toBeLessThanOrEqual(132);
+  it("reads name and description from _locales and matches package.json", () => {
+    expect(manifest.name).toBe("__MSG_extName__");
+    expect(manifest.description).toBe("__MSG_extDescription__");
+    expect(manifest.default_locale).toBe("en");
     expect(manifest.version).toBe(pkg.version);
   });
   it("allows connections to api.looot.ai only and no remote scripts", () => {

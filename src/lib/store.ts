@@ -11,7 +11,7 @@ export interface Settings {
   sessionCap: number;
 }
 
-export const DEFAULTS: Settings = { token: "", maxPerCall: 0.05, sessionCap: 0.5 };
+export const DEFAULTS: Settings = { token: "", maxPerCall: 0.1, sessionCap: 1 };
 
 export interface Area {
   get(keys: string[]): Promise<Record<string, unknown>>;

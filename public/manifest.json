@@ -1,9 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "looot: company and email lookup",
-  "short_name": "looot",
-  "version": "0.1.0",
-  "description": "Search 4,200+ data APIs with prices. Enrich the company or find a work email for the site you are on. Pay per call.",
+  "name": "__MSG_extName__",
+  "short_name": "__MSG_extShortName__",
+  "version": "0.2.0",
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
   "homepage_url": "https://looot.ai",
   "minimum_chrome_version": "116",
   "icons": {
@@ -13,7 +14,7 @@
     "128": "icons/icon-128.png"
   },
   "action": {
-    "default_title": "Open looot",
+    "default_title": "__MSG_actionTitle__",
     "default_icon": {
       "16": "icons/icon-16.png",
       "32": "icons/icon-32.png"
@@ -26,8 +27,14 @@
   "side_panel": {
     "default_path": "sidepanel.html"
   },
-  "permissions": ["sidePanel", "storage", "activeTab"],
-  "host_permissions": ["https://api.looot.ai/*"],
+  "permissions": [
+    "sidePanel",
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://api.looot.ai/*"
+  ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'; connect-src https://api.looot.ai"
   }

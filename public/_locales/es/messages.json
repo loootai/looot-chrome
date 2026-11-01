@@ -1,0 +1,682 @@
+{
+  "extName": {
+    "message": "looot Buscar empresa: de quién es esta web, tecnologías y tráfico"
+  },
+  "extShortName": {
+    "message": "looot"
+  },
+  "extDescription": {
+    "message": "Empresa del sitio abierto: dueño, tecnologías, tráfico, backlinks, WHOIS, emails de trabajo. Precio antes de cada consulta."
+  },
+  "actionTitle": {
+    "message": "Abrir looot"
+  },
+  "siteLabel": {
+    "message": "Sitio"
+  },
+  "sectionsLabel": {
+    "message": "Secciones"
+  },
+  "tabLookup": {
+    "message": "Buscar"
+  },
+  "tabCatalog": {
+    "message": "Catálogo"
+  },
+  "tabSettings": {
+    "message": "Ajustes"
+  },
+  "domainPlaceholder": {
+    "message": "empresa.com"
+  },
+  "domainError": {
+    "message": "Escribe un dominio, por ejemplo empresa.com."
+  },
+  "domainLabel": {
+    "message": "Dominio de la empresa"
+  },
+  "domainUse": {
+    "message": "Usar"
+  },
+  "domainOverride": {
+    "message": "Las consultas usarán este dominio en lugar de la pestaña abierta."
+  },
+  "domainNone": {
+    "message": "Esta pestaña no tiene un sitio que usar. Haz clic en el icono de looot en la web de una empresa o escribe un dominio."
+  },
+  "siteTyped": {
+    "message": "Dominio escrito"
+  },
+  "siteTab": {
+    "message": "Esta pestaña"
+  },
+  "domainChangeLabel": {
+    "message": "Cambiar dominio"
+  },
+  "domainChange": {
+    "message": "Cambiar"
+  },
+  "actionCompanyTitle": {
+    "message": "De quién es esta web"
+  },
+  "actionCompanyHint": {
+    "message": "La empresa detrás del dominio: nombre, sector, tamaño, país, LinkedIn."
+  },
+  "actionWhoisTitle": {
+    "message": "Registro del dominio (WHOIS)"
+  },
+  "actionWhoisHint": {
+    "message": "Registrador, fechas de creación y vencimiento, antigüedad, servidores DNS."
+  },
+  "actionTechTitle": {
+    "message": "Tecnologías"
+  },
+  "actionTechHint": {
+    "message": "Las tecnologías del sitio: CMS, analítica, pagos, alojamiento."
+  },
+  "actionTrafficTitle": {
+    "message": "Tráfico web"
+  },
+  "actionTrafficHint": {
+    "message": "Visitas mensuales estimadas, ranking mundial y por país, fuentes de tráfico."
+  },
+  "actionSeoTitle": {
+    "message": "SEO y backlinks"
+  },
+  "actionSeoHint": {
+    "message": "Rango del dominio, backlinks, dominios de referencia y puntuación de spam."
+  },
+  "actionEmailTitle": {
+    "message": "Encontrar un email de trabajo"
+  },
+  "actionEmailHint": {
+    "message": "La dirección de una persona en este dominio y luego una verificación de entrega."
+  },
+  "needTokenTitle": {
+    "message": "Las consultas necesitan tu clave de looot"
+  },
+  "needTokenBody": {
+    "message": "Buscar en el catálogo es gratis. Para una consulta, pega una clave de tu cuenta de looot. Se queda en este dispositivo."
+  },
+  "addToken": {
+    "message": "Añadir clave"
+  },
+  "getToken": {
+    "message": "Consíguela en looot.ai"
+  },
+  "pricesFailedTitle": {
+    "message": "Los precios no cargaron"
+  },
+  "pricesFailedBody": {
+    "message": "Las consultas siguen desactivadas hasta que vuelvan los precios, para que siempre veas el precio antes."
+  },
+  "tryAgain": {
+    "message": "Reintentar"
+  },
+  "priceUnavailable": {
+    "message": "precio no disponible"
+  },
+  "nameError": {
+    "message": "Escribe nombre y apellido."
+  },
+  "firstName": {
+    "message": "Nombre"
+  },
+  "lastName": {
+    "message": "Apellido"
+  },
+  "seePrice": {
+    "message": "Ver precio"
+  },
+  "needsDomain": {
+    "message": "Necesita un dominio de empresa."
+  },
+  "overCap": {
+    "message": "La consulta más barata cuesta $p1$, por encima de tu límite de $p2$ por consulta.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "openSettings": {
+    "message": "Súbelo en Ajustes"
+  },
+  "confirmLabel": {
+    "message": "Confirmar: $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "confirmPerson": {
+    "message": "$p1$ en",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "confirmOn": {
+    "message": "Sobre"
+  },
+  "verifyOnlyIfFound": {
+    "message": "Solo se ejecuta si se encuentra una dirección."
+  },
+  "mostCharge": {
+    "message": "Lo máximo que puede cobrar:"
+  },
+  "capEachCall": {
+    "message": "(límite de $p1$ por consulta).",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "capYourCall": {
+    "message": "(tu límite por consulta)."
+  },
+  "failedFree": {
+    "message": "Una consulta fallida cuesta 0 $$."
+  },
+  "confirmRun": {
+    "message": "Confirmar y ejecutar"
+  },
+  "cancel": {
+    "message": "Cancelar"
+  },
+  "copyJson": {
+    "message": "Copiar JSON"
+  },
+  "charged": {
+    "message": "Cobrado"
+  },
+  "notSettled": {
+    "message": "Una consulta seguía en curso cuando el panel dejó de esperar. Se contó el límite completo. Revísala en looot.ai."
+  },
+  "rawAnswer": {
+    "message": "Respuesta sin procesar"
+  },
+  "runAnother": {
+    "message": "Otra consulta"
+  },
+  "nothingRan": {
+    "message": "No se ejecutó nada"
+  },
+  "back": {
+    "message": "Volver"
+  },
+  "topUp": {
+    "message": "Recargar"
+  },
+  "dismiss": {
+    "message": "Cerrar"
+  },
+  "runEnded": {
+    "message": "La consulta terminó con estado $p1$.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "runningCompany": {
+    "message": "Buscando la empresa detrás de $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "runningWhois": {
+    "message": "Leyendo el registro de $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "runningTech": {
+    "message": "Leyendo las tecnologías de $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "runningTraffic": {
+    "message": "Estimando el tráfico de $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "runningSeo": {
+    "message": "Contando backlinks de $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "runningEmail": {
+    "message": "Buscando la dirección"
+  },
+  "runningVerify": {
+    "message": "Verificando $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "emptyCompany": {
+    "message": "El proveedor respondió pero no tenía datos de empresa para este dominio."
+  },
+  "emptyAnswer": {
+    "message": "El proveedor no devolvió datos para este dominio. Abre la respuesta sin procesar abajo."
+  },
+  "emptyTech": {
+    "message": "No hay tecnologías en la respuesta. Abre la respuesta sin procesar abajo."
+  },
+  "emptyEmail": {
+    "message": "No se encontró dirección para este nombre en este dominio. La verificación no se ejecutó."
+  },
+  "whoisRedacted": {
+    "message": "El registrador oculta los datos del dueño. Usa «De quién es esta web» para ver la empresa."
+  },
+  "trafficNote": {
+    "message": "Estimaciones de un panel de tráfico, no la analítica del propio sitio."
+  },
+  "techCount": {
+    "message": "$p1$ tecnologías",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "verifyUnfinished": {
+    "message": "La verificación no terminó: $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "verifyNotRun": {
+    "message": "Se encontró la dirección. La verificación no se ejecutó: $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "fieldName": {
+    "message": "Nombre"
+  },
+  "fieldIndustry": {
+    "message": "Sector"
+  },
+  "fieldEmployees": {
+    "message": "Empleados"
+  },
+  "fieldFounded": {
+    "message": "Fundada"
+  },
+  "fieldCountry": {
+    "message": "País"
+  },
+  "fieldCity": {
+    "message": "Ciudad"
+  },
+  "fieldLinkedIn": {
+    "message": "LinkedIn"
+  },
+  "fieldAbout": {
+    "message": "Acerca de"
+  },
+  "fieldVisits": {
+    "message": "Visitas al mes"
+  },
+  "fieldGlobalRank": {
+    "message": "Ranking mundial"
+  },
+  "fieldCountryRank": {
+    "message": "Ranking por país"
+  },
+  "fieldCategory": {
+    "message": "Categoría"
+  },
+  "fieldBounce": {
+    "message": "Tasa de rebote"
+  },
+  "fieldPagesPerVisit": {
+    "message": "Páginas por visita"
+  },
+  "fieldTimeOnSite": {
+    "message": "Tiempo en el sitio"
+  },
+  "fieldDomainRank": {
+    "message": "Rango del dominio (0 a 1000)"
+  },
+  "fieldBacklinks": {
+    "message": "Backlinks"
+  },
+  "fieldRefDomains": {
+    "message": "Dominios de referencia"
+  },
+  "fieldSpamScore": {
+    "message": "Puntuación de spam"
+  },
+  "fieldFirstSeen": {
+    "message": "Visto por primera vez"
+  },
+  "fieldOwnerOrg": {
+    "message": "Titular"
+  },
+  "fieldOwnerCountry": {
+    "message": "País del titular"
+  },
+  "fieldRegistrar": {
+    "message": "Registrador"
+  },
+  "fieldCreated": {
+    "message": "Creado"
+  },
+  "fieldExpires": {
+    "message": "Vence"
+  },
+  "fieldAgeYears": {
+    "message": "Antigüedad (años)"
+  },
+  "fieldCheck": {
+    "message": "Verificación"
+  },
+  "status_valid": {
+    "message": "válida"
+  },
+  "status_invalid": {
+    "message": "no válida"
+  },
+  "status_catchall": {
+    "message": "catch-all"
+  },
+  "status_risky": {
+    "message": "arriesgada"
+  },
+  "status_unknown": {
+    "message": "desconocido"
+  },
+  "errUnknown": {
+    "message": "Algo falló antes de hacer la consulta."
+  },
+  "errSessionCap": {
+    "message": "Esta consulta puede costar hasta $p1$ y solo quedan $p2$ bajo tu límite de sesión de $p3$. Súbelo o reinicia el contador en Ajustes.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      },
+      "p3": {
+        "content": "$3"
+      }
+    }
+  },
+  "errNetwork": {
+    "message": "No se pudo conectar con api.looot.ai. Revisa tu conexión e inténtalo de nuevo."
+  },
+  "errMissingToken": {
+    "message": "Primero añade tu clave de looot en Ajustes."
+  },
+  "errToken": {
+    "message": "looot no aceptó la clave. Revísala en Ajustes."
+  },
+  "errTopUp": {
+    "message": "Recarga tu saldo e inténtalo de nuevo."
+  },
+  "suggest1": {
+    "message": "encontrar email de trabajo"
+  },
+  "suggest2": {
+    "message": "enriquecer empresa"
+  },
+  "suggest3": {
+    "message": "búsqueda en google"
+  },
+  "suggest4": {
+    "message": "perfil de linkedin"
+  },
+  "suggest5": {
+    "message": "verificar email"
+  },
+  "suggest6": {
+    "message": "tráfico web"
+  },
+  "catalogPlaceholder": {
+    "message": "¿Qué necesitas? p. ej. verificar un email"
+  },
+  "catalogLabel": {
+    "message": "Buscar en el catálogo de looot"
+  },
+  "catalogHelp": {
+    "message": "Gratis, sin clave. Los precios son lo que cuesta una consulta o un resultado con looot."
+  },
+  "catalogEmptyTitle": {
+    "message": "Busca entre 4.200+ endpoints de 300+ proveedores"
+  },
+  "catalogEmptyBody": {
+    "message": "Describe la tarea. Empieza con una de estas:"
+  },
+  "searchFailedTitle": {
+    "message": "La búsqueda no respondió"
+  },
+  "noMatchTitle": {
+    "message": "Nada coincide con «$p1$»",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "noMatchBody": {
+    "message": "Usa menos palabras o nombra la tarea en vez de un proveedor: «verificar email»."
+  },
+  "copyIdTitle": {
+    "message": "Copiar el id"
+  },
+  "copyId": {
+    "message": "Copiar id"
+  },
+  "tokenSavedPlaceholder": {
+    "message": "Hay una clave guardada. Pega otra para reemplazarla."
+  },
+  "limitsError": {
+    "message": "Escribe dos importes mayores que 0. El límite de sesión debe ser al menos el límite por consulta."
+  },
+  "tokenSaved": {
+    "message": "Guardada en este dispositivo."
+  },
+  "tokenRejected": {
+    "message": "Guardada, pero looot no la aceptó. Comprueba que la copiaste entera."
+  },
+  "tokenTitle": {
+    "message": "Tu clave de looot"
+  },
+  "tokenLabel": {
+    "message": "Clave API"
+  },
+  "tokenHelp": {
+    "message": "Se guarda en el almacenamiento local de la extensión. No se sincroniza con tu cuenta de Google. Solo se envía a api.looot.ai."
+  },
+  "tokenReplace": {
+    "message": "Reemplazar clave"
+  },
+  "tokenSave": {
+    "message": "Guardar clave"
+  },
+  "tokenRemoved": {
+    "message": "Clave eliminada."
+  },
+  "tokenRemove": {
+    "message": "Eliminar"
+  },
+  "tokenHowBefore": {
+    "message": "¿Aún sin clave? Crea una en tu"
+  },
+  "tokenHowLink": {
+    "message": "cuenta de looot"
+  },
+  "tokenHowAfter": {
+    "message": "con catalog.read, runs.read y runs.execute. Recarga desde 5 $$, sin suscripción."
+  },
+  "limitsSaved": {
+    "message": "Límites guardados."
+  },
+  "limitsTitle": {
+    "message": "Límites de gasto"
+  },
+  "capPerCall": {
+    "message": "Límite por consulta (USD)"
+  },
+  "capSession": {
+    "message": "Límite de sesión (USD)"
+  },
+  "limitsHelp": {
+    "message": "Una consulta nunca cobra más que su límite, sumando todos los proveedores que looot pruebe. Si el total de la sesión puede superar el límite, las consultas se detienen."
+  },
+  "limitsSave": {
+    "message": "Guardar límites"
+  },
+  "counterReset": {
+    "message": "Contador de sesión reiniciado."
+  },
+  "counterResetButton": {
+    "message": "Reiniciar contador"
+  },
+  "aboutTitle": {
+    "message": "Acerca de"
+  },
+  "aboutBody": {
+    "message": "Este panel solo habla con api.looot.ai. Sin analítica, sin rastreo, no lee el contenido de las páginas."
+  },
+  "linkDocs": {
+    "message": "Docs"
+  },
+  "linkPrivacy": {
+    "message": "Privacidad"
+  },
+  "linkSupport": {
+    "message": "Soporte"
+  },
+  "linkSource": {
+    "message": "Código"
+  },
+  "meterSession": {
+    "message": "Sesión"
+  },
+  "meterOf": {
+    "message": "de $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "meterHeld": {
+    "message": "$p1$ reservado",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "meterLeft": {
+    "message": "quedan $p1$, $p2$ consultas",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "meterLeftOne": {
+    "message": "quedan $p1$, 1 consulta",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "meterLabel": {
+    "message": "Gasto de la sesión"
+  },
+  "balance": {
+    "message": "Saldo"
+  },
+  "priceNotListed": {
+    "message": "precio no indicado"
+  },
+  "freePerCall": {
+    "message": "gratis por consulta"
+  },
+  "freePerResult": {
+    "message": "gratis por resultado"
+  },
+  "pricePerCall": {
+    "message": "$p1$ por consulta",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "pricePerResult": {
+    "message": "$p1$ por resultado",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "priceLoading": {
+    "message": "cargando precio"
+  },
+  "fromPerCall": {
+    "message": "desde $p1$ por consulta",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "fromPerResult": {
+    "message": "desde $p1$ por resultado",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "freeOneProvider": {
+    "message": "gratis con un proveedor, otros desde $p1$ por resultado",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "freeCheapest": {
+    "message": "gratis con el proveedor más barato"
+  }
+}

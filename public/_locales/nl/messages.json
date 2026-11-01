@@ -1,0 +1,682 @@
+{
+  "extName": {
+    "message": "looot Bedrijf opzoeken: van wie is deze website, techstack, verkeer"
+  },
+  "extShortName": {
+    "message": "looot"
+  },
+  "extDescription": {
+    "message": "Bedrijfsinfo van de open website: eigenaar, techstack, verkeer, backlinks, WHOIS, zakelijke e-mail. Prijs vóór elke oproep."
+  },
+  "actionTitle": {
+    "message": "looot openen"
+  },
+  "siteLabel": {
+    "message": "Website"
+  },
+  "sectionsLabel": {
+    "message": "Onderdelen"
+  },
+  "tabLookup": {
+    "message": "Opzoeken"
+  },
+  "tabCatalog": {
+    "message": "Catalogus"
+  },
+  "tabSettings": {
+    "message": "Instellingen"
+  },
+  "domainPlaceholder": {
+    "message": "bedrijf.nl"
+  },
+  "domainError": {
+    "message": "Typ een domein, bijvoorbeeld bedrijf.nl."
+  },
+  "domainLabel": {
+    "message": "Domein van het bedrijf"
+  },
+  "domainUse": {
+    "message": "Gebruiken"
+  },
+  "domainOverride": {
+    "message": "Opzoekingen gebruiken dit domein in plaats van het open tabblad."
+  },
+  "domainNone": {
+    "message": "Dit tabblad heeft geen bruikbare website. Klik op het looot-pictogram op de website van een bedrijf, of typ een domein."
+  },
+  "siteTyped": {
+    "message": "Getypt domein"
+  },
+  "siteTab": {
+    "message": "Dit tabblad"
+  },
+  "domainChangeLabel": {
+    "message": "Domein wijzigen"
+  },
+  "domainChange": {
+    "message": "Wijzigen"
+  },
+  "actionCompanyTitle": {
+    "message": "Van wie is deze website"
+  },
+  "actionCompanyHint": {
+    "message": "Het bedrijf achter het domein: naam, sector, omvang, land, LinkedIn."
+  },
+  "actionWhoisTitle": {
+    "message": "Domeinregistratie (WHOIS)"
+  },
+  "actionWhoisHint": {
+    "message": "Registrar, aanmaak- en vervaldatum, leeftijd van het domein, nameservers."
+  },
+  "actionTechTitle": {
+    "message": "Techstack"
+  },
+  "actionTechHint": {
+    "message": "De technologieën van de website: CMS, analytics, betalingen, hosting."
+  },
+  "actionTrafficTitle": {
+    "message": "Websiteverkeer"
+  },
+  "actionTrafficHint": {
+    "message": "Geschatte bezoeken per maand, wereld- en landrang, verkeersbronnen."
+  },
+  "actionSeoTitle": {
+    "message": "SEO en backlinks"
+  },
+  "actionSeoHint": {
+    "message": "Domeinrang, backlinks, verwijzende domeinen en spamscore."
+  },
+  "actionEmailTitle": {
+    "message": "Zakelijk e-mailadres vinden"
+  },
+  "actionEmailHint": {
+    "message": "Het adres van een persoon op dit domein, daarna een controle op bezorgbaarheid."
+  },
+  "needTokenTitle": {
+    "message": "Opzoekingen hebben je looot-sleutel nodig"
+  },
+  "needTokenBody": {
+    "message": "Zoeken in de catalogus is gratis. Plak voor een opzoeking een sleutel uit je looot-account. Die blijft op dit apparaat."
+  },
+  "addToken": {
+    "message": "Sleutel toevoegen"
+  },
+  "getToken": {
+    "message": "Haal er een op looot.ai"
+  },
+  "pricesFailedTitle": {
+    "message": "Prijzen niet geladen"
+  },
+  "pricesFailedBody": {
+    "message": "Opzoekingen blijven uit tot de prijslijst terug is, zodat je altijd eerst de prijs ziet."
+  },
+  "tryAgain": {
+    "message": "Opnieuw proberen"
+  },
+  "priceUnavailable": {
+    "message": "prijs niet beschikbaar"
+  },
+  "nameError": {
+    "message": "Vul een voor- en achternaam in."
+  },
+  "firstName": {
+    "message": "Voornaam"
+  },
+  "lastName": {
+    "message": "Achternaam"
+  },
+  "seePrice": {
+    "message": "Prijs bekijken"
+  },
+  "needsDomain": {
+    "message": "Een bedrijfsdomein is nodig."
+  },
+  "overCap": {
+    "message": "De goedkoopste oproep kost $p1$, boven je limiet van $p2$ per oproep.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "openSettings": {
+    "message": "Verhoog het in Instellingen"
+  },
+  "confirmLabel": {
+    "message": "Bevestigen: $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "confirmPerson": {
+    "message": "$p1$ bij",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "confirmOn": {
+    "message": "Voor"
+  },
+  "verifyOnlyIfFound": {
+    "message": "Draait alleen als er een adres is gevonden."
+  },
+  "mostCharge": {
+    "message": "Maximaal te betalen:"
+  },
+  "capEachCall": {
+    "message": "(limiet $p1$ per oproep).",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "capYourCall": {
+    "message": "(je limiet per oproep)."
+  },
+  "failedFree": {
+    "message": "Een mislukte oproep kost $$0."
+  },
+  "confirmRun": {
+    "message": "Bevestigen en starten"
+  },
+  "cancel": {
+    "message": "Annuleren"
+  },
+  "copyJson": {
+    "message": "JSON kopiëren"
+  },
+  "charged": {
+    "message": "Betaald"
+  },
+  "notSettled": {
+    "message": "Een oproep liep nog toen het paneel stopte met wachten. De volle limiet is geteld. Bekijk de oproep op looot.ai."
+  },
+  "rawAnswer": {
+    "message": "Ruwe reactie"
+  },
+  "runAnother": {
+    "message": "Nog een keer"
+  },
+  "nothingRan": {
+    "message": "Er is niets uitgevoerd"
+  },
+  "back": {
+    "message": "Terug"
+  },
+  "topUp": {
+    "message": "Opwaarderen"
+  },
+  "dismiss": {
+    "message": "Sluiten"
+  },
+  "runEnded": {
+    "message": "De oproep eindigde met status $p1$.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "runningCompany": {
+    "message": "Bedrijf achter $p1$ opzoeken",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "runningWhois": {
+    "message": "Domeinregistratie van $p1$ lezen",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "runningTech": {
+    "message": "Techstack van $p1$ lezen",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "runningTraffic": {
+    "message": "Verkeer van $p1$ schatten",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "runningSeo": {
+    "message": "Backlinks naar $p1$ tellen",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "runningEmail": {
+    "message": "Adres zoeken"
+  },
+  "runningVerify": {
+    "message": "$p1$ controleren",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "emptyCompany": {
+    "message": "De aanbieder antwoordde maar had geen bedrijfsgegevens voor dit domein."
+  },
+  "emptyAnswer": {
+    "message": "De aanbieder gaf geen gegevens voor dit domein. Open de ruwe reactie hieronder."
+  },
+  "emptyTech": {
+    "message": "Geen technologieën in de reactie. Open de ruwe reactie hieronder."
+  },
+  "emptyEmail": {
+    "message": "Geen adres gevonden voor deze naam op dit domein. De controle is niet uitgevoerd."
+  },
+  "whoisRedacted": {
+    "message": "De registrar verbergt de gegevens van de eigenaar. Gebruik \"Van wie is deze website\" voor het bedrijf."
+  },
+  "trafficNote": {
+    "message": "Schattingen uit een verkeerspanel, niet de eigen statistieken van de site."
+  },
+  "techCount": {
+    "message": "$p1$ technologieën",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "verifyUnfinished": {
+    "message": "De controle is niet afgerond: $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "verifyNotRun": {
+    "message": "Het adres is gevonden. De controle is niet uitgevoerd: $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "fieldName": {
+    "message": "Naam"
+  },
+  "fieldIndustry": {
+    "message": "Sector"
+  },
+  "fieldEmployees": {
+    "message": "Medewerkers"
+  },
+  "fieldFounded": {
+    "message": "Opgericht"
+  },
+  "fieldCountry": {
+    "message": "Land"
+  },
+  "fieldCity": {
+    "message": "Stad"
+  },
+  "fieldLinkedIn": {
+    "message": "LinkedIn"
+  },
+  "fieldAbout": {
+    "message": "Over"
+  },
+  "fieldVisits": {
+    "message": "Bezoeken per maand"
+  },
+  "fieldGlobalRank": {
+    "message": "Wereldrang"
+  },
+  "fieldCountryRank": {
+    "message": "Landrang"
+  },
+  "fieldCategory": {
+    "message": "Categorie"
+  },
+  "fieldBounce": {
+    "message": "Bouncepercentage"
+  },
+  "fieldPagesPerVisit": {
+    "message": "Pagina's per bezoek"
+  },
+  "fieldTimeOnSite": {
+    "message": "Tijd op site"
+  },
+  "fieldDomainRank": {
+    "message": "Domeinrang (0 tot 1000)"
+  },
+  "fieldBacklinks": {
+    "message": "Backlinks"
+  },
+  "fieldRefDomains": {
+    "message": "Verwijzende domeinen"
+  },
+  "fieldSpamScore": {
+    "message": "Spamscore"
+  },
+  "fieldFirstSeen": {
+    "message": "Eerst gezien"
+  },
+  "fieldOwnerOrg": {
+    "message": "Eigenaar"
+  },
+  "fieldOwnerCountry": {
+    "message": "Land van eigenaar"
+  },
+  "fieldRegistrar": {
+    "message": "Registrar"
+  },
+  "fieldCreated": {
+    "message": "Aangemaakt"
+  },
+  "fieldExpires": {
+    "message": "Verloopt"
+  },
+  "fieldAgeYears": {
+    "message": "Leeftijd (jaren)"
+  },
+  "fieldCheck": {
+    "message": "Controle"
+  },
+  "status_valid": {
+    "message": "geldig"
+  },
+  "status_invalid": {
+    "message": "ongeldig"
+  },
+  "status_catchall": {
+    "message": "catch-all"
+  },
+  "status_risky": {
+    "message": "riskant"
+  },
+  "status_unknown": {
+    "message": "onbekend"
+  },
+  "errUnknown": {
+    "message": "Er ging iets mis voordat de oproep werd gedaan."
+  },
+  "errSessionCap": {
+    "message": "Deze oproep kan tot $p1$ kosten en er is nog maar $p2$ over onder je sessielimiet van $p3$. Verhoog de limiet of zet de teller terug in Instellingen.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      },
+      "p3": {
+        "content": "$3"
+      }
+    }
+  },
+  "errNetwork": {
+    "message": "api.looot.ai is niet bereikbaar. Controleer je verbinding en probeer het opnieuw."
+  },
+  "errMissingToken": {
+    "message": "Voeg eerst je looot-sleutel toe in Instellingen."
+  },
+  "errToken": {
+    "message": "looot accepteerde de sleutel niet. Controleer hem in Instellingen."
+  },
+  "errTopUp": {
+    "message": "Waardeer je saldo op en probeer het opnieuw."
+  },
+  "suggest1": {
+    "message": "zakelijk e-mailadres vinden"
+  },
+  "suggest2": {
+    "message": "bedrijfsgegevens verrijken"
+  },
+  "suggest3": {
+    "message": "google zoeken"
+  },
+  "suggest4": {
+    "message": "linkedin-profiel"
+  },
+  "suggest5": {
+    "message": "e-mail controleren"
+  },
+  "suggest6": {
+    "message": "websiteverkeer"
+  },
+  "catalogPlaceholder": {
+    "message": "Wat heb je nodig? bv. e-mail controleren"
+  },
+  "catalogLabel": {
+    "message": "Zoek in de looot-catalogus"
+  },
+  "catalogHelp": {
+    "message": "Gratis, geen sleutel nodig. Prijzen zijn wat één oproep of één resultaat via looot kost."
+  },
+  "catalogEmptyTitle": {
+    "message": "Zoek in 4.200+ endpoints van 300+ aanbieders"
+  },
+  "catalogEmptyBody": {
+    "message": "Beschrijf de taak. Begin met een van deze:"
+  },
+  "searchFailedTitle": {
+    "message": "Zoeken gaf geen antwoord"
+  },
+  "noMatchTitle": {
+    "message": "Niets gevonden voor \"$p1$\"",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "noMatchBody": {
+    "message": "Gebruik minder woorden, of noem de taak in plaats van een aanbieder: \"e-mail controleren\"."
+  },
+  "copyIdTitle": {
+    "message": "ID kopiëren"
+  },
+  "copyId": {
+    "message": "ID kopiëren"
+  },
+  "tokenSavedPlaceholder": {
+    "message": "Er is een sleutel opgeslagen. Plak een nieuwe om die te vervangen."
+  },
+  "limitsError": {
+    "message": "Vul twee bedragen boven 0 in. De sessielimiet moet minstens de limiet per oproep zijn."
+  },
+  "tokenSaved": {
+    "message": "Opgeslagen op dit apparaat."
+  },
+  "tokenRejected": {
+    "message": "Opgeslagen, maar looot accepteerde de sleutel niet. Controleer of je hem helemaal hebt gekopieerd."
+  },
+  "tokenTitle": {
+    "message": "Je looot-sleutel"
+  },
+  "tokenLabel": {
+    "message": "API-sleutel"
+  },
+  "tokenHelp": {
+    "message": "Bewaard in de lokale opslag van de extensie. Niet gesynchroniseerd met je Google-account. Alleen verstuurd naar api.looot.ai."
+  },
+  "tokenReplace": {
+    "message": "Sleutel vervangen"
+  },
+  "tokenSave": {
+    "message": "Sleutel opslaan"
+  },
+  "tokenRemoved": {
+    "message": "Sleutel verwijderd."
+  },
+  "tokenRemove": {
+    "message": "Verwijderen"
+  },
+  "tokenHowBefore": {
+    "message": "Nog geen sleutel? Maak er een aan in je"
+  },
+  "tokenHowLink": {
+    "message": "looot-account"
+  },
+  "tokenHowAfter": {
+    "message": "met catalog.read, runs.read en runs.execute. Opwaarderen vanaf $$5, geen abonnement."
+  },
+  "limitsSaved": {
+    "message": "Limieten opgeslagen."
+  },
+  "limitsTitle": {
+    "message": "Uitgavenlimieten"
+  },
+  "capPerCall": {
+    "message": "Limiet per oproep (USD)"
+  },
+  "capSession": {
+    "message": "Sessielimiet (USD)"
+  },
+  "limitsHelp": {
+    "message": "Een oproep kost nooit meer dan zijn limiet, over alle aanbieders die looot probeert. Als het sessietotaal de limiet kan overschrijden, stoppen de opzoekingen."
+  },
+  "limitsSave": {
+    "message": "Limieten opslaan"
+  },
+  "counterReset": {
+    "message": "Sessieteller teruggezet."
+  },
+  "counterResetButton": {
+    "message": "Sessieteller terugzetten"
+  },
+  "aboutTitle": {
+    "message": "Over"
+  },
+  "aboutBody": {
+    "message": "Dit paneel praat alleen met api.looot.ai. Geen analytics, geen tracking, er wordt geen pagina-inhoud gelezen."
+  },
+  "linkDocs": {
+    "message": "Docs"
+  },
+  "linkPrivacy": {
+    "message": "Privacy"
+  },
+  "linkSupport": {
+    "message": "Support"
+  },
+  "linkSource": {
+    "message": "Broncode"
+  },
+  "meterSession": {
+    "message": "Sessie"
+  },
+  "meterOf": {
+    "message": "van $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "meterHeld": {
+    "message": "$p1$ vastgehouden",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "meterLeft": {
+    "message": "$p1$ over, $p2$ oproepen",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "meterLeftOne": {
+    "message": "$p1$ over, 1 oproep",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "meterLabel": {
+    "message": "Uitgaven deze sessie"
+  },
+  "balance": {
+    "message": "Saldo"
+  },
+  "priceNotListed": {
+    "message": "prijs niet vermeld"
+  },
+  "freePerCall": {
+    "message": "gratis per oproep"
+  },
+  "freePerResult": {
+    "message": "gratis per resultaat"
+  },
+  "pricePerCall": {
+    "message": "$p1$ per oproep",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "pricePerResult": {
+    "message": "$p1$ per resultaat",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "priceLoading": {
+    "message": "prijs laden"
+  },
+  "fromPerCall": {
+    "message": "vanaf $p1$ per oproep",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "fromPerResult": {
+    "message": "vanaf $p1$ per resultaat",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "freeOneProvider": {
+    "message": "gratis bij één aanbieder, andere vanaf $p1$ per resultaat",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "freeCheapest": {
+    "message": "gratis bij de goedkoopste aanbieder"
+  }
+}

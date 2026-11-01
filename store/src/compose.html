@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <style>
-  :root { --green: #0b4a35; --emerald: #12a06a; --paper: #f7f8f5; --ink: #0b2e22; --line: #dce2db; --muted: #55695f;
+  :root { --green: #009362; --green-text: #00704b; --emerald: #12a06a; --paper: #f7f8f5; --ink: #0b2e22; --line: #dce2db; --muted: #55695f;
     --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --mono: ui-monospace, "SF Mono", Menlo, monospace; }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; font-family: var(--sans); color: var(--ink); -webkit-font-smoothing: antialiased; }
@@ -19,6 +19,8 @@
   .dark .url { background: #071a14; color: #9bb1a6; }
   .ext { margin-left: auto; width: 30px; height: 30px; border-radius: 8px; background: #f7f8f5; display: grid; place-items: center; box-shadow: 0 0 0 2px var(--emerald); }
   .ext img { width: 20px; }
+  .demo { font: 600 11px var(--sans); letter-spacing: 0.06em; text-transform: uppercase; color: #8a4b00; background: #fdf3df; border: 1px solid #f0d9a8; padding: 4px 9px; border-radius: 999px; }
+  .dark .demo { color: #f0c36a; background: #2a2110; border-color: #4a3a17; }
   .body { display: grid; grid-template-columns: 1fr 400px; min-height: 0; }
   .page { position: relative; display: flex; flex-direction: column; justify-content: center; padding: 64px 56px 150px; background: var(--paper); overflow: hidden; }
   .dark .page { background: #071a14; color: #e9f0eb; }
@@ -28,7 +30,7 @@
   .dark .page p { color: #9bb1a6; }
   .facts { position: absolute; left: 56px; bottom: 56px; display: flex; gap: 34px; }
   .facts div { display: flex; flex-direction: column; gap: 2px; }
-  .facts b { font: 600 22px var(--mono); letter-spacing: -0.02em; color: var(--green); } .dark .facts b { color: #2cc389; }
+  .facts b { font: 600 22px var(--mono); letter-spacing: -0.02em; color: var(--green-text); } .dark .facts b { color: #2cc389; }
   .facts span { font-size: 13px; color: var(--muted); } .dark .facts span { color: #9bb1a6; }
   iframe { width: 400px; height: 100%; border: 0; border-left: 1px solid #cfd6cd; background: var(--paper); }
   .dark iframe { border-color: #173528; }
@@ -37,13 +39,13 @@
   .tile { background: var(--green); color: var(--paper); display: flex; overflow: hidden; position: relative; }
   .tile.small { width: 440px; height: 280px; flex-direction: column; justify-content: center; padding: 0 36px; gap: 14px; }
   .tile.small img { width: 250px; margin-left: -38px; }
-  .tile.small p { margin: 0; font-size: 20px; line-height: 1.25; letter-spacing: -0.015em; font-weight: 550; max-width: 17ch; }
-  .tile.small small { font: 13px var(--mono); color: #a9d9c3; }
+  .tile.small p { margin: 0; font-size: 24px; line-height: 1.25; letter-spacing: -0.015em; font-weight: 550; max-width: 17ch; }
+  .tile.small small { font: 13px var(--mono); color: #e6f7ef; }
   .tile.marquee { width: 1400px; height: 560px; align-items: center; padding: 0 0 0 96px; }
   .tile.marquee .copy { display: flex; flex-direction: column; gap: 22px; }
   .tile.marquee img.wm { width: 420px; margin-left: -64px; }
   .tile.marquee h1 { margin: 0; font-size: 50px; line-height: 1.05; letter-spacing: -0.035em; font-weight: 650; max-width: 14ch; }
-  .tile.marquee small { font: 17px var(--mono); color: #a9d9c3; }
+  .tile.marquee small { font: 17px var(--mono); color: #e6f7ef; }
   .tile.marquee iframe { position: absolute; right: 110px; top: 56px; width: 400px; height: 640px; border: 0; border-radius: 16px 16px 0 0; box-shadow: 0 24px 60px rgb(0 0 0 / 0.35); }
 </style>
 </head>
@@ -54,13 +56,13 @@
   const scene = q.get("scene") ?? "catalog";
   const frame = `<iframe src="/dist/sidepanel.html?scene=${scene}" title="looot side panel"></iframe>`;
   if (kind === "small") {
-    document.body.innerHTML = `<div class="tile small"><img src="/brand/wordmark-white.png" alt="looot.ai"><p>Company and email lookup in the side panel</p><small>price shown before every call</small></div>`;
+    document.body.innerHTML = `<div class="tile small"><img src="/brand/wordmark-white.png" alt="looot.ai"><p>${q.get("tile") ?? "Company lookup for any website"}</p><small>${q.get("tileSub") ?? "who owns it, tech stack, traffic"}</small></div>`;
   } else if (kind === "marquee") {
-    document.body.innerHTML = `<div class="tile marquee"><div class="copy"><img class="wm" src="/brand/wordmark-white.png" alt="looot.ai"><h1>Look up the company behind any site</h1><small>4,200+ data APIs. Price shown before every call.</small></div>${frame}</div>`;
+    document.body.innerHTML = `<div class="tile marquee"><div class="copy"><img class="wm" src="/brand/wordmark-white.png" alt="looot.ai"><h1>${q.get("h") ?? "Who owns this website?"}</h1><small>${q.get("p") ?? "Company, tech stack, traffic, SEO. Price shown before every call."}</small></div>${frame}</div>`;
   } else {
     const dark = q.get("dark") === "1";
     document.body.innerHTML = `<div class="shot ${dark ? "dark" : ""}">
-      <div class="chrome-bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">${q.get("url") ?? ""}</span><span class="ext"><img src="/dist/brand/looot-mark.svg" alt=""></span></div>
+      <div class="chrome-bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">${q.get("url") ?? ""}</span><span class="demo">${q.get("demo") ?? "Demo data"}</span><span class="ext"><img src="/dist/brand/looot-mark.svg" alt=""></span></div>
       <div class="body"><div class="page"><img class="wm" src="/brand/${dark ? "wordmark-white" : "wordmark"}.png" alt="looot.ai"><h1>${q.get("h") ?? ""}</h1><p>${q.get("p") ?? ""}</p>
       <div class="facts"><div><b>${q.get("f1") ?? ""}</b><span>${q.get("l1") ?? ""}</span></div><div><b>${q.get("f2") ?? ""}</b><span>${q.get("l2") ?? ""}</span></div></div></div>${frame}</div></div>`;
   }

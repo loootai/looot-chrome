@@ -4,28 +4,32 @@
 
 # looot for Chrome
 
-A Chrome side panel for [looot](https://looot.ai). Search 4,200+ data API endpoints and their prices for free, then run a lookup on the company whose site you have open: company profile, a work email, the tech stack. Every paid lookup shows its price and waits for a click.
+A Chrome side panel for [looot](https://looot.ai): company lookup for the website you have open. See who owns the site, its WHOIS record, tech stack, traffic estimate, SEO numbers and a work email, and search 4,200+ data API endpoints and their prices for free. Every paid lookup shows its price and waits for a click. In English, French, German, Spanish, Italian, Dutch and Portuguese.
 
 looot gives one key and one prepaid balance for data APIs from 300+ providers. You pay per call, a failed call costs nothing, and there is no subscription. Docs: [docs.looot.ai](https://docs.looot.ai).
 
 ## What it does
 
-| | Needs a token | looot job | Listed price on 2026-10-08 |
+| | Needs a key | looot job | Listed price on 2026-11-01 |
 | --- | --- | --- | --- |
 | Search the catalog | no | `GET /v1/public-catalog?q=` | free |
-| Enrich this company | yes | `company.enrich` | from $0.0019 per call |
-| Find work email, then verify it | yes | `people.email.find`, `people.email.verify` | from $0.003598 and $0.00145 per call |
+| Who owns this website | yes | `company.enrich` | from $0.0019 per call |
+| Domain record (WHOIS) | yes | `domain.whois.lookup` | from $0.025 per call |
 | Tech stack | yes | `company.technographics` | free with one provider, others from $0.01 per result |
+| Website traffic | yes | `company.traffic` | from $0.06532 per call |
+| SEO and backlinks | yes | `backlinks.domain.summary` | from $0.024 per call |
+| Find a work email, then verify it | yes | `people.email.find`, `people.email.verify` | from $0.003598 and $0.00145 per call |
 
 Prices are read live from the free catalog (`GET /v1/catalog/overview?depth=jobs`) each time the panel opens, so the table above will drift and the panel will not.
 
 Spending rules, all enforced in the extension:
 
 - A lookup shows its listed price and the most it can charge, and runs only after you click **Confirm and run**.
-- Each call carries a cap (`fallback.maxCostUsd`, default $0.05) that holds across every provider looot tries.
-- A session cap (default $0.50) stops new lookups when the session total could pass it. The total is always at the bottom of the panel.
+- Each call carries a cap (`fallback.maxCostUsd`, default $0.10) that holds across every provider looot tries.
+- A session cap (default $1.00) stops new lookups when the session total could pass it. The total is always at the bottom of the panel.
 - Each confirmed step has its own idempotency key, created when the price is shown. A double click or a retry cannot pay twice.
 - After the run the panel shows `actualCost`.
+- A lookup whose cheapest listed call is above your cap per call stays disabled until you raise the cap.
 
 ## Install
 
@@ -78,14 +82,15 @@ Two browser scripts need a Playwright core and a Chromium binary that are not de
 export PW_CORE=/path/to/node_modules/playwright-core
 export PW_CHROMIUM="/path/to/Chromium"
 node scripts/load-check.mjs   # loads dist/ unpacked, checks the manifest, worker and panel
-node scripts/shots.mjs        # renders the store screenshots and promo tiles
+node scripts/shots.mjs        # renders the store screenshots, promo tiles and demo video
+npm run locales               # writes public/_locales from scripts/strings.mjs
 ```
 
-Layout: `src/lib` is the API client, price formatting, spend rules and answer readers (all unit tested). `src/panel` is the side panel UI in plain TypeScript and DOM. `src/background.ts` opens the panel on icon click. `public/` is copied to `dist/` as is.
+Layout: `src/lib` is the API client, price formatting, spend rules and answer readers (all unit tested). `src/panel` is the side panel UI in plain TypeScript and DOM. `src/background.ts` opens the panel on icon click. `public/` is copied to `dist/` as is. UI text is in `scripts/strings.mjs` (en, fr, de, es, it, nl, pt).
 
 ## Store kit
 
-`store/` holds what the Chrome Web Store asks for: the zip, five 1280x800 screenshots, the 440x280 and 1400x560 promo tiles, and `LISTING.md` with every text field, the permission justifications and the data-use answers.
+`store/` holds what the Chrome Web Store asks for: the zip, five English 1280x800 screenshots and one per other language, the 440x280 and 1400x560 promo tiles, a demo video with its script, and `LISTING.md` with every text field in seven languages, the permission justifications and the data-use answers.
 
 The run answers in the screenshots are fixtures for a made-up company on a reserved `.example` domain. The catalog rows and prices in them are real, read from the live API when the images were rendered.
 

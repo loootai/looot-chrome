@@ -76,19 +76,141 @@ export interface Field {
   value: string;
 }
 
-/** Company card fields, in display order. Fields the provider did not return are left out. */
+/** Company card fields, in display order. Labels are message keys. Missing fields are left out. */
 export function readCompany(run: RunLike): Field[] {
   const rows: [string, string[]][] = [
-    ["Name", ["name", "company_name", "companyName", "display_name", "legal_name"]],
-    ["Industry", ["industry", "category", "sector"]],
-    ["Employees", ["employees", "employee_count", "employeeCount", "size", "headcount", "estimated_num_employees"]],
-    ["Founded", ["founded", "founded_year", "foundedYear", "year_founded"]],
-    ["Country", ["country", "country_code", "countryCode", "hq_country"]],
-    ["City", ["city", "locality", "hq_city"]],
-    ["LinkedIn", ["linkedin_url", "linkedinUrl", "linkedin"]],
-    ["About", ["description", "short_description", "summary", "tagline"]],
+    ["fieldName", ["name", "company_name", "companyName", "display_name", "legal_name"]],
+    ["fieldIndustry", ["industry", "category", "sector"]],
+    ["fieldEmployees", ["employees", "employee_count", "employeeCount", "size", "headcount", "estimated_num_employees"]],
+    ["fieldFounded", ["founded", "founded_year", "foundedYear", "year_founded"]],
+    ["fieldCountry", ["country", "country_code", "countryCode", "hq_country"]],
+    ["fieldCity", ["city", "locality", "hq_city"]],
+    ["fieldLinkedIn", ["linkedin_url", "linkedinUrl", "linkedin"]],
+    ["fieldAbout", ["description", "short_description", "summary", "tagline"]],
   ];
   return rows.map(([label, keys]) => ({ label, value: pick(run, keys) })).filter((f) => f.value !== "");
+}
+
+/** Breadth-first search for the first value of any type under any of the keys. */
+export function findNode(source: unknown, keys: string[]): unknown {
+  const wanted = keys.map(squash);
+  let level: unknown[] = [source];
+  for (let depth = 0; depth < 5 && level.length > 0; depth++) {
+    const next: unknown[] = [];
+    for (const node of level) {
+      if (node === null || typeof node !== "object") continue;
+      if (Array.isArray(node)) {
+        next.push(...node.slice(0, 5));
+        continue;
+      }
+      const entries = Object.entries(node as Record<string, unknown>);
+      for (const key of wanted) {
+        for (const [k, v] of entries) if (squash(k) === key && v !== null && v !== undefined && v !== "") return v;
+      }
+      for (const [, v] of entries) if (v !== null && typeof v === "object") next.push(v);
+    }
+    level = next;
+  }
+  return undefined;
+}
+
+function num(v: unknown): number | null {
+  const n = typeof v === "number" ? v : typeof v === "string" && v.trim() !== "" ? Number(v) : NaN;
+  return Number.isFinite(n) ? n : null;
+}
+
+/** 133172721 becomes "133.2M" in English, "133,2 M" in French. */
+export function compact(n: number, locale?: string): string {
+  return new Intl.NumberFormat(locale, { notation: "compact", maximumFractionDigits: 1 }).format(n);
+}
+
+function whole(n: number, locale?: string): string {
+  return new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(n);
+}
+
+function day(v: unknown): string {
+  const s = typeof v === "string" ? v.trim() : "";
+  return /^\d{4}-\d{2}-\d{2}/.test(s) ? s.slice(0, 10) : "";
+}
+
+export interface Card {
+  fields: Field[];
+  chips: string[];
+}
+
+/** Monthly visits, ranks, engagement and traffic sources. Shares come back as 0 to 1. */
+export function readTraffic(run: RunLike, locale?: string): Card {
+  const src = run.result ?? null;
+  const fields: Field[] = [];
+  const add = (label: string, value: string) => { if (value) fields.push({ label, value }); };
+  let visits = num(findNode(src, ["visits", "monthly_visits", "monthlyVisits"]));
+  const series = findNode(src, ["estimatedMonthlyVisits"]);
+  if (visits === null && series && typeof series === "object") {
+    const last = Object.entries(series as Record<string, unknown>).sort(([a], [b]) => a.localeCompare(b)).pop();
+    visits = last ? num(last[1]) : null;
+  }
+  add("fieldVisits", visits === null ? "" : compact(visits, locale));
+  const global = num(findNode(findNode(src, ["globalRank", "global_rank"]), ["rank"]) ?? findNode(src, ["globalRank", "global_rank"]));
+  add("fieldGlobalRank", global === null ? "" : `#${whole(global, locale)}`);
+  const countryNode = findNode(src, ["countryRank", "country_rank"]);
+  const countryRank = num(findNode(countryNode, ["rank"]) ?? countryNode);
+  const countryCode = findValue(countryNode, ["countryCode", "country_code"]);
+  add("fieldCountryRank", countryRank === null ? "" : `#${whole(countryRank, locale)}${countryCode ? ` (${countryCode})` : ""}`);
+  add("fieldCategory", findValue(src, ["category"]));
+  const bounce = num(findNode(src, ["bounceRate", "bounce_rate"]));
+  add("fieldBounce", bounce === null ? "" : `${Math.round((bounce <= 1 ? bounce * 100 : bounce))}%`);
+  const ppv = num(findNode(src, ["pagePerVisit", "pages_per_visit", "pagesPerVisit"]));
+  add("fieldPagesPerVisit", ppv === null ? "" : ppv.toFixed(1));
+  const time = num(findNode(src, ["timeOnSite", "time_on_site", "avgVisitDuration"]));
+  add("fieldTimeOnSite", time === null ? "" : `${Math.floor(time / 60)}:${String(Math.round(time % 60)).padStart(2, "0")}`);
+  const chips: string[] = [];
+  const sources = findNode(src, ["trafficSources", "traffic_sources"]);
+  if (sources && typeof sources === "object" && !Array.isArray(sources)) {
+    const rows = Object.entries(sources as Record<string, unknown>)
+      .map(([k, v]) => [k, num(v)] as const)
+      .filter((r): r is readonly [string, number] => r[1] !== null && r[1] > 0)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 6);
+    for (const [k, v] of rows) chips.push(`${k.replace(/([a-z])([A-Z])/g, "$1 $2")} ${Math.round(v <= 1 ? v * 100 : v)}%`);
+  }
+  return { fields, chips };
+}
+
+/** Domain rank, backlinks, referring domains and spam score. */
+export function readSeo(run: RunLike, locale?: string): Card {
+  const fields: Field[] = [];
+  const get = (keys: string[]) => num(findNode(run.normalized?.fields ?? null, keys) ?? findNode(run.result ?? null, keys));
+  const rank = get(["rank", "domain_rank", "domainRank", "domain_rating"]);
+  const backlinks = get(["backlinks", "backlinks_count", "total_backlinks"]);
+  const refDomains = get(["referringDomains", "referring_domains", "refdomains"]);
+  const spam = get(["backlinks_spam_score", "spam_score"]);
+  if (rank !== null) fields.push({ label: "fieldDomainRank", value: whole(rank, locale) });
+  if (backlinks !== null) fields.push({ label: "fieldBacklinks", value: compact(backlinks, locale) });
+  if (refDomains !== null) fields.push({ label: "fieldRefDomains", value: compact(refDomains, locale) });
+  if (spam !== null) fields.push({ label: "fieldSpamScore", value: whole(spam, locale) });
+  const first = day(findNode(run.result ?? null, ["first_seen", "firstSeen"]));
+  if (first) fields.push({ label: "fieldFirstSeen", value: first });
+  return { fields, chips: [] };
+}
+
+/** Registrar, dates, owner organisation when public, and name servers. */
+export function readWhois(run: RunLike): Card & { redacted: boolean } {
+  const src = run.result ?? null;
+  const fields: Field[] = [];
+  const add = (label: string, value: string) => { if (value) fields.push({ label, value }); };
+  const registrant = findNode(src, ["registrant"]);
+  add("fieldOwnerOrg", findValue(registrant, ["organization", "org", "name"]));
+  add("fieldOwnerCountry", findValue(registrant, ["country", "countryCode"]));
+  add("fieldRegistrar", findValue(src, ["registrarName", "registrar"]));
+  add("fieldCreated", day(findNode(src, ["createdDate", "creation_date", "created"])));
+  add("fieldExpires", day(findNode(src, ["expiresDate", "expiration_date", "expires"])));
+  const ageDays = num(findNode(src, ["estimatedDomainAge"]));
+  if (ageDays !== null) add("fieldAgeYears", String(Math.floor(ageDays / 365)));
+  let hosts = findNode(src, ["hostNames"]);
+  if (!Array.isArray(hosts)) hosts = findNode(src, ["name_servers", "nameservers"]);
+  const chips = Array.isArray(hosts) ? hosts.filter((x): x is string => typeof x === "string").slice(0, 6).map((x) => x.toLowerCase()) : [];
+  const redacted = /mask|redact|privacy/i.test(findValue(src, ["dataError"])) || !findValue(registrant, ["organization", "org", "name"]);
+  return { fields, chips, redacted };
 }
 
 const TECH_KEY = /tech|stack|tool|framework|product/i;

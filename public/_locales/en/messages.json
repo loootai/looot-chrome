@@ -1,0 +1,682 @@
+{
+  "extName": {
+    "message": "looot Company Lookup: Who Owns This Website, Tech Stack & Traffic"
+  },
+  "extShortName": {
+    "message": "looot"
+  },
+  "extDescription": {
+    "message": "Company lookup for the site you're on: who owns it, tech stack, traffic, backlinks, WHOIS, work email. Price shown before each call."
+  },
+  "actionTitle": {
+    "message": "Open looot Company Lookup"
+  },
+  "siteLabel": {
+    "message": "Site"
+  },
+  "sectionsLabel": {
+    "message": "Sections"
+  },
+  "tabLookup": {
+    "message": "Lookup"
+  },
+  "tabCatalog": {
+    "message": "Catalog"
+  },
+  "tabSettings": {
+    "message": "Settings"
+  },
+  "domainPlaceholder": {
+    "message": "company.com"
+  },
+  "domainError": {
+    "message": "Type a domain such as company.com."
+  },
+  "domainLabel": {
+    "message": "Company domain"
+  },
+  "domainUse": {
+    "message": "Use"
+  },
+  "domainOverride": {
+    "message": "Lookups will use this domain instead of the open tab."
+  },
+  "domainNone": {
+    "message": "This tab has no site to use. Click the looot icon on a company's website, or type a domain."
+  },
+  "siteTyped": {
+    "message": "Typed domain"
+  },
+  "siteTab": {
+    "message": "This tab"
+  },
+  "domainChangeLabel": {
+    "message": "Change domain"
+  },
+  "domainChange": {
+    "message": "Change"
+  },
+  "actionCompanyTitle": {
+    "message": "Who owns this website"
+  },
+  "actionCompanyHint": {
+    "message": "The company behind the domain: name, industry, size, country, LinkedIn."
+  },
+  "actionWhoisTitle": {
+    "message": "Domain record (WHOIS)"
+  },
+  "actionWhoisHint": {
+    "message": "Registrar, creation and expiry dates, domain age, name servers."
+  },
+  "actionTechTitle": {
+    "message": "Tech stack"
+  },
+  "actionTechHint": {
+    "message": "The technologies the website runs on: CMS, analytics, payments, hosting."
+  },
+  "actionTrafficTitle": {
+    "message": "Website traffic"
+  },
+  "actionTrafficHint": {
+    "message": "Estimated monthly visits, global and country rank, traffic sources."
+  },
+  "actionSeoTitle": {
+    "message": "SEO and backlinks"
+  },
+  "actionSeoHint": {
+    "message": "Domain rank, backlinks, referring domains and spam score."
+  },
+  "actionEmailTitle": {
+    "message": "Find a work email"
+  },
+  "actionEmailHint": {
+    "message": "A person's address at this domain, then a deliverability check."
+  },
+  "needTokenTitle": {
+    "message": "Lookups need your looot key"
+  },
+  "needTokenBody": {
+    "message": "Catalog search is free and works now. To run a lookup, paste a key from your looot account. It stays on this device."
+  },
+  "addToken": {
+    "message": "Add key"
+  },
+  "getToken": {
+    "message": "Get one at looot.ai"
+  },
+  "pricesFailedTitle": {
+    "message": "Prices did not load"
+  },
+  "pricesFailedBody": {
+    "message": "Lookups stay off until the price list is back, so you always see the price first."
+  },
+  "tryAgain": {
+    "message": "Try again"
+  },
+  "priceUnavailable": {
+    "message": "price unavailable"
+  },
+  "nameError": {
+    "message": "Enter a first and a last name."
+  },
+  "firstName": {
+    "message": "First name"
+  },
+  "lastName": {
+    "message": "Last name"
+  },
+  "seePrice": {
+    "message": "See price"
+  },
+  "needsDomain": {
+    "message": "Needs a company domain."
+  },
+  "overCap": {
+    "message": "The cheapest call is $p1$, above your $p2$ cap per call.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "openSettings": {
+    "message": "Raise it in Settings"
+  },
+  "confirmLabel": {
+    "message": "Confirm $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "confirmPerson": {
+    "message": "$p1$ at",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "confirmOn": {
+    "message": "On"
+  },
+  "verifyOnlyIfFound": {
+    "message": "Runs only if an address is found."
+  },
+  "mostCharge": {
+    "message": "Most this can charge:"
+  },
+  "capEachCall": {
+    "message": "($p1$ cap per call).",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "capYourCall": {
+    "message": "(your cap per call)."
+  },
+  "failedFree": {
+    "message": "A failed call costs $$0."
+  },
+  "confirmRun": {
+    "message": "Confirm and run"
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "copyJson": {
+    "message": "Copy JSON"
+  },
+  "charged": {
+    "message": "Charged"
+  },
+  "notSettled": {
+    "message": "A run was still going when the panel stopped waiting. The full cap was counted. Check the run on looot.ai."
+  },
+  "rawAnswer": {
+    "message": "Raw answer"
+  },
+  "runAnother": {
+    "message": "Run another"
+  },
+  "nothingRan": {
+    "message": "Nothing ran"
+  },
+  "back": {
+    "message": "Back"
+  },
+  "topUp": {
+    "message": "Top up"
+  },
+  "dismiss": {
+    "message": "Dismiss"
+  },
+  "runEnded": {
+    "message": "The run ended as $p1$.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "runningCompany": {
+    "message": "Looking up the company behind $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "runningWhois": {
+    "message": "Reading the domain record of $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "runningTech": {
+    "message": "Reading the stack of $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "runningTraffic": {
+    "message": "Estimating the traffic of $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "runningSeo": {
+    "message": "Counting backlinks to $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "runningEmail": {
+    "message": "Looking for the address"
+  },
+  "runningVerify": {
+    "message": "Checking $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "emptyCompany": {
+    "message": "The provider answered but had no company details for this domain."
+  },
+  "emptyAnswer": {
+    "message": "The provider answered with no data for this domain. Open the raw answer below."
+  },
+  "emptyTech": {
+    "message": "No technology names in the answer. Open the raw answer below."
+  },
+  "emptyEmail": {
+    "message": "No address found for this name at this domain. The check did not run."
+  },
+  "whoisRedacted": {
+    "message": "The registrar hides the owner's details for privacy. Use \"Who owns this website\" for the company."
+  },
+  "trafficNote": {
+    "message": "Estimates from a traffic panel, not the site's own analytics."
+  },
+  "techCount": {
+    "message": "$p1$ technologies",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "verifyUnfinished": {
+    "message": "The check did not finish: $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "verifyNotRun": {
+    "message": "The address was found. The check did not run: $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "fieldName": {
+    "message": "Name"
+  },
+  "fieldIndustry": {
+    "message": "Industry"
+  },
+  "fieldEmployees": {
+    "message": "Employees"
+  },
+  "fieldFounded": {
+    "message": "Founded"
+  },
+  "fieldCountry": {
+    "message": "Country"
+  },
+  "fieldCity": {
+    "message": "City"
+  },
+  "fieldLinkedIn": {
+    "message": "LinkedIn"
+  },
+  "fieldAbout": {
+    "message": "About"
+  },
+  "fieldVisits": {
+    "message": "Visits per month"
+  },
+  "fieldGlobalRank": {
+    "message": "Global rank"
+  },
+  "fieldCountryRank": {
+    "message": "Country rank"
+  },
+  "fieldCategory": {
+    "message": "Category"
+  },
+  "fieldBounce": {
+    "message": "Bounce rate"
+  },
+  "fieldPagesPerVisit": {
+    "message": "Pages per visit"
+  },
+  "fieldTimeOnSite": {
+    "message": "Time on site"
+  },
+  "fieldDomainRank": {
+    "message": "Domain rank (0 to 1000)"
+  },
+  "fieldBacklinks": {
+    "message": "Backlinks"
+  },
+  "fieldRefDomains": {
+    "message": "Referring domains"
+  },
+  "fieldSpamScore": {
+    "message": "Spam score"
+  },
+  "fieldFirstSeen": {
+    "message": "First seen"
+  },
+  "fieldOwnerOrg": {
+    "message": "Owner"
+  },
+  "fieldOwnerCountry": {
+    "message": "Owner country"
+  },
+  "fieldRegistrar": {
+    "message": "Registrar"
+  },
+  "fieldCreated": {
+    "message": "Created"
+  },
+  "fieldExpires": {
+    "message": "Expires"
+  },
+  "fieldAgeYears": {
+    "message": "Age (years)"
+  },
+  "fieldCheck": {
+    "message": "Check"
+  },
+  "status_valid": {
+    "message": "valid"
+  },
+  "status_invalid": {
+    "message": "invalid"
+  },
+  "status_catchall": {
+    "message": "catch-all"
+  },
+  "status_risky": {
+    "message": "risky"
+  },
+  "status_unknown": {
+    "message": "unknown"
+  },
+  "errUnknown": {
+    "message": "Something went wrong before the call was made."
+  },
+  "errSessionCap": {
+    "message": "This call can charge up to $p1$ and only $p2$ is left under your $p3$ session cap. Raise the cap or reset the counter in Settings.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      },
+      "p3": {
+        "content": "$3"
+      }
+    }
+  },
+  "errNetwork": {
+    "message": "Could not reach api.looot.ai. Check your connection and try again."
+  },
+  "errMissingToken": {
+    "message": "Add your looot key in Settings first."
+  },
+  "errToken": {
+    "message": "looot did not accept the key. Check it in Settings."
+  },
+  "errTopUp": {
+    "message": "Top up your balance and try again."
+  },
+  "suggest1": {
+    "message": "find work email"
+  },
+  "suggest2": {
+    "message": "company enrichment"
+  },
+  "suggest3": {
+    "message": "google search"
+  },
+  "suggest4": {
+    "message": "linkedin profile"
+  },
+  "suggest5": {
+    "message": "verify email"
+  },
+  "suggest6": {
+    "message": "website traffic"
+  },
+  "catalogPlaceholder": {
+    "message": "What do you need? e.g. verify an email"
+  },
+  "catalogLabel": {
+    "message": "Search the looot catalog"
+  },
+  "catalogHelp": {
+    "message": "Free. No key needed. Prices are what one call or one result costs through looot."
+  },
+  "catalogEmptyTitle": {
+    "message": "Search 4,200+ endpoints from 300+ providers"
+  },
+  "catalogEmptyBody": {
+    "message": "Describe the task. Start with one of these:"
+  },
+  "searchFailedTitle": {
+    "message": "Search did not answer"
+  },
+  "noMatchTitle": {
+    "message": "Nothing matched \"$p1$\"",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "noMatchBody": {
+    "message": "Use fewer words, or name the task instead of a vendor: \"verify email\", \"company news\"."
+  },
+  "copyIdTitle": {
+    "message": "Copy the operation id"
+  },
+  "copyId": {
+    "message": "Copy id"
+  },
+  "tokenSavedPlaceholder": {
+    "message": "A key is saved. Paste a new one to replace it."
+  },
+  "limitsError": {
+    "message": "Enter two amounts above 0. The session cap must be at least the cap per call."
+  },
+  "tokenSaved": {
+    "message": "Saved on this device."
+  },
+  "tokenRejected": {
+    "message": "Saved, but looot did not accept this key. Check that you copied all of it."
+  },
+  "tokenTitle": {
+    "message": "Your looot key"
+  },
+  "tokenLabel": {
+    "message": "API key"
+  },
+  "tokenHelp": {
+    "message": "Kept in this browser's local extension storage. Not synced to your Google account. Sent only to api.looot.ai."
+  },
+  "tokenReplace": {
+    "message": "Replace key"
+  },
+  "tokenSave": {
+    "message": "Save key"
+  },
+  "tokenRemoved": {
+    "message": "Key removed."
+  },
+  "tokenRemove": {
+    "message": "Remove"
+  },
+  "tokenHowBefore": {
+    "message": "No key yet? Create one in your"
+  },
+  "tokenHowLink": {
+    "message": "looot account"
+  },
+  "tokenHowAfter": {
+    "message": "with catalog.read, runs.read and runs.execute. Top up from $$5, no subscription."
+  },
+  "limitsSaved": {
+    "message": "Limits saved."
+  },
+  "limitsTitle": {
+    "message": "Spending limits"
+  },
+  "capPerCall": {
+    "message": "Cap per call (USD)"
+  },
+  "capSession": {
+    "message": "Session cap (USD)"
+  },
+  "limitsHelp": {
+    "message": "A call never charges more than its cap, across every provider looot tries. When the session total could pass the session cap, lookups stop."
+  },
+  "limitsSave": {
+    "message": "Save limits"
+  },
+  "counterReset": {
+    "message": "Session counter reset."
+  },
+  "counterResetButton": {
+    "message": "Reset session counter"
+  },
+  "aboutTitle": {
+    "message": "About"
+  },
+  "aboutBody": {
+    "message": "This panel talks to api.looot.ai and nothing else. No analytics, no tracking, no page content is read."
+  },
+  "linkDocs": {
+    "message": "Docs"
+  },
+  "linkPrivacy": {
+    "message": "Privacy"
+  },
+  "linkSupport": {
+    "message": "Support"
+  },
+  "linkSource": {
+    "message": "Source"
+  },
+  "meterSession": {
+    "message": "Session"
+  },
+  "meterOf": {
+    "message": "of $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "meterHeld": {
+    "message": "$p1$ held",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "meterLeft": {
+    "message": "$p1$ left, $p2$ runs",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "meterLeftOne": {
+    "message": "$p1$ left, 1 run",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "meterLabel": {
+    "message": "Session spend"
+  },
+  "balance": {
+    "message": "Balance"
+  },
+  "priceNotListed": {
+    "message": "price not listed"
+  },
+  "freePerCall": {
+    "message": "free per call"
+  },
+  "freePerResult": {
+    "message": "free per result"
+  },
+  "pricePerCall": {
+    "message": "$p1$ per call",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "pricePerResult": {
+    "message": "$p1$ per result",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "priceLoading": {
+    "message": "price loading"
+  },
+  "fromPerCall": {
+    "message": "from $p1$ per call",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "fromPerResult": {
+    "message": "from $p1$ per result",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "freeOneProvider": {
+    "message": "free with one provider, others from $p1$ per result",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "freeCheapest": {
+    "message": "free with the cheapest provider"
+  }
+}

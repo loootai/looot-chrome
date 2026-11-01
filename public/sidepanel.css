@@ -5,9 +5,10 @@
   --ink: #0b2e22;
   --muted: #55695f;
   --line: #dce2db;
-  --accent: #0b4a35;
-  --accent-ink: #f7f8f5;
-  --emerald: #12a06a;
+  --accent: #009362;
+  --accent-ink: #ffffff;
+  --accent-text: #00704b;
+  --emerald: #009362;
   --tint: #e3f3ea;
   --warn: #8a4b00;
   --warn-bg: #fdf3df;
@@ -27,8 +28,9 @@
     --ink: #e9f0eb;
     --muted: #9bb1a6;
     --line: #1b3b2f;
-    --accent: #12a06a;
-    --accent-ink: #04140e;
+    --accent: #009362;
+    --accent-ink: #ffffff;
+    --accent-text: #2cc389;
     --emerald: #2cc389;
     --tint: #103a2b;
     --warn: #f0c36a;
@@ -56,7 +58,7 @@ h2, h3, p, ul, dl, dd, pre { margin: 0; }
 ul { padding: 0; list-style: none; }
 h2 { font-size: 14px; font-weight: 650; letter-spacing: -0.01em; }
 h3 { font-size: 13px; font-weight: 600; letter-spacing: -0.005em; }
-a { color: var(--accent); text-underline-offset: 2px; }
+a { color: var(--accent-text); text-underline-offset: 2px; }
 @media (prefers-color-scheme: dark) { a { color: var(--emerald); } }
 
 .mono, code, pre { font-family: var(--mono); font-variant-numeric: tabular-nums; }
@@ -144,7 +146,7 @@ input[aria-invalid="true"] { border-color: var(--warn); }
 .action-icon { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: var(--tint); color: var(--accent); flex: none; }
 .action-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .price-row { margin-top: 2px; }
-.price { font-family: var(--mono); font-size: 11.5px; font-variant-numeric: tabular-nums; color: var(--accent); font-weight: 600; }
+.price { font-family: var(--mono); font-size: 11.5px; font-variant-numeric: tabular-nums; color: var(--accent-text); font-weight: 600; }
 @media (prefers-color-scheme: dark) { .price { color: var(--emerald); } }
 .price.muted { color: var(--muted); }
 .action > .btn, .action form > .btn { align-self: flex-start; }
@@ -228,3 +230,7 @@ pre { margin-top: 6px; padding: 8px; max-height: 180px; overflow: auto; backgrou
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
+
+/* over-cap hint */
+.warn-text { color: var(--warn); }
+.linkish { appearance: none; border: 0; background: none; padding: 0; font: inherit; color: var(--accent-text); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }

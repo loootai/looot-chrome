@@ -1,11 +1,13 @@
 // The side panel. Free catalog search works without a token. Paid lookups show the price,
-// wait for a confirm click, run under the caps and then show what was charged.
+// wait for a confirm click, run under the caps and then show what was charged. Every visible
+// string is a message key in public/_locales.
 
 import { createClient, LoootError, type CatalogItem, type JobPrice, type Run } from "../lib/api";
-import { ACTIONS, ALL_JOBS, JOB_COMPANY, JOB_EMAIL_FIND, JOB_EMAIL_VERIFY, JOB_TECH, newKey, type Action } from "../lib/actions";
+import { ACTIONS, ALL_JOBS, JOB_COMPANY, JOB_EMAIL_FIND, JOB_EMAIL_VERIFY, JOB_SEO, JOB_TECH, JOB_TRAFFIC, JOB_WHOIS, newKey, type Action, type ActionId } from "../lib/actions";
 import { domainFromInput, domainFromUrl } from "../lib/domain";
 import { itemPrice, jobFrom, parseUsd, usd } from "../lib/format";
-import { readCompany, readEmail, readStatus, readTechnologies, type Field } from "../lib/read";
+import { t, uiLang } from "../lib/i18n";
+import { readCompany, readEmail, readSeo, readStatus, readTechnologies, readTraffic, readWhois, type Field } from "../lib/read";
 import { runStep, type StepResult } from "../lib/runner";
 import { EMPTY_SPEND, left, type Spend } from "../lib/spend";
 import { DEFAULTS, loadSettings, loadSpend, saveLimits, saveSpend, saveToken, type Area, type Settings } from "../lib/store";
@@ -30,7 +32,7 @@ const state = {
   manualDomain: null as string | null,
   editingDomain: false,
   balance: null as number | null,
-  phases: { company: { kind: "idle" }, email: { kind: "idle" }, tech: { kind: "idle" } } as Record<Action["id"], Phase>,
+  phases: Object.fromEntries(ACTIONS.map((a) => [a.id, { kind: "idle" }])) as Record<ActionId, Phase>,
   person: { first: "", last: "" },
   catalog: { q: "", status: "idle" as "idle" | "loading" | "done" | "error", items: [] as CatalogItem[], seq: 0 },
   settingsNote: "" as string,
@@ -40,7 +42,8 @@ const client = createClient({ getToken: async () => state.settings.token });
 
 const $ = (id: string) => document.getElementById(id) as HTMLElement;
 const domain = () => state.manualDomain ?? state.tabDomain;
-const ACTION_ICONS: Record<Action["id"], string> = { company: ICONS.building, email: ICONS.mail, tech: ICONS.layers };
+const ACTION_ICONS: Record<ActionId, string> = { company: ICONS.building, whois: ICONS.id, tech: ICONS.layers, traffic: ICONS.chart, seo: ICONS.link, email: ICONS.mail };
+const LOCALE = uiLang();
 
 // ---------- site bar ----------
 
@@ -49,9 +52,9 @@ function renderSite(): void {
   if (state.editingDomain || !d) {
     const input = h("input", {
       id: "domain-input", type: "text", inputmode: "url", autocomplete: "off", spellcheck: "false",
-      placeholder: "company.com", value: d ?? "", "aria-describedby": "domain-help",
+      placeholder: t("domainPlaceholder"), value: d ?? "", "aria-describedby": "domain-help",
     });
-    const error = h("p", { class: "field-error", role: "alert", hidden: true }, "Type a domain such as company.com.");
+    const error = h("p", { class: "field-error", role: "alert", hidden: true }, t("domainError"));
     const submit = (e: Event) => {
       e.preventDefault();
       const next = domainFromInput(input.value);
@@ -69,11 +72,11 @@ function renderSite(): void {
     mount(
       $("site"),
       h("form", { class: "site-form", onsubmit: submit },
-        h("label", { for: "domain-input" }, "Company domain"),
-        h("div", { class: "row" }, input, h("button", { class: "btn", type: "submit" }, "Use")),
+        h("label", { for: "domain-input" }, t("domainLabel")),
+        h("div", { class: "row" }, input, h("button", { class: "btn", type: "submit" }, t("domainUse"))),
         error,
         h("p", { id: "domain-help", class: "help" },
-          d ? "Lookups will use this domain instead of the open tab." : "This tab has no site to use. Click the looot icon on a company's website, or type a domain."),
+          d ? t("domainOverride") : t("domainNone")),
       ),
     );
     if (state.editingDomain) input.focus();
@@ -84,13 +87,13 @@ function renderSite(): void {
     h("div", { class: "site-chip" },
       h("span", { class: "site-icon" }, icon(ICONS.globe)),
       h("div", { class: "site-text" },
-        h("span", { class: "eyebrow" }, state.manualDomain ? "Typed domain" : "This tab"),
+        h("span", { class: "eyebrow" }, state.manualDomain ? t("siteTyped") : t("siteTab")),
         h("span", { class: "domain", title: d }, d),
       ),
       h("button", {
-        class: "btn ghost small", type: "button", "aria-label": "Change domain",
+        class: "btn ghost small", type: "button", "aria-label": t("domainChangeLabel"),
         onclick: () => { state.editingDomain = true; renderSite(); },
-      }, icon(ICONS.edit), "Change"),
+      }, icon(ICONS.edit), t("domainChange")),
     ),
   );
 }
@@ -127,11 +130,11 @@ function renderLookup(): void {
       h("div", { class: "notice" },
         h("span", { class: "notice-icon" }, icon(ICONS.lock)),
         h("div", {},
-          h("p", { class: "notice-title" }, "Lookups need your looot token"),
-          h("p", { class: "help" }, "Catalog search is free and works now. To run a lookup, paste a token from your looot account. It stays on this device."),
+          h("p", { class: "notice-title" }, t("needTokenTitle")),
+          h("p", { class: "help" }, t("needTokenBody")),
           h("div", { class: "row" },
-            h("button", { class: "btn", type: "button", onclick: () => selectTab("settings") }, "Add token"),
-            h("a", { class: "btn ghost", href: "https://looot.ai/settings", target: "_blank", rel: "noopener" }, "Get one at looot.ai"),
+            h("button", { class: "btn", type: "button", onclick: () => selectTab("settings") }, t("addToken")),
+            h("a", { class: "btn ghost", href: "https://looot.ai/settings", target: "_blank", rel: "noopener" }, t("getToken")),
           ),
         ),
       ),
@@ -142,9 +145,9 @@ function renderLookup(): void {
       h("div", { class: "notice warn", role: "alert" },
         h("span", { class: "notice-icon" }, icon(ICONS.alert)),
         h("div", {},
-          h("p", { class: "notice-title" }, "Prices did not load"),
-          h("p", { class: "help" }, "Lookups stay off until the price list is back, so you always see the price first."),
-          h("button", { class: "btn ghost", type: "button", onclick: () => void loadPrices(true) }, "Try again"),
+          h("p", { class: "notice-title" }, t("pricesFailedTitle")),
+          h("p", { class: "help" }, t("pricesFailedBody")),
+          h("button", { class: "btn ghost", type: "button", onclick: () => void loadPrices(true) }, t("tryAgain")),
         ),
       ),
     );
@@ -154,19 +157,21 @@ function renderLookup(): void {
 }
 
 function priceLine(job: string): Child {
-  if (!state.prices) return h("span", { class: state.pricesError ? "price muted" : "price skeleton" }, state.pricesError ? "price unavailable" : "from $0.0000 per call");
+  if (!state.prices) return h("span", { class: state.pricesError ? "price muted" : "price skeleton" }, state.pricesError ? t("priceUnavailable") : t("fromPerCall", "$0.0000"));
   return h("span", { class: "price" }, jobFrom(state.prices[job]));
 }
 
 function renderAction(action: Action): HTMLElement {
   const phase = state.phases[action.id];
   const d = domain();
-  const ready = Boolean(state.settings.token && state.prices && d);
+  const listed = state.prices?.[action.jobs[0]!]?.cheapestPerCall ?? null;
+  const overCap = listed !== null && listed > state.settings.maxPerCall;
+  const ready = Boolean(state.settings.token && state.prices && d && !overCap);
   const head = h("div", { class: "action-head" },
     h("span", { class: "action-icon" }, icon(ACTION_ICONS[action.id])),
     h("div", { class: "action-text" },
-      h("h2", {}, action.title),
-      h("p", { class: "help" }, action.hint),
+      h("h2", {}, t(`${action.key}Title`)),
+      h("p", { class: "help" }, t(`${action.key}Hint`)),
       h("p", { class: "price-row" }, priceLine(action.jobs[0]!)),
     ),
   );
@@ -176,7 +181,7 @@ function renderAction(action: Action): HTMLElement {
     if (action.id === "email") {
       const first = h("input", { id: "first-name", type: "text", autocomplete: "off", value: state.person.first, oninput: (e: Event) => { state.person.first = (e.target as HTMLInputElement).value; } });
       const last = h("input", { id: "last-name", type: "text", autocomplete: "off", value: state.person.last, oninput: (e: Event) => { state.person.last = (e.target as HTMLInputElement).value; } });
-      const error = h("p", { class: "field-error", role: "alert", hidden: true }, "Enter a first and a last name.");
+      const error = h("p", { class: "field-error", role: "alert", hidden: true }, t("nameError"));
       body.push(
         h("form", {
           class: "stack",
@@ -189,17 +194,21 @@ function renderAction(action: Action): HTMLElement {
           },
         },
           h("div", { class: "grid2" },
-            h("div", { class: "field" }, h("label", { for: "first-name" }, "First name"), first),
-            h("div", { class: "field" }, h("label", { for: "last-name" }, "Last name"), last),
+            h("div", { class: "field" }, h("label", { for: "first-name" }, t("firstName")), first),
+            h("div", { class: "field" }, h("label", { for: "last-name" }, t("lastName")), last),
           ),
           error,
-          h("button", { class: "btn", type: "submit", disabled: !ready }, "See price"),
+          h("button", { class: "btn", type: "submit", disabled: !ready }, t("seePrice")),
         ),
       );
     } else {
-      body.push(h("button", { class: "btn", type: "button", disabled: !ready, onclick: () => startConfirm(action, {}) }, "See price"));
+      body.push(h("button", { class: "btn", type: "button", disabled: !ready, onclick: () => startConfirm(action, {}) }, t("seePrice")));
     }
-    if (!d) body.push(h("p", { class: "help" }, "Needs a company domain."));
+    if (!d) body.push(h("p", { class: "help" }, t("needsDomain")));
+    if (overCap) {
+      body.push(h("p", { class: "help warn-text" }, t("overCap", usd(listed), usd(state.settings.maxPerCall)), " ",
+        h("button", { class: "linkish", type: "button", onclick: () => selectTab("settings") }, t("openSettings"))));
+    }
   }
 
   if (phase.kind === "confirm") {
@@ -207,28 +216,28 @@ function renderAction(action: Action): HTMLElement {
     const jobs = action.jobs;
     const most = cap * jobs.length;
     body.push(
-      h("div", { class: "confirm", role: "group", "aria-label": `Confirm ${action.title}` },
+      h("div", { class: "confirm", role: "group", "aria-label": t("confirmLabel", t(`${action.key}Title`)) },
         h("p", { class: "confirm-target" },
-          action.id === "email" ? `${phase.first} ${phase.last} at ` : "On ",
-          h("span", { class: "domain" }, phase.domain),
+          action.id === "email" ? t("confirmPerson", `${phase.first} ${phase.last}`) : t("confirmOn"),
+          " ", h("span", { class: "domain" }, phase.domain),
         ),
         h("ul", { class: "steps" },
           ...jobs.map((job, i) =>
             h("li", {},
               h("span", { class: "mono job" }, `job:${job}`),
               h("span", { class: "price" }, jobFrom(state.prices?.[job])),
-              i > 0 ? h("span", { class: "help" }, "Runs only if an address is found.") : null,
+              i > 0 ? h("span", { class: "help" }, t("verifyOnlyIfFound")) : null,
             ),
           ),
         ),
         h("p", { class: "cap-line" },
-          "Most this can charge: ", h("strong", { class: "mono" }, usd(most)),
-          jobs.length > 1 ? ` (${usd(cap)} cap per call)` : " (your cap per call)",
-          ". A failed call costs $0.",
+          t("mostCharge"), " ", h("strong", { class: "mono" }, usd(most)), " ",
+          jobs.length > 1 ? t("capEachCall", usd(cap)) : t("capYourCall"),
+          " ", t("failedFree"),
         ),
         h("div", { class: "row" },
-          h("button", { class: "btn primary", type: "button", onclick: () => void runAction(action, phase) }, `Confirm and run`),
-          h("button", { class: "btn ghost", type: "button", onclick: () => setPhase(action.id, { kind: "idle" }) }, "Cancel"),
+          h("button", { class: "btn primary", type: "button", onclick: () => void runAction(action, phase) }, t("confirmRun")),
+          h("button", { class: "btn ghost", type: "button", onclick: () => setPhase(action.id, { kind: "idle" }) }, t("cancel")),
         ),
       ),
     );
@@ -247,27 +256,27 @@ function renderAction(action: Action): HTMLElement {
   if (phase.kind === "done") {
     const total = phase.steps.reduce((sum, s) => sum + s.counted, 0);
     const raw = JSON.stringify(phase.steps.map((s) => ({ runId: s.run.runId, status: s.run.status, actualCost: s.run.actualCost, result: s.run.result })), null, 2);
-    const copy = h("button", { class: "btn ghost small", type: "button", onclick: () => void copyText(raw, copy) }, icon(ICONS.copy), "Copy JSON");
+    const copy = h("button", { class: "btn ghost small", type: "button", onclick: () => void copyText(raw, copy) }, icon(ICONS.copy), t("copyJson"));
     body.push(
       h("div", { class: "result" },
         phase.headline ? h("p", { class: "headline" }, phase.headline) : null,
         phase.note ? h("p", { class: "help" }, phase.note) : null,
         phase.fields.length > 0
-          ? h("dl", { class: "fields" }, ...phase.fields.flatMap((f) => [h("dt", {}, f.label), h("dd", { title: f.value }, f.value)]))
+          ? h("dl", { class: "fields" }, ...phase.fields.flatMap((f) => [h("dt", {}, t(f.label)), h("dd", { title: f.value }, f.value)]))
           : null,
         phase.chips.length > 0 ? h("ul", { class: "chips" }, ...phase.chips.map((c) => h("li", {}, c))) : null,
         h("div", { class: "receipt" },
-          h("span", { class: "receipt-label" }, "Charged"),
+          h("span", { class: "receipt-label" }, t("charged")),
           h("strong", { class: "mono" }, usd(total)),
           h("span", { class: "help" }, phase.steps.map((s) => s.run.route?.servedBy).filter(Boolean).join(", ")),
         ),
         ...phase.steps.filter((s) => !s.settled).map(() =>
-          h("p", { class: "help" }, "A run was still going when the panel stopped waiting. The full cap was counted. Check the run on looot.ai."),
+          h("p", { class: "help" }, t("notSettled")),
         ),
-        h("details", {}, h("summary", {}, "Raw answer"), h("pre", {}, raw.length > 6000 ? raw.slice(0, 6000) + "\n..." : raw)),
+        h("details", {}, h("summary", {}, t("rawAnswer")), h("pre", {}, raw.length > 6000 ? raw.slice(0, 6000) + "\n..." : raw)),
         h("div", { class: "row" },
           copy,
-          h("button", { class: "btn ghost small", type: "button", onclick: () => setPhase(action.id, { kind: "idle" }) }, "Run another"),
+          h("button", { class: "btn ghost small", type: "button", onclick: () => setPhase(action.id, { kind: "idle" }) }, t("runAnother")),
         ),
       ),
     );
@@ -278,12 +287,12 @@ function renderAction(action: Action): HTMLElement {
       h("div", { class: "notice warn", role: "alert" },
         h("span", { class: "notice-icon" }, icon(ICONS.alert)),
         h("div", {},
-          h("p", { class: "notice-title" }, "Nothing ran"),
+          h("p", { class: "notice-title" }, t("nothingRan")),
           h("p", { class: "help" }, phase.message),
           h("div", { class: "row" },
-            phase.retry ? h("button", { class: "btn", type: "button", onclick: () => setPhase(action.id, phase.retry!) }, "Back") : null,
-            phase.topUpUrl ? h("a", { class: "btn ghost", href: phase.topUpUrl, target: "_blank", rel: "noopener" }, "Top up") : null,
-            h("button", { class: "btn ghost", type: "button", onclick: () => setPhase(action.id, { kind: "idle" }) }, "Dismiss"),
+            phase.retry ? h("button", { class: "btn", type: "button", onclick: () => setPhase(action.id, phase.retry!) }, t("back")) : null,
+            phase.topUpUrl ? h("a", { class: "btn ghost", href: phase.topUpUrl, target: "_blank", rel: "noopener" }, t("topUp")) : null,
+            h("button", { class: "btn ghost", type: "button", onclick: () => setPhase(action.id, { kind: "idle" }) }, t("dismiss")),
           ),
         ),
       ),
@@ -293,7 +302,7 @@ function renderAction(action: Action): HTMLElement {
   return h("li", { class: `action is-${phase.kind}`, id: `action-${action.id}` }, head, ...body);
 }
 
-function setPhase(id: Action["id"], phase: Phase): void {
+function setPhase(id: ActionId, phase: Phase): void {
   state.phases[id] = phase;
   renderLookup();
 }
@@ -312,7 +321,7 @@ function safeUrl(u: string | undefined): string | undefined {
 }
 
 function describeFailure(run: Run): string {
-  return run.error?.message ?? `The run ended as ${run.status}.`;
+  return run.error?.message ?? t("runEnded", run.status);
 }
 
 async function runAction(action: Action, phase: Extract<Phase, { kind: "confirm" }>): Promise<void> {
@@ -325,50 +334,67 @@ async function runAction(action: Action, phase: Extract<Phase, { kind: "confirm"
   const steps: StepResult[] = [];
   const done = (fields: Field[], chips: string[], headline: string, note: string) =>
     setPhase(action.id, { kind: "done", domain: phase.domain, steps, fields, chips, headline, note });
+  const one = async (job: string, label: string) => {
+    setPhase(action.id, { kind: "running", label });
+    const step = await runStep(deps, job, { domain: phase.domain }, phase.keys[job]!);
+    steps.push(step);
+    return step.run.status === "completed" ? step.run : null;
+  };
+  const failed = () => describeFailure(steps[steps.length - 1]!.run);
   try {
     if (action.id === "company") {
-      setPhase(action.id, { kind: "running", label: `Enriching ${phase.domain}` });
-      const step = await runStep(deps, JOB_COMPANY, { domain: phase.domain }, phase.keys[JOB_COMPANY]!);
-      steps.push(step);
-      const fields = step.run.status === "completed" ? readCompany(step.run) : [];
-      const name = fields.find((f) => f.label === "Name")?.value ?? "";
-      done(fields.filter((f) => f.label !== "Name"), [], name,
-        step.run.status !== "completed" ? describeFailure(step.run) : fields.length === 0 ? "The provider answered but had no company details for this domain." : "");
+      const run = await one(JOB_COMPANY, t("runningCompany", phase.domain));
+      const fields = run ? readCompany(run) : [];
+      const name = fields.find((f) => f.label === "fieldName")?.value ?? "";
+      done(fields.filter((f) => f.label !== "fieldName"), [], name, !run ? failed() : fields.length === 0 ? t("emptyCompany") : "");
+    } else if (action.id === "whois") {
+      const run = await one(JOB_WHOIS, t("runningWhois", phase.domain));
+      const card = run ? readWhois(run) : { fields: [], chips: [], redacted: false };
+      done(card.fields, card.chips, "", !run ? failed() : card.fields.length === 0 ? t("emptyAnswer") : card.redacted ? t("whoisRedacted") : "");
     } else if (action.id === "tech") {
-      setPhase(action.id, { kind: "running", label: `Reading the stack of ${phase.domain}` });
-      const step = await runStep(deps, JOB_TECH, { domain: phase.domain }, phase.keys[JOB_TECH]!);
-      steps.push(step);
-      const names = step.run.status === "completed" ? readTechnologies(step.run) : [];
-      done([], names, names.length > 0 ? `${names.length} technologies` : "",
-        step.run.status !== "completed" ? describeFailure(step.run) : names.length === 0 ? "No technology names in the answer. Open the raw answer below." : "");
+      const run = await one(JOB_TECH, t("runningTech", phase.domain));
+      const names = run ? readTechnologies(run) : [];
+      done([], names, names.length > 0 ? t("techCount", names.length) : "", !run ? failed() : names.length === 0 ? t("emptyTech") : "");
+    } else if (action.id === "traffic") {
+      const run = await one(JOB_TRAFFIC, t("runningTraffic", phase.domain));
+      const card = run ? readTraffic(run, LOCALE) : { fields: [], chips: [] };
+      done(card.fields, card.chips, "", !run ? failed() : card.fields.length === 0 ? t("emptyAnswer") : t("trafficNote"));
+    } else if (action.id === "seo") {
+      const run = await one(JOB_SEO, t("runningSeo", phase.domain));
+      const card = run ? readSeo(run, LOCALE) : { fields: [], chips: [] };
+      done(card.fields, [], "", !run ? failed() : card.fields.length === 0 ? t("emptyAnswer") : "");
     } else {
-      setPhase(action.id, { kind: "running", label: "Looking for the address" });
+      setPhase(action.id, { kind: "running", label: t("runningEmail") });
       const find = await runStep(deps, JOB_EMAIL_FIND, { first_name: phase.first ?? "", last_name: phase.last ?? "", domain: phase.domain }, phase.keys[JOB_EMAIL_FIND]!);
       steps.push(find);
       const email = find.run.status === "completed" ? readEmail(find.run) : "";
       if (!email) {
-        done([], [], "", find.run.status !== "completed" ? describeFailure(find.run) : "No address found for this name at this domain. The check did not run.");
+        done([], [], "", find.run.status !== "completed" ? describeFailure(find.run) : t("emptyEmail"));
         return;
       }
-      setPhase(action.id, { kind: "running", label: `Checking ${email}` });
+      setPhase(action.id, { kind: "running", label: t("runningVerify", email) });
       let status = "";
       let note = "";
       try {
         const verify = await runStep(deps, JOB_EMAIL_VERIFY, { email }, phase.keys[JOB_EMAIL_VERIFY]!);
         steps.push(verify);
         status = verify.run.status === "completed" ? readStatus(verify.run) : "";
-        if (verify.run.status !== "completed") note = `The check did not finish: ${describeFailure(verify.run)}`;
+        if (verify.run.status !== "completed") note = t("verifyUnfinished", describeFailure(verify.run));
       } catch (err) {
-        note = `The address was found. The check did not run: ${err instanceof Error ? err.message : "unknown error"}`;
+        note = t("verifyNotRun", err instanceof Error ? err.message : "unknown error");
       }
-      const fields: Field[] = status ? [{ label: "Check", value: status }] : [];
+      const fields: Field[] = status ? [{ label: "fieldCheck", value: t(`status_${status.replace("-", "")}`) }] : [];
       done(fields, [], email, note);
     }
   } catch (err) {
-    const e = err instanceof LoootError ? err : new LoootError(0, "unknown", "Something went wrong before the call was made.");
+    const e = err instanceof LoootError ? err : new LoootError(0, "unknown", t("errUnknown"));
+    const { maxPerCall, sessionCap } = state.settings;
     const message =
-      e.status === 401 ? "looot did not accept the token. Check it in Settings."
-      : e.status === 402 || e.code.includes("insufficient") ? `${e.message} Top up your balance and try again.`
+      e.code === "session_cap" ? t("errSessionCap", usd(maxPerCall), usd(left(state.spend, sessionCap)), usd(sessionCap))
+      : e.code === "network" ? t("errNetwork")
+      : e.code === "missing_token" ? t("errMissingToken")
+      : e.status === 401 ? t("errToken")
+      : e.status === 402 || e.code.includes("insufficient") ? `${e.message} ${t("errTopUp")}`
       : e.message;
     if (steps.length > 0) {
       done([], [], "", message);
@@ -393,19 +419,19 @@ async function copyText(text: string, button: HTMLElement): Promise<void> {
 
 // ---------- catalog ----------
 
-const SUGGESTIONS = ["find work email", "company enrichment", "google search", "linkedin profile", "verify email", "tech stack"];
+const SUGGESTIONS = ["suggest1", "suggest2", "suggest3", "suggest4", "suggest5", "suggest6"];
 
 function renderCatalog(): void {
   const view = $("view-catalog");
   const input = h("input", {
-    id: "catalog-q", type: "search", placeholder: "What do you need? e.g. verify an email", autocomplete: "off",
-    value: state.catalog.q, "aria-label": "Search the looot catalog",
+    id: "catalog-q", type: "search", placeholder: t("catalogPlaceholder"), autocomplete: "off",
+    value: state.catalog.q, "aria-label": t("catalogLabel"),
     oninput: (e: Event) => queueSearch((e.target as HTMLInputElement).value),
   });
   mount(
     view,
     h("div", { class: "search" }, h("span", { class: "search-icon" }, icon(ICONS.search)), input),
-    h("p", { class: "help" }, "Free. No token needed. Prices are what one call or one result costs through looot."),
+    h("p", { class: "help" }, t("catalogHelp")),
     h("div", { id: "catalog-results", "aria-live": "polite" }),
   );
   renderCatalogResults();
@@ -418,10 +444,12 @@ function renderCatalogResults(): void {
   if (c.status === "idle") {
     mount(box,
       h("div", { class: "empty" },
-        h("p", { class: "empty-title" }, "Search 4,200+ endpoints from 300+ providers"),
-        h("p", { class: "help" }, "Describe the task. Start with one of these:"),
-        h("ul", { class: "chips click" }, ...SUGGESTIONS.map((s) =>
-          h("li", {}, h("button", { type: "button", onclick: () => { state.catalog.q = s; renderCatalog(); void search(s); } }, s)))),
+        h("p", { class: "empty-title" }, t("catalogEmptyTitle")),
+        h("p", { class: "help" }, t("catalogEmptyBody")),
+        h("ul", { class: "chips click" }, ...SUGGESTIONS.map((key) => {
+          const s = t(key);
+          return h("li", {}, h("button", { type: "button", onclick: () => { state.catalog.q = s; renderCatalog(); void search(s); } }, s));
+        })),
       ),
     );
   } else if (c.status === "loading") {
@@ -432,17 +460,17 @@ function renderCatalogResults(): void {
       h("div", { class: "notice warn", role: "alert" },
         h("span", { class: "notice-icon" }, icon(ICONS.alert)),
         h("div", {},
-          h("p", { class: "notice-title" }, "Search did not answer"),
-          h("p", { class: "help" }, "api.looot.ai could not be reached. Check your connection."),
-          h("button", { class: "btn ghost", type: "button", onclick: () => void search(c.q) }, "Try again"),
+          h("p", { class: "notice-title" }, t("searchFailedTitle")),
+          h("p", { class: "help" }, t("errNetwork")),
+          h("button", { class: "btn ghost", type: "button", onclick: () => void search(c.q) }, t("tryAgain")),
         ),
       ),
     );
   } else if (c.items.length === 0) {
     mount(box,
       h("div", { class: "empty" },
-        h("p", { class: "empty-title" }, `Nothing matched "${c.q}"`),
-        h("p", { class: "help" }, "Use fewer words, or name the task instead of a vendor: \"verify email\", \"company news\"."),
+        h("p", { class: "empty-title" }, t("noMatchTitle", c.q)),
+        h("p", { class: "help" }, t("noMatchBody")),
       ),
     );
   } else {
@@ -459,7 +487,7 @@ function renderItem(item: CatalogItem): HTMLElement {
   const slash = item.title.indexOf(" / ");
   const provider = slash > 0 ? item.title.slice(0, slash) : item.providerId;
   const title = slash > 0 ? item.title.slice(slash + 3) : item.title;
-  const copy = h("button", { class: "btn ghost small", type: "button", title: "Copy the operation id", onclick: () => void copyText(item.operationId, copy) }, icon(ICONS.copy), "Copy id");
+  const copy = h("button", { class: "btn ghost small", type: "button", title: t("copyIdTitle"), onclick: () => void copyText(item.operationId, copy) }, icon(ICONS.copy), t("copyId"));
   return h("li", { class: "result-row" },
     h("div", { class: "result-top" },
       h("span", { class: "eyebrow" }, provider),
@@ -508,11 +536,11 @@ async function search(q: string): Promise<void> {
 function renderSettings(): void {
   const view = $("view-settings");
   const hasToken = Boolean(state.settings.token);
-  const token = h("input", { id: "token", type: "password", autocomplete: "off", spellcheck: "false", placeholder: hasToken ? "A token is saved. Paste a new one to replace it." : "cs_ms_..." });
+  const token = h("input", { id: "token", type: "password", autocomplete: "off", spellcheck: "false", placeholder: hasToken ? t("tokenSavedPlaceholder") : "cs_ms_..." });
   const tokenNote = h("p", { class: "help", role: "status" }, state.settingsNote);
   const perCall = h("input", { id: "max-per-call", type: "text", inputmode: "decimal", value: String(state.settings.maxPerCall) });
   const cap = h("input", { id: "session-cap", type: "text", inputmode: "decimal", value: String(state.settings.sessionCap) });
-  const limitsError = h("p", { class: "field-error", role: "alert", hidden: true }, "Enter two amounts above 0. The session cap must be at least the cap per call.");
+  const limitsError = h("p", { class: "field-error", role: "alert", hidden: true }, t("limitsError"));
   const limitsNote = h("p", { class: "help", role: "status" });
 
   mount(
@@ -526,42 +554,42 @@ function renderSettings(): void {
         void (async () => {
           await saveToken(local, value);
           state.settings.token = value;
-          state.settingsNote = "Saved on this device.";
+          state.settingsNote = t("tokenSaved");
           try {
             const b = await client.balance();
             state.balance = typeof b?.available === "number" ? b.available : null;
           } catch (err) {
             state.balance = null;
-            if (err instanceof LoootError && err.status === 401) state.settingsNote = "Saved, but looot did not accept this token. Check that you copied all of it.";
+            if (err instanceof LoootError && err.status === 401) state.settingsNote = t("tokenRejected");
           }
           renderAll();
         })();
       },
     },
-      h("h2", {}, "Your looot token"),
+      h("h2", {}, t("tokenTitle")),
       h("div", { class: "field" },
-        h("label", { for: "token" }, "Agent token"),
+        h("label", { for: "token" }, t("tokenLabel")),
         token,
-        h("p", { class: "help" }, "Kept in this browser's local extension storage. Not synced to your Google account. Sent only to api.looot.ai."),
+        h("p", { class: "help" }, t("tokenHelp")),
       ),
       tokenNote,
       h("div", { class: "row" },
-        h("button", { class: "btn primary", type: "submit" }, hasToken ? "Replace token" : "Save token"),
+        h("button", { class: "btn primary", type: "submit" }, hasToken ? t("tokenReplace") : t("tokenSave")),
         hasToken ? h("button", {
           class: "btn ghost", type: "button",
           onclick: () => void (async () => {
             await saveToken(local, "");
             state.settings.token = "";
             state.balance = null;
-            state.settingsNote = "Token removed.";
+            state.settingsNote = t("tokenRemoved");
             renderAll();
           })(),
-        }, "Remove") : null,
+        }, t("tokenRemove")) : null,
       ),
       h("p", { class: "help" },
-        "No token yet? Create one in your ",
-        h("a", { href: "https://looot.ai/settings", target: "_blank", rel: "noopener" }, "looot account"),
-        " with catalog.read, runs.read and runs.execute. Top up from $5, no subscription.",
+        t("tokenHowBefore"), " ",
+        h("a", { href: "https://looot.ai/settings", target: "_blank", rel: "noopener" }, t("tokenHowLink")),
+        " ", t("tokenHowAfter"),
       ),
     ),
     h("form", {
@@ -574,34 +602,34 @@ function renderSettings(): void {
         limitsError.hidden = true;
         state.settings.maxPerCall = a;
         state.settings.sessionCap = b;
-        void saveLimits(local, a, b).then(() => { limitsNote.textContent = "Limits saved."; renderMeter(); renderLookup(); });
+        void saveLimits(local, a, b).then(() => { limitsNote.textContent = t("limitsSaved"); renderMeter(); renderLookup(); });
       },
     },
-      h("h2", {}, "Spending limits"),
+      h("h2", {}, t("limitsTitle")),
       h("div", { class: "grid2" },
-        h("div", { class: "field" }, h("label", { for: "max-per-call" }, "Cap per call (USD)"), perCall),
-        h("div", { class: "field" }, h("label", { for: "session-cap" }, "Session cap (USD)"), cap),
+        h("div", { class: "field" }, h("label", { for: "max-per-call" }, t("capPerCall")), perCall),
+        h("div", { class: "field" }, h("label", { for: "session-cap" }, t("capSession")), cap),
       ),
       limitsError,
-      h("p", { class: "help" }, "A call never charges more than its cap, across every provider looot tries. When the session total could pass the session cap, lookups stop."),
+      h("p", { class: "help" }, t("limitsHelp")),
       limitsNote,
       h("div", { class: "row" },
-        h("button", { class: "btn", type: "submit" }, "Save limits"),
+        h("button", { class: "btn", type: "submit" }, t("limitsSave")),
         h("button", {
           class: "btn ghost", type: "button",
-          onclick: () => { state.spend = { ...EMPTY_SPEND }; void saveSpend(session, state.spend); renderMeter(); limitsNote.textContent = "Session counter reset."; },
-        }, "Reset session counter"),
+          onclick: () => { state.spend = { ...EMPTY_SPEND }; void saveSpend(session, state.spend); renderMeter(); limitsNote.textContent = t("counterReset"); },
+        }, t("counterResetButton")),
       ),
     ),
     h("div", { class: "card links" },
-      h("h2", {}, "About"),
-      h("p", { class: "help" }, "This panel talks to api.looot.ai and nothing else. No analytics, no tracking, no page content is read."),
+      h("h2", {}, t("aboutTitle")),
+      h("p", { class: "help" }, t("aboutBody")),
       h("p", { class: "link-row" },
         h("a", { href: "https://looot.ai", target: "_blank", rel: "noopener" }, "looot.ai"),
-        h("a", { href: "https://docs.looot.ai", target: "_blank", rel: "noopener" }, "Docs"),
-        h("a", { href: "https://looot.ai/privacy", target: "_blank", rel: "noopener" }, "Privacy"),
-        h("a", { href: "https://looot.ai/contact", target: "_blank", rel: "noopener" }, "Support"),
-        h("a", { href: "https://github.com/loootai/looot-chrome", target: "_blank", rel: "noopener" }, "Source"),
+        h("a", { href: "https://docs.looot.ai", target: "_blank", rel: "noopener" }, t("linkDocs")),
+        h("a", { href: "https://looot.ai/privacy", target: "_blank", rel: "noopener" }, t("linkPrivacy")),
+        h("a", { href: "https://looot.ai/contact", target: "_blank", rel: "noopener" }, t("linkSupport")),
+        h("a", { href: "https://github.com/loootai/looot-chrome", target: "_blank", rel: "noopener" }, t("linkSource")),
       ),
     ),
   );
@@ -616,10 +644,10 @@ function renderMeter(): void {
   mount(
     $("meter"),
     h("div", { class: "meter-row" },
-      h("span", {}, "Session ", h("strong", { class: "mono" }, usd(spend.spent)), ` of ${usd(settings.sessionCap)}`),
-      h("span", { class: "help" }, spend.reserved > 0 ? `${usd(spend.reserved)} held` : `${usd(left(spend, settings.sessionCap))} left, ${spend.runs} ${spend.runs === 1 ? "run" : "runs"}`),
+      h("span", {}, t("meterSession"), " ", h("strong", { class: "mono" }, usd(spend.spent)), " ", t("meterOf", usd(settings.sessionCap))),
+      h("span", { class: "help" }, spend.reserved > 0 ? t("meterHeld", usd(spend.reserved)) : t(spend.runs === 1 ? "meterLeftOne" : "meterLeft", usd(left(spend, settings.sessionCap)), spend.runs)),
     ),
-    h("div", { class: `bar${pct >= 90 ? " full" : ""}`, role: "progressbar", "aria-label": "Session spend", "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": pct },
+    h("div", { class: `bar${pct >= 90 ? " full" : ""}`, role: "progressbar", "aria-label": t("meterLabel"), "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": pct },
       h("span", { style: `transform: scaleX(${pct / 100})` })),
   );
 }
@@ -631,7 +659,7 @@ function renderBalance(): void {
     return;
   }
   el.hidden = false;
-  mount(el, h("span", { class: "eyebrow" }, "Balance"), h("strong", { class: "mono" }, usd(Math.round(state.balance * 100) / 100)));
+  mount(el, h("span", { class: "eyebrow" }, t("balance")), h("strong", { class: "mono" }, usd(Math.round(state.balance * 100) / 100)));
 }
 
 async function loadBalance(): Promise<void> {
@@ -673,6 +701,13 @@ function selectTab(name: string): void {
   if (name === "settings") { state.settingsNote = ""; renderSettings(); }
 }
 
+/** Static strings in sidepanel.html carry a data-i18n attribute with their message key. */
+function translateStatic(): void {
+  document.documentElement.lang = LOCALE ?? "en";
+  for (const el of document.querySelectorAll<HTMLElement>("[data-i18n]")) el.textContent = t(el.dataset.i18n ?? "");
+  for (const el of document.querySelectorAll<HTMLElement>("[data-i18n-label]")) el.setAttribute("aria-label", t(el.dataset.i18nLabel ?? ""));
+}
+
 function renderAll(): void {
   renderSite();
   renderLookup();
@@ -682,6 +717,7 @@ function renderAll(): void {
 }
 
 async function init(): Promise<void> {
+  translateStatic();
   const tabs = [...document.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
   tabs.forEach((tab, i) => {
     tab.addEventListener("click", () => selectTab(tab.dataset.tab ?? "lookup"));

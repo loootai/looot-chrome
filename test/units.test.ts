@@ -1,10 +1,14 @@
-import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import { beforeAll, describe, expect, it } from "vitest";
 import { ACTIONS, ALL_JOBS, newKey } from "../src/lib/actions";
+import { getterFrom, setGetter } from "../src/lib/i18n";
 import { domainFromInput, domainFromUrl } from "../src/lib/domain";
 import { itemPrice, jobFrom, parseUsd, usd } from "../src/lib/format";
-import { readCompany, readEmail, readStatus, readTechnologies } from "../src/lib/read";
+import { readCompany, readEmail, readSeo, readStatus, readTechnologies, readTraffic, readWhois } from "../src/lib/read";
 import { canSpend, EMPTY_SPEND, left, reserve, settle } from "../src/lib/spend";
 import { DEFAULTS, loadSettings, loadSpend, saveToken, type Area } from "../src/lib/store";
+
+beforeAll(() => setGetter(getterFrom(JSON.parse(readFileSync("public/_locales/en/messages.json", "utf8")))));
 
 function area(initial: Record<string, unknown> = {}): Area & { data: Record<string, unknown> } {
   const data = { ...initial };
@@ -96,16 +100,66 @@ describe("readers", () => {
   it("reads company fields and leaves out the missing ones", () => {
     const fields = readCompany({ status: "completed", result: { company: { name: "Linear", industry: "Software", employee_count: 120, linkedin_url: "https://www.linkedin.com/company/linearapp" } } });
     expect(fields).toEqual([
-      { label: "Name", value: "Linear" },
-      { label: "Industry", value: "Software" },
-      { label: "Employees", value: "120" },
-      { label: "LinkedIn", value: "https://www.linkedin.com/company/linearapp" },
+      { label: "fieldName", value: "Linear" },
+      { label: "fieldIndustry", value: "Software" },
+      { label: "fieldEmployees", value: "120" },
+      { label: "fieldLinkedIn", value: "https://www.linkedin.com/company/linearapp" },
     ]);
   });
   it("collects technology names from common shapes", () => {
     expect(readTechnologies({ status: "completed", result: { technologies: [{ name: "React" }, { name: "Stripe" }, { name: "React" }] } })).toEqual(["React", "Stripe"]);
     expect(readTechnologies({ status: "completed", result: { data: { tech_stack: ["Next.js", "Vercel"] } } })).toEqual(["Next.js", "Vercel"]);
     expect(readTechnologies({ status: "completed", result: { groups: [{ name: "analytics", live: 3 }] } })).toEqual([]);
+  });
+});
+
+// Trimmed copies of real answers from looot runs on stripe.com, 2026-11-01.
+const TRAFFIC = { status: "completed", result: { siteOverview: { category: "finance", globalRank: { rank: 312 }, countryRank: { rank: 226, countryCode: "US" },
+  engagements: { visits: "133172721", bounceRate: "0.5545453726745924", timeOnSite: "166.89220074609705", pagePerVisit: "3.2040017972128374" },
+  trafficSources: { Mail: 0.0267, Direct: 0.40651, Referrals: 0.38975, SearchOrganic: 0.05956, Affiliate: 0.00074 } } } };
+const SEO = { status: "completed", normalized: { fields: { backlinks: 86999019, referringDomains: 494585, rank: 731 } },
+  result: { items: [{ rank: 731, backlinks: 86999019, referring_domains: 494585, backlinks_spam_score: 4, first_seen: "2019-01-15 22:55:56 +00:00" }] } };
+const WHOIS = { status: "completed", result: { WhoisRecord: { registrarName: "Safenames Ltd.", createdDate: "1995-09-12T04:00:00Z", expiresDate: "2027-09-11T04:00:00Z",
+  dataError: "MASKED_WHOIS_DATA", estimatedDomainAge: 11373, nameServers: { hostNames: ["ns-1087.awsdns-07.org", "NS-423.AWSDNS-52.COM"] } } } };
+
+describe("site readers", () => {
+  it("reads traffic: visits, ranks, engagement and the top sources", () => {
+    const card = readTraffic(TRAFFIC, "en-US");
+    expect(card.fields).toEqual([
+      { label: "fieldVisits", value: "133.2M" },
+      { label: "fieldGlobalRank", value: "#312" },
+      { label: "fieldCountryRank", value: "#226 (US)" },
+      { label: "fieldCategory", value: "finance" },
+      { label: "fieldBounce", value: "55%" },
+      { label: "fieldPagesPerVisit", value: "3.2" },
+      { label: "fieldTimeOnSite", value: "2:47" },
+    ]);
+    expect(card.chips).toEqual(["Direct 41%", "Referrals 39%", "Search Organic 6%", "Mail 3%", "Affiliate 0%"]);
+  });
+  it("reads SEO numbers from the normalized block", () => {
+    expect(readSeo(SEO, "en-US").fields).toEqual([
+      { label: "fieldDomainRank", value: "731" },
+      { label: "fieldBacklinks", value: "87M" },
+      { label: "fieldRefDomains", value: "494.6K" },
+      { label: "fieldSpamScore", value: "4" },
+      { label: "fieldFirstSeen", value: "2019-01-15" },
+    ]);
+  });
+  it("reads WHOIS and flags a redacted owner", () => {
+    const card = readWhois(WHOIS);
+    expect(card.fields).toEqual([
+      { label: "fieldRegistrar", value: "Safenames Ltd." },
+      { label: "fieldCreated", value: "1995-09-12" },
+      { label: "fieldExpires", value: "2027-09-11" },
+      { label: "fieldAgeYears", value: "31" },
+    ]);
+    expect(card.chips).toEqual(["ns-1087.awsdns-07.org", "ns-423.awsdns-52.com"]);
+    expect(card.redacted).toBe(true);
+  });
+  it("returns empty cards for empty answers", () => {
+    expect(readTraffic({ status: "completed", result: {} }).fields).toEqual([]);
+    expect(readSeo({ status: "completed", result: {} }).fields).toEqual([]);
+    expect(readWhois({ status: "completed", result: {} }).fields).toEqual([]);
   });
 });
 
@@ -126,9 +180,9 @@ describe("store", () => {
 });
 
 describe("actions", () => {
-  it("uses the four job ids listed in the catalog", () => {
-    expect(ALL_JOBS).toEqual(["company.enrich", "people.email.find", "people.email.verify", "company.technographics"]);
-    expect(ACTIONS.map((a) => a.jobs)).toEqual([["company.enrich"], ["people.email.find", "people.email.verify"], ["company.technographics"]]);
+  it("uses the seven job ids listed in the catalog", () => {
+    expect(ALL_JOBS).toEqual(["company.enrich", "domain.whois.lookup", "company.technographics", "company.traffic", "backlinks.domain.summary", "people.email.find", "people.email.verify"]);
+    expect(ACTIONS.map((a) => a.id)).toEqual(["company", "whois", "tech", "traffic", "seo", "email"]);
   });
   it("makes a new idempotency key per confirmed step", () => {
     const a = newKey("company.enrich");

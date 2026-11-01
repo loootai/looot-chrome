@@ -1,26 +1,35 @@
-// The paid actions the panel offers. Job ids and titles are the ones listed in the free catalog
-// (GET /v1/catalog/overview?depth=jobs), checked on 2026-10-08.
+// The paid lookups the panel offers, in display order. Job ids are the ones listed in the free
+// catalog (GET /v1/catalog/overview?depth=jobs), checked on 2026-11-01. Titles and hints are
+// message keys in public/_locales.
+
+export type ActionId = "company" | "whois" | "tech" | "traffic" | "seo" | "email";
 
 export interface Action {
-  id: "company" | "email" | "tech";
-  title: string;
-  hint: string;
+  id: ActionId;
+  /** Message key prefix: `<key>Title` and `<key>Hint`. */
+  key: string;
   /** Jobs this action may run, in order. Each is one confirmed, capped call. */
   jobs: string[];
 }
 
 export const JOB_COMPANY = "company.enrich";
+export const JOB_WHOIS = "domain.whois.lookup";
+export const JOB_TECH = "company.technographics";
+export const JOB_TRAFFIC = "company.traffic";
+export const JOB_SEO = "backlinks.domain.summary";
 export const JOB_EMAIL_FIND = "people.email.find";
 export const JOB_EMAIL_VERIFY = "people.email.verify";
-export const JOB_TECH = "company.technographics";
-
-export const ALL_JOBS = [JOB_COMPANY, JOB_EMAIL_FIND, JOB_EMAIL_VERIFY, JOB_TECH];
 
 export const ACTIONS: Action[] = [
-  { id: "company", title: "Enrich this company", hint: "Name, industry, size, country and LinkedIn from the domain.", jobs: [JOB_COMPANY] },
-  { id: "email", title: "Find work email", hint: "A person's work address at this domain, then a deliverability check.", jobs: [JOB_EMAIL_FIND, JOB_EMAIL_VERIFY] },
-  { id: "tech", title: "Tech stack", hint: "The technologies this company's website uses.", jobs: [JOB_TECH] },
+  { id: "company", key: "actionCompany", jobs: [JOB_COMPANY] },
+  { id: "whois", key: "actionWhois", jobs: [JOB_WHOIS] },
+  { id: "tech", key: "actionTech", jobs: [JOB_TECH] },
+  { id: "traffic", key: "actionTraffic", jobs: [JOB_TRAFFIC] },
+  { id: "seo", key: "actionSeo", jobs: [JOB_SEO] },
+  { id: "email", key: "actionEmail", jobs: [JOB_EMAIL_FIND, JOB_EMAIL_VERIFY] },
 ];
+
+export const ALL_JOBS = [...new Set(ACTIONS.flatMap((a) => a.jobs))];
 
 /** A new idempotency key for one confirmed step. */
 export function newKey(job: string, uuid: () => string = () => crypto.randomUUID()): string {

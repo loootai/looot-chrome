@@ -1,5 +1,7 @@
 // Money and price labels. Catalog prices go down to fractions of a cent, so small amounts keep
-// up to six decimals instead of rounding to $0.00.
+// up to six decimals instead of rounding to $0.00. Words come from the message files.
+
+import { t } from "./i18n";
 
 /** "$0", "$0.0019", "$0.003598", "$0.05", "$1.20". */
 export function usd(n: number | null | undefined): string {
@@ -17,22 +19,20 @@ export function usd(n: number | null | undefined): string {
 
 /** Price of one public catalog item, e.g. "$0.0048 per call". */
 export function itemPrice(price: { state?: string; amountMicros?: number | null; unit?: string } | null | undefined): string {
-  if (!price || price.state !== "known" || price.amountMicros === null || price.amountMicros === undefined) return "price not listed";
-  const unit = price.unit === "result" ? "result" : price.unit ?? "call";
-  if (price.amountMicros === 0) return `free per ${unit}`;
-  return `${usd(price.amountMicros / 1_000_000)} per ${unit}`;
+  if (!price || price.state !== "known" || price.amountMicros === null || price.amountMicros === undefined) return t("priceNotListed");
+  const perResult = price.unit === "result";
+  if (price.amountMicros === 0) return t(perResult ? "freePerResult" : "freePerCall");
+  return t(perResult ? "pricePerResult" : "pricePerCall", usd(price.amountMicros / 1_000_000));
 }
 
 /** Cheapest listed price for a job, e.g. "from $0.0019 per call". */
 export function jobFrom(p: { cheapestPerCall: number | null; cheapestPerResult: number | null } | undefined): string {
-  if (!p) return "price loading";
-  if (p.cheapestPerCall !== null && p.cheapestPerCall > 0) return `from ${usd(p.cheapestPerCall)} per call`;
-  if (p.cheapestPerCall === 0 && p.cheapestPerResult !== null && p.cheapestPerResult > 0) {
-    return `free with one provider, others from ${usd(p.cheapestPerResult)} per result`;
-  }
-  if (p.cheapestPerCall === 0) return "free with the cheapest provider";
-  if (p.cheapestPerResult !== null) return `from ${usd(p.cheapestPerResult)} per result`;
-  return "price not listed";
+  if (!p) return t("priceLoading");
+  if (p.cheapestPerCall !== null && p.cheapestPerCall > 0) return t("fromPerCall", usd(p.cheapestPerCall));
+  if (p.cheapestPerCall === 0 && p.cheapestPerResult !== null && p.cheapestPerResult > 0) return t("freeOneProvider", usd(p.cheapestPerResult));
+  if (p.cheapestPerCall === 0) return t("freeCheapest");
+  if (p.cheapestPerResult !== null) return t("fromPerResult", usd(p.cheapestPerResult));
+  return t("priceNotListed");
 }
 
 /** Parses a dollar field such as "0.05" or "$0.50". Returns null when it is not a positive amount. */
