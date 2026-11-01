@@ -1,15 +1,15 @@
 {
   "extName": {
-    "message": "looot Bedrijf opzoeken: van wie is deze website, techstack, verkeer"
+    "message": "Whozit: van wie is deze website, bedrijf opzoeken en e-mail"
   },
   "extShortName": {
-    "message": "looot"
+    "message": "Whozit"
   },
   "extDescription": {
-    "message": "Bedrijfsinfo van de open website: eigenaar, techstack, verkeer, backlinks, WHOIS, zakelijke e-mail. Prijs vóór elke oproep."
+    "message": "Info over site en mensen: eigenaar van de website, bedrijf, techstack, verkeer, LinkedIn-profiel, zakelijke e-mail, nieuws."
   },
   "actionTitle": {
-    "message": "looot openen"
+    "message": "Whozit openen"
   },
   "siteLabel": {
     "message": "Website"
@@ -46,9 +46,6 @@
   },
   "siteTyped": {
     "message": "Getypt domein"
-  },
-  "siteTab": {
-    "message": "Dit tabblad"
   },
   "domainChangeLabel": {
     "message": "Domein wijzigen"
@@ -90,7 +87,7 @@
     "message": "Zakelijk e-mailadres vinden"
   },
   "actionEmailHint": {
-    "message": "Het adres van een persoon op dit domein, daarna een controle op bezorgbaarheid."
+    "message": "Op basis van een naam op dit domein of het open LinkedIn-profiel, daarna een controle op bezorgbaarheid."
   },
   "needTokenTitle": {
     "message": "Opzoekingen hebben je looot-sleutel nodig"
@@ -116,9 +113,6 @@
   "priceUnavailable": {
     "message": "prijs niet beschikbaar"
   },
-  "nameError": {
-    "message": "Vul een voor- en achternaam in."
-  },
   "firstName": {
     "message": "Voornaam"
   },
@@ -127,9 +121,6 @@
   },
   "seePrice": {
     "message": "Prijs bekijken"
-  },
-  "needsDomain": {
-    "message": "Een bedrijfsdomein is nodig."
   },
   "overCap": {
     "message": "De goedkoopste oproep kost $p1$, boven je limiet van $p2$ per oproep.",
@@ -147,14 +138,6 @@
   },
   "confirmLabel": {
     "message": "Bevestigen: $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "confirmPerson": {
-    "message": "$p1$ bij",
     "placeholders": {
       "p1": {
         "content": "$1"
@@ -224,49 +207,6 @@
         "content": "$1"
       }
     }
-  },
-  "runningCompany": {
-    "message": "Bedrijf achter $p1$ opzoeken",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningWhois": {
-    "message": "Domeinregistratie van $p1$ lezen",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningTech": {
-    "message": "Techstack van $p1$ lezen",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningTraffic": {
-    "message": "Verkeer van $p1$ schatten",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningSeo": {
-    "message": "Backlinks naar $p1$ tellen",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningEmail": {
-    "message": "Adres zoeken"
   },
   "runningVerify": {
     "message": "$p1$ controleren",
@@ -678,5 +618,154 @@
   },
   "freeCheapest": {
     "message": "gratis bij de goedkoopste aanbieder"
+  },
+  "kindCompany": {
+    "message": "Bedrijfswebsite"
+  },
+  "kindTeam": {
+    "message": "Teampagina"
+  },
+  "kindArticle": {
+    "message": "Artikel"
+  },
+  "kindLinkedinPerson": {
+    "message": "LinkedIn-profiel"
+  },
+  "kindLinkedinCompany": {
+    "message": "LinkedIn-bedrijfspagina"
+  },
+  "kindNone": {
+    "message": "Geen website"
+  },
+  "moreLookups": {
+    "message": "Meer opzoekingen ($p1$)",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "fewerLookups": {
+    "message": "Minder opzoekingen"
+  },
+  "fieldsError": {
+    "message": "Vul alle velden in."
+  },
+  "actionNewsTitle": {
+    "message": "Recent nieuws"
+  },
+  "actionNewsHint": {
+    "message": "Nieuwsartikelen over het bedrijf of de persoon."
+  },
+  "actionLinkedinTitle": {
+    "message": "LinkedIn-profiel"
+  },
+  "actionLinkedinHint": {
+    "message": "Kopregel, huidige functie, locatie, volgers en opleiding van een openbaar profiel."
+  },
+  "actionVerifyTitle": {
+    "message": "E-mail controleren"
+  },
+  "actionVerifyHint": {
+    "message": "Controleert of een adres bezorgbaar is: geldig, ongeldig, catch-all of riskant."
+  },
+  "fieldQuery": {
+    "message": "Zoeken naar"
+  },
+  "fieldProfileUrl": {
+    "message": "URL van het LinkedIn-profiel"
+  },
+  "fieldEmail": {
+    "message": "E-mailadres"
+  },
+  "fieldHeadline": {
+    "message": "Kopregel"
+  },
+  "fieldRole": {
+    "message": "Huidige functie"
+  },
+  "fieldLocation": {
+    "message": "Locatie"
+  },
+  "fieldFollowers": {
+    "message": "Volgers"
+  },
+  "fieldSchool": {
+    "message": "Opleiding"
+  },
+  "emptyNews": {
+    "message": "Geen nieuws gevonden voor deze zoekopdracht."
+  },
+  "running_company": {
+    "message": "Bedrijf achter $p1$ opzoeken",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_whois": {
+    "message": "Domeinregistratie van $p1$ lezen",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_tech": {
+    "message": "Techstack van $p1$ lezen",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_traffic": {
+    "message": "Verkeer van $p1$ schatten",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_seo": {
+    "message": "Backlinks naar $p1$ tellen",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_news": {
+    "message": "Nieuws zoeken over $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_linkedin": {
+    "message": "Profiel $p1$ lezen",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_email": {
+    "message": "Adres zoeken: $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_verify": {
+    "message": "$p1$ controleren",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
   }
 }

@@ -3,11 +3,12 @@
 // string is a message key in public/_locales.
 
 import { createClient, LoootError, type CatalogItem, type JobPrice, type Run } from "../lib/api";
-import { ACTIONS, ALL_JOBS, JOB_COMPANY, JOB_EMAIL_FIND, JOB_EMAIL_VERIFY, JOB_SEO, JOB_TECH, JOB_TRAFFIC, JOB_WHOIS, newKey, type Action, type ActionId } from "../lib/actions";
-import { domainFromInput, domainFromUrl } from "../lib/domain";
+import { ACTIONS, ALL_JOBS, actionsFor, JOB_EMAIL_VERIFY, missing, newKey, PRIMARY_COUNT, type Action, type ActionId } from "../lib/actions";
+import { domainFromInput } from "../lib/domain";
+import { detectPage, type Page, type PageKind } from "../lib/page";
 import { itemPrice, jobFrom, parseUsd, usd } from "../lib/format";
 import { t, uiLang } from "../lib/i18n";
-import { readCompany, readEmail, readSeo, readStatus, readTechnologies, readTraffic, readWhois, type Field } from "../lib/read";
+import { readCompany, readEmail, readLinkedIn, readNews, readSeo, readStatus, readTechnologies, readTraffic, readWhois, type Field, type NewsItem } from "../lib/read";
 import { runStep, type StepResult } from "../lib/runner";
 import { EMPTY_SPEND, left, type Spend } from "../lib/spend";
 import { DEFAULTS, loadSettings, loadSpend, saveLimits, saveSpend, saveToken, type Area, type Settings } from "../lib/store";
@@ -15,9 +16,9 @@ import { h, icon, ICONS, mount, type Child } from "./dom";
 
 type Phase =
   | { kind: "idle" }
-  | { kind: "confirm"; domain: string; keys: Record<string, string>; first?: string; last?: string }
+  | { kind: "confirm"; target: string; input: Record<string, string>; keys: Record<string, string> }
   | { kind: "running"; label: string }
-  | { kind: "done"; domain: string; steps: StepResult[]; fields: Field[]; chips: string[]; headline: string; note: string }
+  | { kind: "done"; steps: StepResult[]; fields: Field[]; chips: string[]; news: NewsItem[]; headline: string; note: string }
   | { kind: "error"; message: string; topUpUrl?: string; retry?: Phase };
 
 const local: Area = chrome.storage.local;
@@ -28,12 +29,13 @@ const state = {
   spend: { ...EMPTY_SPEND } as Spend,
   prices: null as Record<string, JobPrice> | null,
   pricesError: false,
-  tabDomain: null as string | null,
+  tabPage: detectPage(null) as Page,
   manualDomain: null as string | null,
   editingDomain: false,
+  showMore: false,
   balance: null as number | null,
   phases: Object.fromEntries(ACTIONS.map((a) => [a.id, { kind: "idle" }])) as Record<ActionId, Phase>,
-  person: { first: "", last: "" },
+  form: Object.fromEntries(ACTIONS.map((a) => [a.id, {}])) as Record<ActionId, Record<string, string>>,
   catalog: { q: "", status: "idle" as "idle" | "loading" | "done" | "error", items: [] as CatalogItem[], seq: 0 },
   settingsNote: "" as string,
 };
@@ -41,18 +43,26 @@ const state = {
 const client = createClient({ getToken: async () => state.settings.token });
 
 const $ = (id: string) => document.getElementById(id) as HTMLElement;
-const domain = () => state.manualDomain ?? state.tabDomain;
-const ACTION_ICONS: Record<ActionId, string> = { company: ICONS.building, whois: ICONS.id, tech: ICONS.layers, traffic: ICONS.chart, seo: ICONS.link, email: ICONS.mail };
+/** The page the lookups use: the open tab, or a typed domain treated as a company site. */
+const page = (): Page => (state.manualDomain ? { kind: "company", domain: state.manualDomain, linkedinUrl: null, name: "" } : state.tabPage);
+const ACTION_ICONS: Record<ActionId, string> = {
+  company: ICONS.building, whois: ICONS.id, tech: ICONS.layers, traffic: ICONS.chart, seo: ICONS.link,
+  news: ICONS.news, linkedin: ICONS.user, email: ICONS.mail, verify: ICONS.check,
+};
+const KIND_KEYS: Record<PageKind, string> = {
+  company: "kindCompany", team: "kindTeam", article: "kindArticle", linkedinPerson: "kindLinkedinPerson", linkedinCompany: "kindLinkedinCompany", none: "kindNone",
+};
 const LOCALE = uiLang();
 
 // ---------- site bar ----------
 
 function renderSite(): void {
-  const d = domain();
-  if (state.editingDomain || !d) {
+  const p = page();
+  const label = p.domain ?? p.name ?? "";
+  if (state.editingDomain || (p.kind === "none" && !state.manualDomain)) {
     const input = h("input", {
       id: "domain-input", type: "text", inputmode: "url", autocomplete: "off", spellcheck: "false",
-      placeholder: t("domainPlaceholder"), value: d ?? "", "aria-describedby": "domain-help",
+      placeholder: t("domainPlaceholder"), value: state.manualDomain ?? p.domain ?? "", "aria-describedby": "domain-help",
     });
     const error = h("p", { class: "field-error", role: "alert", hidden: true }, t("domainError"));
     const submit = (e: Event) => {
@@ -75,20 +85,20 @@ function renderSite(): void {
         h("label", { for: "domain-input" }, t("domainLabel")),
         h("div", { class: "row" }, input, h("button", { class: "btn", type: "submit" }, t("domainUse"))),
         error,
-        h("p", { id: "domain-help", class: "help" },
-          d ? t("domainOverride") : t("domainNone")),
+        h("p", { id: "domain-help", class: "help" }, p.kind !== "none" ? t("domainOverride") : t("domainNone")),
       ),
     );
     if (state.editingDomain) input.focus();
     return;
   }
+  const shown = p.kind === "linkedinPerson" || p.kind === "linkedinCompany" ? p.name || (p.linkedinUrl ?? "").replace(/^https:\/\/www\./, "") : label;
   mount(
     $("site"),
     h("div", { class: "site-chip" },
-      h("span", { class: "site-icon" }, icon(ICONS.globe)),
+      h("span", { class: "site-icon" }, icon(p.kind === "linkedinPerson" ? ICONS.user : ICONS.globe)),
       h("div", { class: "site-text" },
-        h("span", { class: "eyebrow" }, state.manualDomain ? t("siteTyped") : t("siteTab")),
-        h("span", { class: "domain", title: d }, d),
+        h("span", { class: "eyebrow" }, state.manualDomain ? t("siteTyped") : t(KIND_KEYS[p.kind])),
+        h("span", { class: "domain", title: shown }, shown),
       ),
       h("button", {
         class: "btn ghost small", type: "button", "aria-label": t("domainChangeLabel"),
@@ -99,19 +109,23 @@ function renderSite(): void {
 }
 
 async function readTab(): Promise<void> {
-  let next: string | null = null;
+  let next = detectPage(null);
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    next = domainFromUrl(tab?.url);
+    next = detectPage(tab?.url, tab?.title);
   } catch {
-    next = null;
+    // No tab access: keep the empty page.
   }
-  if (next === state.tabDomain) return;
-  const changed = next !== domain();
-  state.tabDomain = next;
+  const prev = state.tabPage;
+  if (next.kind === prev.kind && next.domain === prev.domain && next.linkedinUrl === prev.linkedinUrl && next.name === prev.name) return;
+  const changed = next.domain !== prev.domain || next.linkedinUrl !== prev.linkedinUrl || next.kind !== prev.kind;
+  state.tabPage = next;
   state.manualDomain = null;
   state.editingDomain = false;
-  if (changed) resetPhases();
+  if (changed) {
+    resetPhases();
+    state.form = Object.fromEntries(ACTIONS.map((a) => [a.id, {}])) as Record<ActionId, Record<string, string>>;
+  }
   renderSite();
   renderLookup();
 }
@@ -152,7 +166,21 @@ function renderLookup(): void {
       ),
     );
   }
-  children.push(h("ul", { class: "actions" }, ...ACTIONS.map(renderAction)));
+  const list = actionsFor(page());
+  const primary = list.slice(0, PRIMARY_COUNT);
+  const rest = list.slice(PRIMARY_COUNT);
+  children.push(h("ul", { class: "actions" }, ...primary.map(renderAction)));
+  if (rest.length > 0) {
+    // A lookup in progress or with a result stays visible.
+    const open = state.showMore || rest.some((a) => state.phases[a.id].kind !== "idle");
+    children.push(
+      h("button", {
+        class: "btn ghost more", type: "button", "aria-expanded": String(open), id: "more-toggle",
+        onclick: () => { state.showMore = !open; renderLookup(); },
+      }, open ? t("fewerLookups") : t("moreLookups", rest.length)),
+    );
+    if (open) children.push(h("ul", { class: "actions" }, ...rest.map(renderAction)));
+  }
   mount(view, ...children);
 }
 
@@ -163,10 +191,10 @@ function priceLine(job: string): Child {
 
 function renderAction(action: Action): HTMLElement {
   const phase = state.phases[action.id];
-  const d = domain();
+  const p = page();
   const listed = state.prices?.[action.jobs[0]!]?.cheapestPerCall ?? null;
   const overCap = listed !== null && listed > state.settings.maxPerCall;
-  const ready = Boolean(state.settings.token && state.prices && d && !overCap);
+  const ready = Boolean(state.settings.token && state.prices && !overCap);
   const head = h("div", { class: "action-head" },
     h("span", { class: "action-icon" }, icon(ACTION_ICONS[action.id])),
     h("div", { class: "action-text" },
@@ -178,33 +206,32 @@ function renderAction(action: Action): HTMLElement {
   const body: Child[] = [];
 
   if (phase.kind === "idle") {
-    if (action.id === "email") {
-      const first = h("input", { id: "first-name", type: "text", autocomplete: "off", value: state.person.first, oninput: (e: Event) => { state.person.first = (e.target as HTMLInputElement).value; } });
-      const last = h("input", { id: "last-name", type: "text", autocomplete: "off", value: state.person.last, oninput: (e: Event) => { state.person.last = (e.target as HTMLInputElement).value; } });
-      const error = h("p", { class: "field-error", role: "alert", hidden: true }, t("nameError"));
-      body.push(
-        h("form", {
-          class: "stack",
-          onsubmit: (e: Event) => {
-            e.preventDefault();
-            const f = state.person.first.trim();
-            const l = state.person.last.trim();
-            if (!f || !l) { error.hidden = false; return; }
-            startConfirm(action, { first: f, last: l });
-          },
+    const fields = action.fields(p);
+    const values = state.form[action.id];
+    for (const f of fields) if (values[f.key] === undefined && f.prefill) values[f.key] = f.prefill(p);
+    const error = h("p", { class: "field-error", role: "alert", hidden: true }, t("fieldsError"));
+    const inputs = fields.map((f) =>
+      h("div", { class: "field" },
+        h("label", { for: `${action.id}-${f.key}` }, t(f.label)),
+        h("input", {
+          id: `${action.id}-${f.key}`, type: f.type, autocomplete: "off", spellcheck: "false", value: values[f.key] ?? "",
+          oninput: (e: Event) => { values[f.key] = (e.target as HTMLInputElement).value; },
+        }),
+      ));
+    body.push(
+      h("form", {
+        class: "stack",
+        onsubmit: (e: Event) => {
+          e.preventDefault();
+          if (missing(action, p, values).length > 0) { error.hidden = false; return; }
+          startConfirm(action);
         },
-          h("div", { class: "grid2" },
-            h("div", { class: "field" }, h("label", { for: "first-name" }, t("firstName")), first),
-            h("div", { class: "field" }, h("label", { for: "last-name" }, t("lastName")), last),
-          ),
-          error,
-          h("button", { class: "btn", type: "submit", disabled: !ready }, t("seePrice")),
-        ),
-      );
-    } else {
-      body.push(h("button", { class: "btn", type: "button", disabled: !ready, onclick: () => startConfirm(action, {}) }, t("seePrice")));
-    }
-    if (!d) body.push(h("p", { class: "help" }, t("needsDomain")));
+      },
+        inputs.length === 2 ? h("div", { class: "grid2" }, ...inputs) : inputs.length > 0 ? h("div", { class: "stack" }, ...inputs) : null,
+        error,
+        h("button", { class: "btn", type: "submit", disabled: !ready }, t("seePrice")),
+      ),
+    );
     if (overCap) {
       body.push(h("p", { class: "help warn-text" }, t("overCap", usd(listed), usd(state.settings.maxPerCall)), " ",
         h("button", { class: "linkish", type: "button", onclick: () => selectTab("settings") }, t("openSettings"))));
@@ -217,10 +244,7 @@ function renderAction(action: Action): HTMLElement {
     const most = cap * jobs.length;
     body.push(
       h("div", { class: "confirm", role: "group", "aria-label": t("confirmLabel", t(`${action.key}Title`)) },
-        h("p", { class: "confirm-target" },
-          action.id === "email" ? t("confirmPerson", `${phase.first} ${phase.last}`) : t("confirmOn"),
-          " ", h("span", { class: "domain" }, phase.domain),
-        ),
+        h("p", { class: "confirm-target" }, t("confirmOn"), " ", h("span", { class: "domain" }, phase.target)),
         h("ul", { class: "steps" },
           ...jobs.map((job, i) =>
             h("li", {},
@@ -265,14 +289,19 @@ function renderAction(action: Action): HTMLElement {
           ? h("dl", { class: "fields" }, ...phase.fields.flatMap((f) => [h("dt", {}, t(f.label)), h("dd", { title: f.value }, f.value)]))
           : null,
         phase.chips.length > 0 ? h("ul", { class: "chips" }, ...phase.chips.map((c) => h("li", {}, c))) : null,
+        phase.news.length > 0
+          ? h("ul", { class: "news" }, ...phase.news.map((n) =>
+            h("li", {},
+              h("a", { href: n.url, target: "_blank", rel: "noopener noreferrer" }, n.title),
+              h("span", { class: "help" }, [n.source, n.date].filter(Boolean).join(", ")),
+            )))
+          : null,
         h("div", { class: "receipt" },
           h("span", { class: "receipt-label" }, t("charged")),
           h("strong", { class: "mono" }, usd(total)),
           h("span", { class: "help" }, phase.steps.map((s) => s.run.route?.servedBy).filter(Boolean).join(", ")),
         ),
-        ...phase.steps.filter((s) => !s.settled).map(() =>
-          h("p", { class: "help" }, t("notSettled")),
-        ),
+        ...phase.steps.filter((s) => !s.settled).map(() => h("p", { class: "help" }, t("notSettled"))),
         h("details", {}, h("summary", {}, t("rawAnswer")), h("pre", {}, raw.length > 6000 ? raw.slice(0, 6000) + "\n..." : raw)),
         h("div", { class: "row" },
           copy,
@@ -307,13 +336,14 @@ function setPhase(id: ActionId, phase: Phase): void {
   renderLookup();
 }
 
-function startConfirm(action: Action, person: { first?: string; last?: string }): void {
-  const d = domain();
-  if (!d) return;
+function startConfirm(action: Action): void {
+  const p = page();
+  const input = action.input(p, state.form[action.id]);
+  const target = Object.values(input).filter(Boolean).join(" ").replace(/^https:\/\/www\./, "");
   // One key per step, made when the price is shown, so a double click cannot pay twice.
   const keys: Record<string, string> = {};
   for (const job of action.jobs) keys[job] = newKey(job);
-  setPhase(action.id, { kind: "confirm", domain: d, keys, ...person });
+  setPhase(action.id, { kind: "confirm", target, input, keys });
 }
 
 function safeUrl(u: string | undefined): string | undefined {
@@ -332,44 +362,44 @@ async function runAction(action: Action, phase: Extract<Phase, { kind: "confirm"
     setSpend: async (s: Spend) => { state.spend = s; renderMeter(); await saveSpend(session, s); },
   };
   const steps: StepResult[] = [];
-  const done = (fields: Field[], chips: string[], headline: string, note: string) =>
-    setPhase(action.id, { kind: "done", domain: phase.domain, steps, fields, chips, headline, note });
-  const one = async (job: string, label: string) => {
-    setPhase(action.id, { kind: "running", label });
-    const step = await runStep(deps, job, { domain: phase.domain }, phase.keys[job]!);
-    steps.push(step);
-    return step.run.status === "completed" ? step.run : null;
-  };
+  const done = (fields: Field[], chips: string[], headline: string, note: string, news: NewsItem[] = []) =>
+    setPhase(action.id, { kind: "done", steps, fields, chips, news, headline, note });
+  const job = action.jobs[0]!;
   const failed = () => describeFailure(steps[steps.length - 1]!.run);
   try {
+    setPhase(action.id, { kind: "running", label: t(`running_${action.id}`, phase.target) });
+    const first = await runStep(deps, job, phase.input, phase.keys[job]!);
+    steps.push(first);
+    const run = first.run.status === "completed" ? first.run : null;
     if (action.id === "company") {
-      const run = await one(JOB_COMPANY, t("runningCompany", phase.domain));
       const fields = run ? readCompany(run) : [];
       const name = fields.find((f) => f.label === "fieldName")?.value ?? "";
       done(fields.filter((f) => f.label !== "fieldName"), [], name, !run ? failed() : fields.length === 0 ? t("emptyCompany") : "");
     } else if (action.id === "whois") {
-      const run = await one(JOB_WHOIS, t("runningWhois", phase.domain));
       const card = run ? readWhois(run) : { fields: [], chips: [], redacted: false };
       done(card.fields, card.chips, "", !run ? failed() : card.fields.length === 0 ? t("emptyAnswer") : card.redacted ? t("whoisRedacted") : "");
     } else if (action.id === "tech") {
-      const run = await one(JOB_TECH, t("runningTech", phase.domain));
       const names = run ? readTechnologies(run) : [];
       done([], names, names.length > 0 ? t("techCount", names.length) : "", !run ? failed() : names.length === 0 ? t("emptyTech") : "");
     } else if (action.id === "traffic") {
-      const run = await one(JOB_TRAFFIC, t("runningTraffic", phase.domain));
       const card = run ? readTraffic(run, LOCALE) : { fields: [], chips: [] };
       done(card.fields, card.chips, "", !run ? failed() : card.fields.length === 0 ? t("emptyAnswer") : t("trafficNote"));
     } else if (action.id === "seo") {
-      const run = await one(JOB_SEO, t("runningSeo", phase.domain));
       const card = run ? readSeo(run, LOCALE) : { fields: [], chips: [] };
       done(card.fields, [], "", !run ? failed() : card.fields.length === 0 ? t("emptyAnswer") : "");
+    } else if (action.id === "news") {
+      const items = run ? readNews(run) : [];
+      done([], [], "", !run ? failed() : items.length === 0 ? t("emptyNews") : "", items);
+    } else if (action.id === "linkedin") {
+      const card = run ? readLinkedIn(run, LOCALE) : { fields: [], chips: [], name: "" };
+      done(card.fields, [], card.name, !run ? failed() : card.fields.length === 0 && !card.name ? t("emptyAnswer") : "");
+    } else if (action.id === "verify") {
+      const status = run ? readStatus(run) : "";
+      done(status ? [{ label: "fieldCheck", value: t(`status_${status.replace("-", "")}`) }] : [], [], phase.input.email ?? "", !run ? failed() : status ? "" : t("emptyAnswer"));
     } else {
-      setPhase(action.id, { kind: "running", label: t("runningEmail") });
-      const find = await runStep(deps, JOB_EMAIL_FIND, { first_name: phase.first ?? "", last_name: phase.last ?? "", domain: phase.domain }, phase.keys[JOB_EMAIL_FIND]!);
-      steps.push(find);
-      const email = find.run.status === "completed" ? readEmail(find.run) : "";
+      const email = run ? readEmail(run) : "";
       if (!email) {
-        done([], [], "", find.run.status !== "completed" ? describeFailure(find.run) : t("emptyEmail"));
+        done([], [], "", !run ? failed() : t("emptyEmail"));
         return;
       }
       setPhase(action.id, { kind: "running", label: t("runningVerify", email) });

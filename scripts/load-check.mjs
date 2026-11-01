@@ -28,8 +28,8 @@ try {
   const manifest = await page.evaluate(() => chrome.runtime.getManifest());
   console.log(`manifest: v${manifest.manifest_version} "${manifest.name}" ${manifest.version}`);
   console.log(`permissions: ${manifest.permissions.join(", ")} | hosts: ${manifest.host_permissions.join(", ")}`);
-  await page.waitForSelector("#action-company .price:not(.skeleton)", { timeout: 20_000 });
-  console.log(`live price line: ${await page.textContent("#action-company .price")}`);
+  await page.waitForSelector("#action-verify .price:not(.skeleton)", { timeout: 20_000 });
+  console.log(`live price line: ${await page.textContent("#action-verify .price")}`);
   await page.click("#tab-catalog");
   await page.fill("#catalog-q", "verify email");
   await page.waitForSelector(".results .result-row:not(.skeleton-row)", { timeout: 20_000 });

@@ -1,6 +1,6 @@
 {
   "name": "looot-chrome",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Chrome side panel for looot: company lookup for the site you are on (who owns it, tech stack, traffic, SEO, WHOIS, work email), in 7 languages.",
   "private": true,
   "type": "module",

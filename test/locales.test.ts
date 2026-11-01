@@ -31,14 +31,16 @@ describe("locales", () => {
       const m = load(lang);
       expect([...m.extName!.message].length, lang).toBeLessThanOrEqual(75);
       expect([...m.extDescription!.message].length, lang).toBeLessThanOrEqual(132);
-      expect(m.extName!.message.startsWith("looot "), lang).toBe(true);
+      expect(m.extName!.message.startsWith("Whozit"), lang).toBe(true);
     }
   });
 
   it("defines every key the code and page ask for", () => {
     const code = sources("src").map((f) => readFileSync(f, "utf8")).join("\n") + readFileSync("public/sidepanel.html", "utf8");
     const used = new Set([...code.matchAll(/\bt\("([A-Za-z0-9_]+)"/g), ...code.matchAll(/data-i18n(?:-label)?="([A-Za-z0-9_]+)"/g), ...code.matchAll(/"(field[A-Z][A-Za-z]+)"/g)].map((m) => m[1]!));
-    for (const a of ["actionCompany", "actionWhois", "actionTech", "actionTraffic", "actionSeo", "actionEmail"]) used.add(`${a}Title`).add(`${a}Hint`);
+    for (const a of ["actionCompany", "actionWhois", "actionTech", "actionTraffic", "actionSeo", "actionNews", "actionLinkedin", "actionEmail", "actionVerify"]) used.add(`${a}Title`).add(`${a}Hint`);
+    for (const id of ["company", "whois", "tech", "traffic", "seo", "news", "linkedin", "email", "verify"]) used.add(`running_${id}`);
+    for (const k of ["kindCompany", "kindTeam", "kindArticle", "kindLinkedinPerson", "kindLinkedinCompany", "kindNone", "fieldQuery", "fieldProfileUrl", "fieldEmail", "firstName", "lastName"]) used.add(k);
     for (const s of ["valid", "invalid", "catchall", "risky", "unknown"]) used.add(`status_${s}`);
     for (let i = 1; i <= 6; i++) used.add(`suggest${i}`);
     for (const key of used) expect(en[key], key).toBeDefined();

@@ -37,10 +37,11 @@ describe("source", () => {
       expect(text, file).not.toMatch(/console\.|\beval\(|new Function\(|innerHTML|storage\.sync/);
     }
   });
+  // www.linkedin.com appears only as text: the canonical profile URL sent to looot as an input.
   it("names no host other than looot's", () => {
     for (const [file, text] of files) {
       const hosts = [...text.matchAll(/https?:\/\/([a-z0-9.-]+)/g)].map((m) => m[1]!);
-      for (const host of hosts) expect(["api.looot.ai", "looot.ai", "docs.looot.ai", "github.com", "www.w3.org", "example.com", "www.example.com"], `${file}: ${host}`).toContain(host);
+      for (const host of hosts) expect(["api.looot.ai", "looot.ai", "docs.looot.ai", "github.com", "www.w3.org", "example.com", "www.example.com", "www.linkedin.com"], `${file}: ${host}`).toContain(host);
     }
   });
 });

@@ -180,9 +180,9 @@ describe("store", () => {
 });
 
 describe("actions", () => {
-  it("uses the seven job ids listed in the catalog", () => {
-    expect(ALL_JOBS).toEqual(["company.enrich", "domain.whois.lookup", "company.technographics", "company.traffic", "backlinks.domain.summary", "people.email.find", "people.email.verify"]);
-    expect(ACTIONS.map((a) => a.id)).toEqual(["company", "whois", "tech", "traffic", "seo", "email"]);
+  it("uses the nine job ids listed in the catalog", () => {
+    expect(ALL_JOBS).toEqual(["company.enrich", "domain.whois.lookup", "company.technographics", "company.traffic", "backlinks.domain.summary", "news.search", "linkedin.person.profile", "people.email.find", "people.email.verify"]);
+    expect(ACTIONS.map((a) => a.id)).toEqual(["company", "whois", "tech", "traffic", "seo", "news", "linkedin", "email", "verify"]);
   });
   it("makes a new idempotency key per confirmed step", () => {
     const a = newKey("company.enrich");

@@ -1,15 +1,15 @@
 {
   "extName": {
-    "message": "looot Pesquisa de empresas: de quem é este site, tecnologia, tráfego"
+    "message": "Whozit: de quem é este site, pesquisa de empresas e e-mail"
   },
   "extShortName": {
-    "message": "looot"
+    "message": "Whozit"
   },
   "extDescription": {
-    "message": "Empresa do site aberto: dono, tecnologias, tráfego, backlinks, WHOIS, e-mails de trabalho. Preço antes de cada consulta."
+    "message": "Dados do site e de pessoas: dono do site, empresa, tecnologias, tráfego, perfil do LinkedIn, e-mail de trabalho, notícias."
   },
   "actionTitle": {
-    "message": "Abrir looot"
+    "message": "Abrir Whozit"
   },
   "siteLabel": {
     "message": "Site"
@@ -46,9 +46,6 @@
   },
   "siteTyped": {
     "message": "Domínio digitado"
-  },
-  "siteTab": {
-    "message": "Esta aba"
   },
   "domainChangeLabel": {
     "message": "Mudar domínio"
@@ -90,7 +87,7 @@
     "message": "Encontrar um e-mail de trabalho"
   },
   "actionEmailHint": {
-    "message": "O endereço de uma pessoa neste domínio e depois uma verificação de entrega."
+    "message": "A partir de um nome neste domínio ou do perfil do LinkedIn aberto, depois uma verificação de entrega."
   },
   "needTokenTitle": {
     "message": "As consultas precisam da sua chave looot"
@@ -116,9 +113,6 @@
   "priceUnavailable": {
     "message": "preço indisponível"
   },
-  "nameError": {
-    "message": "Digite nome e sobrenome."
-  },
   "firstName": {
     "message": "Nome"
   },
@@ -127,9 +121,6 @@
   },
   "seePrice": {
     "message": "Ver preço"
-  },
-  "needsDomain": {
-    "message": "Precisa de um domínio de empresa."
   },
   "overCap": {
     "message": "A consulta mais barata custa $p1$, acima do seu limite de $p2$ por consulta.",
@@ -147,14 +138,6 @@
   },
   "confirmLabel": {
     "message": "Confirmar: $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "confirmPerson": {
-    "message": "$p1$ em",
     "placeholders": {
       "p1": {
         "content": "$1"
@@ -224,49 +207,6 @@
         "content": "$1"
       }
     }
-  },
-  "runningCompany": {
-    "message": "Buscando a empresa por trás de $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningWhois": {
-    "message": "Lendo o registro de $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningTech": {
-    "message": "Lendo as tecnologias de $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningTraffic": {
-    "message": "Estimando o tráfego de $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningSeo": {
-    "message": "Contando backlinks de $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningEmail": {
-    "message": "Procurando o endereço"
   },
   "runningVerify": {
     "message": "Verificando $p1$",
@@ -678,5 +618,154 @@
   },
   "freeCheapest": {
     "message": "grátis com o provedor mais barato"
+  },
+  "kindCompany": {
+    "message": "Site de empresa"
+  },
+  "kindTeam": {
+    "message": "Página da equipe"
+  },
+  "kindArticle": {
+    "message": "Artigo"
+  },
+  "kindLinkedinPerson": {
+    "message": "Perfil do LinkedIn"
+  },
+  "kindLinkedinCompany": {
+    "message": "Página de empresa no LinkedIn"
+  },
+  "kindNone": {
+    "message": "Sem site"
+  },
+  "moreLookups": {
+    "message": "Mais consultas ($p1$)",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "fewerLookups": {
+    "message": "Menos consultas"
+  },
+  "fieldsError": {
+    "message": "Preencha todos os campos."
+  },
+  "actionNewsTitle": {
+    "message": "Notícias recentes"
+  },
+  "actionNewsHint": {
+    "message": "Matérias sobre a empresa ou a pessoa."
+  },
+  "actionLinkedinTitle": {
+    "message": "Perfil do LinkedIn"
+  },
+  "actionLinkedinHint": {
+    "message": "Título, cargo atual, local, seguidores e formação de um perfil público."
+  },
+  "actionVerifyTitle": {
+    "message": "Verificar um e-mail"
+  },
+  "actionVerifyHint": {
+    "message": "Verifica se um endereço é entregável: válido, inválido, catch-all ou arriscado."
+  },
+  "fieldQuery": {
+    "message": "Pesquisar"
+  },
+  "fieldProfileUrl": {
+    "message": "URL do perfil do LinkedIn"
+  },
+  "fieldEmail": {
+    "message": "Endereço de e-mail"
+  },
+  "fieldHeadline": {
+    "message": "Título"
+  },
+  "fieldRole": {
+    "message": "Cargo atual"
+  },
+  "fieldLocation": {
+    "message": "Local"
+  },
+  "fieldFollowers": {
+    "message": "Seguidores"
+  },
+  "fieldSchool": {
+    "message": "Formação"
+  },
+  "emptyNews": {
+    "message": "Nenhuma notícia encontrada para esta pesquisa."
+  },
+  "running_company": {
+    "message": "Buscando a empresa por trás de $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_whois": {
+    "message": "Lendo o registro de $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_tech": {
+    "message": "Lendo as tecnologias de $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_traffic": {
+    "message": "Estimando o tráfego de $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_seo": {
+    "message": "Contando backlinks de $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_news": {
+    "message": "Buscando notícias de $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_linkedin": {
+    "message": "Lendo o perfil $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_email": {
+    "message": "Procurando o endereço: $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_verify": {
+    "message": "Verificando $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
   }
 }

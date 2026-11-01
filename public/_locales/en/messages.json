@@ -1,15 +1,15 @@
 {
   "extName": {
-    "message": "looot Company Lookup: Who Owns This Website, Tech Stack & Traffic"
+    "message": "Whozit: Who Owns This Website, Company Lookup & Email Finder"
   },
   "extShortName": {
-    "message": "looot"
+    "message": "Whozit"
   },
   "extDescription": {
-    "message": "Company lookup for the site you're on: who owns it, tech stack, traffic, backlinks, WHOIS, work email. Price shown before each call."
+    "message": "Site and people intel on any page: who owns the website, company, tech stack, traffic, LinkedIn profile, work email, news."
   },
   "actionTitle": {
-    "message": "Open looot Company Lookup"
+    "message": "Open Whozit"
   },
   "siteLabel": {
     "message": "Site"
@@ -46,9 +46,6 @@
   },
   "siteTyped": {
     "message": "Typed domain"
-  },
-  "siteTab": {
-    "message": "This tab"
   },
   "domainChangeLabel": {
     "message": "Change domain"
@@ -90,7 +87,7 @@
     "message": "Find a work email"
   },
   "actionEmailHint": {
-    "message": "A person's address at this domain, then a deliverability check."
+    "message": "From a name at this domain, or from the LinkedIn profile you are on, then a deliverability check."
   },
   "needTokenTitle": {
     "message": "Lookups need your looot key"
@@ -116,9 +113,6 @@
   "priceUnavailable": {
     "message": "price unavailable"
   },
-  "nameError": {
-    "message": "Enter a first and a last name."
-  },
   "firstName": {
     "message": "First name"
   },
@@ -127,9 +121,6 @@
   },
   "seePrice": {
     "message": "See price"
-  },
-  "needsDomain": {
-    "message": "Needs a company domain."
   },
   "overCap": {
     "message": "The cheapest call is $p1$, above your $p2$ cap per call.",
@@ -147,14 +138,6 @@
   },
   "confirmLabel": {
     "message": "Confirm $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "confirmPerson": {
-    "message": "$p1$ at",
     "placeholders": {
       "p1": {
         "content": "$1"
@@ -224,49 +207,6 @@
         "content": "$1"
       }
     }
-  },
-  "runningCompany": {
-    "message": "Looking up the company behind $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningWhois": {
-    "message": "Reading the domain record of $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningTech": {
-    "message": "Reading the stack of $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningTraffic": {
-    "message": "Estimating the traffic of $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningSeo": {
-    "message": "Counting backlinks to $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningEmail": {
-    "message": "Looking for the address"
   },
   "runningVerify": {
     "message": "Checking $p1$",
@@ -678,5 +618,154 @@
   },
   "freeCheapest": {
     "message": "free with the cheapest provider"
+  },
+  "kindCompany": {
+    "message": "Company website"
+  },
+  "kindTeam": {
+    "message": "Team page"
+  },
+  "kindArticle": {
+    "message": "Article"
+  },
+  "kindLinkedinPerson": {
+    "message": "LinkedIn profile"
+  },
+  "kindLinkedinCompany": {
+    "message": "LinkedIn company page"
+  },
+  "kindNone": {
+    "message": "No site"
+  },
+  "moreLookups": {
+    "message": "More lookups ($p1$)",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "fewerLookups": {
+    "message": "Fewer lookups"
+  },
+  "fieldsError": {
+    "message": "Fill in every field."
+  },
+  "actionNewsTitle": {
+    "message": "Recent news"
+  },
+  "actionNewsHint": {
+    "message": "News articles about the company or person."
+  },
+  "actionLinkedinTitle": {
+    "message": "LinkedIn profile"
+  },
+  "actionLinkedinHint": {
+    "message": "Headline, current role, location, followers and school from a public profile."
+  },
+  "actionVerifyTitle": {
+    "message": "Verify an email"
+  },
+  "actionVerifyHint": {
+    "message": "Check if an address is deliverable: valid, invalid, catch-all or risky."
+  },
+  "fieldQuery": {
+    "message": "Search for"
+  },
+  "fieldProfileUrl": {
+    "message": "LinkedIn profile URL"
+  },
+  "fieldEmail": {
+    "message": "Email address"
+  },
+  "fieldHeadline": {
+    "message": "Headline"
+  },
+  "fieldRole": {
+    "message": "Current role"
+  },
+  "fieldLocation": {
+    "message": "Location"
+  },
+  "fieldFollowers": {
+    "message": "Followers"
+  },
+  "fieldSchool": {
+    "message": "School"
+  },
+  "emptyNews": {
+    "message": "No news found for this search."
+  },
+  "running_company": {
+    "message": "Looking up the company behind $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_whois": {
+    "message": "Reading the domain record of $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_tech": {
+    "message": "Reading the stack of $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_traffic": {
+    "message": "Estimating the traffic of $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_seo": {
+    "message": "Counting backlinks to $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_news": {
+    "message": "Searching news for $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_linkedin": {
+    "message": "Reading the profile $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_email": {
+    "message": "Looking for the address: $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_verify": {
+    "message": "Checking $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
   }
 }

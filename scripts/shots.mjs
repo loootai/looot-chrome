@@ -28,6 +28,12 @@ const RUNS = {
   "job:company.traffic": { actualCost: 0.06532, result: { siteOverview: { category: "sports", globalRank: { rank: 184210 }, countryRank: { rank: 2140, countryCode: "NO" }, engagements: { visits: "61400", bounceRate: "0.41", timeOnSite: "204", pagePerVisit: "4.1" }, trafficSources: { SearchOrganic: 0.46, Direct: 0.29, SocialOrganic: 0.11, Referrals: 0.08, Mail: 0.04, SearchPaid: 0.02 } } } },
   "job:backlinks.domain.summary": { actualCost: 0.024, normalized: { fields: { rank: 212, backlinks: 18400, referringDomains: 1310 } }, result: { items: [{ backlinks_spam_score: 2, first_seen: "2014-06-20 10:00:00 +00:00" }] } },
   "job:people.email.find": { actualCost: 0.003598, result: { email: `ingrid.solberg@${SITE}` } },
+  "job:linkedin.person.profile": { actualCost: 0.0015, result: { output: { found: true, data: { name: "Ingrid Solberg", headline: "Head of Partnerships at Halden Cycles", location: "Bergen, Norway", followers: 2310, currentPosition: [{ position: "Head of Partnerships", companyName: "Halden Cycles" }], education: [{ school: "Example University" }], about: "Builds dealer and touring partnerships across the Nordics." } } } },
+  "job:news.search": { actualCost: 0.00099, result: { output: { data: { items: [
+    { url: "https://news.example/halden-gravel", title: "Halden Cycles opens a second workshop in Bergen", source: "Example News", createdUtc: 1790000000 },
+    { url: "https://news.example/nordic-bikes", title: "Five Nordic bike makers building to order", source: "Example Cycling", createdUtc: 1787000000 },
+    { url: "https://news.example/touring-2026", title: "Touring bikes to watch in 2026", source: "Example Outdoors", createdUtc: 1781000000 },
+  ] } } } },
   "job:people.email.verify": { actualCost: 0.00145, result: { status: "valid" } },
 };
 
@@ -39,7 +45,7 @@ const money = (n) => `$${Number(n.toFixed(6))}`;
 console.log(`live prices: company ${PRICE["company.enrich"]}, traffic ${PRICE["company.traffic"]}, tech ${PRICE["company.technographics"]}, seo ${PRICE["backlinks.domain.summary"]}, email ${PRICE["people.email.find"]}`);
 
 // Runs in every frame before the page scripts. Only the panel iframe (it has ?scene=) is mocked.
-function mockChrome({ site, messages, lang }) {
+function mockChrome({ tab, messages, lang }) {
   const scene = new URLSearchParams(location.search).get("scene");
   if (!scene) return;
   const area = (data) => ({
@@ -59,7 +65,7 @@ function mockChrome({ site, messages, lang }) {
   const listener = { addListener() {} };
   window.chrome = {
     storage: { local: area(noToken ? {} : { token: "cs_ms_demo" }), session: area(sessionData) },
-    tabs: { query: async () => [{ url: `https://www.${site}/bikes` }], onActivated: listener, onUpdated: listener },
+    tabs: { query: async () => [tab], onActivated: listener, onUpdated: listener },
     runtime: { onMessage: listener, sendMessage: async () => undefined },
     i18n: { getMessage, getUILanguage: () => lang },
   };
@@ -71,9 +77,9 @@ const server = await serve(root);
 const browser = await pw.chromium.launch({ executablePath: pw.executablePath, headless: true });
 mkdirSync("store/screenshots", { recursive: true });
 
-async function open(params, viewport, { dark = false, lang = "en", video } = {}) {
+async function open(params, viewport, { dark = false, lang = "en", video, tab = { url: `https://www.${SITE}/bikes`, title: "Halden Cycles" } } = {}) {
   const context = await browser.newContext({ viewport, deviceScaleFactor: 1, colorScheme: dark ? "dark" : "light", recordVideo: video ? { dir: video, size: viewport } : undefined });
-  await context.addInitScript(mockChrome, { site: SITE, messages: MESSAGES[lang], lang });
+  await context.addInitScript(mockChrome, { tab, messages: MESSAGES[lang], lang });
   await context.route("https://api.looot.ai/**", async (route) => {
     const req = route.request();
     const url = new URL(req.url());
@@ -110,42 +116,44 @@ async function run(panel, id, pause = 0) {
 }
 
 const url = `www.${SITE}/bikes`;
+const PROFILE_TAB = { url: "https://www.linkedin.com/in/ingrid-solberg-demo", title: "Ingrid Solberg - Head of Partnerships | LinkedIn" };
+const TEAM_TAB = { url: `https://www.${SITE}/team`, title: "Our team | Halden Cycles" };
 const SHOTS = [
   {
     file: "1-who-owns-this-website.png",
-    params: { scene: "company", url, h: "Who owns this website?", p: "Open the panel on any site. One click shows the company behind it: name, industry, size, country, LinkedIn.", f1: money(PRICE["company.enrich"]), l1: "cheapest listed call", f2: "$0", l2: "for a failed call" },
+    params: { scene: "company", url, h: "Who owns this website?", p: "Open Whozit on any site. One click shows the company behind it: name, industry, size, country, LinkedIn.", f1: money(PRICE["company.enrich"]), l1: "cheapest listed call", f2: "$0", l2: "for a failed call" },
     drive: (panel) => run(panel, "company"),
   },
   {
-    file: "2-website-traffic-checker.png",
+    file: "2-linkedin-profile-and-email.png",
+    tab: PROFILE_TAB,
+    params: { scene: "linkedin", url: "www.linkedin.com/in/ingrid-solberg-demo", h: "On a LinkedIn profile, the person", p: "Whozit sees a profile and offers the person lookups: role, location, followers, then their work email.", f1: money(PRICE["linkedin.person.profile"]), l1: "cheapest listed profile", f2: money(PRICE["people.email.find"]), l2: "cheapest listed email find" },
+    drive: (panel) => run(panel, "linkedin"),
+  },
+  {
+    file: "3-website-traffic-checker.png",
     params: { scene: "traffic", url, h: "Website traffic checker", p: "Estimated monthly visits, global and country rank, bounce rate and where the traffic comes from.", f1: money(PRICE["company.traffic"]), l1: "listed price per call", f2: "$0", l2: "for a failed call" },
     drive: (panel) => run(panel, "traffic"),
   },
   {
-    file: "3-tech-stack-detector.png",
-    params: { scene: "tech", url, h: "Tech stack detector", p: "See what the site runs on: CMS, analytics, payments, hosting, support tools.", f1: "4,200+", l1: "endpoints in the catalog", f2: "300+", l2: "providers" },
-    drive: (panel) => run(panel, "tech"),
-  },
-  {
-    file: "4-price-before-every-call.png",
-    params: { scene: "seo", url, h: "The price before every call", p: "Each lookup shows its listed price and the most it can charge. Nothing runs until you confirm. Your key, your caps.", f1: money(PRICE["backlinks.domain.summary"]), l1: "SEO and backlinks, listed", f2: "$5", l2: "smallest top-up, no subscription" },
+    file: "4-tech-stack-and-news.png",
+    params: { scene: "tech", url, h: "Tech stack and recent news", p: "What the site runs on, and what was written about the company lately.", f1: "4,200+", l1: "endpoints in the catalog", f2: "300+", l2: "providers" },
     drive: async (panel) => {
-      await panel.locator("#action-seo .price:not(.skeleton)").waitFor();
-      await top(panel, "#action-seo");
-      await panel.locator("#action-seo button.btn").first().click();
-      await panel.locator("#action-seo .confirm").waitFor();
+      await run(panel, "tech");
+      await panel.locator("#more-toggle").click();
+      await run(panel, "news");
     },
   },
   {
-    file: "5-work-email-finder.png",
-    params: { scene: "email", url: `www.${SITE}/team`, h: "Find a work email, then check it", p: "Type a name. looot finds the address at this domain and verifies it, each step under your cap.", f1: money(PRICE["people.email.find"]), l1: "cheapest listed find", f2: "2 steps", l2: "find, then verify" },
+    file: "5-price-before-every-call.png",
+    tab: TEAM_TAB,
+    params: { scene: "team", url: `www.${SITE}/team`, h: "The price before every call", p: "On a team page Whozit puts people first. Each lookup shows its listed price and the most it can charge. Nothing runs until you confirm.", f1: money(PRICE["people.email.find"]), l1: "cheapest listed email find", f2: "$5", l2: "smallest top-up, no subscription" },
     drive: async (panel) => {
       await panel.locator("#action-email .price:not(.skeleton)").waitFor();
-      await panel.locator("#first-name").fill("Ingrid");
-      await panel.locator("#last-name").fill("Solberg");
+      await panel.locator("#email-first").fill("Ingrid");
+      await panel.locator("#email-last").fill("Solberg");
       await panel.locator("#action-email button.btn").first().click();
-      await panel.locator("#action-email .btn.primary").click();
-      await panel.locator("#action-email .receipt").waitFor();
+      await panel.locator("#action-email .confirm").waitFor();
       await top(panel, "#action-email");
     },
   },
@@ -162,7 +170,7 @@ const LOCAL = {
 };
 
 for (const shot of SHOTS) {
-  const { context, page, panel } = await open({ kind: "shot", ...shot.params }, { width: 1280, height: 800 });
+  const { context, page, panel } = await open({ kind: "shot", ...shot.params }, { width: 1280, height: 800 }, { tab: shot.tab });
   await shot.drive(panel);
   await page.waitForTimeout(700);
   await page.screenshot({ path: resolve("store/screenshots", shot.file) });
@@ -191,12 +199,15 @@ for (const [kind, viewport, file] of [["small", { width: 440, height: 280 }, "pr
 
 if (!process.argv.includes("--no-video")) {
   const dir = join(root, "video");
-  const { context, page, panel } = await open({ kind: "shot", scene: "video", url, h: "Company lookup for the site you are on", p: "Who owns it, traffic and tech stack. The price shows before each call.", f1: money(PRICE["company.enrich"]), l1: "cheapest listed call", f2: "$0", l2: "for a failed call" }, { width: 1280, height: 800 }, { video: dir });
+  const { context, page, panel } = await open({ kind: "shot", scene: "video", url, h: "Whozit: who owns this website?", p: "Company, traffic, tech stack and news on any page. The price shows before each call.", f1: money(PRICE["company.enrich"]), l1: "cheapest listed call", f2: "$0", l2: "for a failed call" }, { width: 1280, height: 800 }, { video: dir });
   await page.waitForTimeout(1500);
   for (const id of ["company", "traffic", "tech"]) {
     await run(panel, id, 1200);
     await page.waitForTimeout(2500);
   }
+  await panel.locator("#more-toggle").click();
+  await run(panel, "news", 1200);
+  await page.waitForTimeout(2500);
   const webm = await page.video().path();
   await context.close();
   try {

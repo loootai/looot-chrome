@@ -2,9 +2,9 @@
   <img src="store/promo-marquee-1400x560.png" alt="looot side panel showing a company lookup with the amount charged" width="820">
 </p>
 
-# looot for Chrome
+# Whozit by looot (Chrome extension)
 
-A Chrome side panel for [looot](https://looot.ai): company lookup for the website you have open. See who owns the site, its WHOIS record, tech stack, traffic estimate, SEO numbers and a work email, and search 4,200+ data API endpoints and their prices for free. Every paid lookup shows its price and waits for a click. In English, French, German, Spanish, Italian, Dutch and Portuguese.
+Whozit is a Chrome side panel for [looot](https://looot.ai): site and people intel on any page. It reads the tab's URL and title, tells what the page is (a company website, a team page, an article, a LinkedIn profile or company page) and puts the lookups that fit first: who owns the website, tech stack, traffic, SEO, WHOIS, news, LinkedIn profile, work email, email check. Every paid lookup shows its price and waits for a click. In English, French, German, Spanish, Italian, Dutch and Portuguese.
 
 looot gives one key and one prepaid balance for data APIs from 300+ providers. You pay per call, a failed call costs nothing, and there is no subscription. Docs: [docs.looot.ai](https://docs.looot.ai).
 
@@ -18,7 +18,10 @@ looot gives one key and one prepaid balance for data APIs from 300+ providers. Y
 | Tech stack | yes | `company.technographics` | free with one provider, others from $0.01 per result |
 | Website traffic | yes | `company.traffic` | from $0.06532 per call |
 | SEO and backlinks | yes | `backlinks.domain.summary` | from $0.024 per call |
+| Recent news | yes | `news.search` | from $0.00099 per call |
+| LinkedIn profile | yes | `linkedin.person.profile` | from $0.0012 per call |
 | Find a work email, then verify it | yes | `people.email.find`, `people.email.verify` | from $0.003598 and $0.00145 per call |
+| Verify an email | yes | `people.email.verify` | from $0.00145 per call |
 
 Prices are read live from the free catalog (`GET /v1/catalog/overview?depth=jobs`) each time the panel opens, so the table above will drift and the panel will not.
 

@@ -1,15 +1,15 @@
 {
   "extName": {
-    "message": "looot Buscar empresa: de quién es esta web, tecnologías y tráfico"
+    "message": "Whozit: de quién es esta web, buscar empresa y email"
   },
   "extShortName": {
-    "message": "looot"
+    "message": "Whozit"
   },
   "extDescription": {
-    "message": "Empresa del sitio abierto: dueño, tecnologías, tráfico, backlinks, WHOIS, emails de trabajo. Precio antes de cada consulta."
+    "message": "Datos del sitio y de personas: dueño de la web, empresa, tecnologías, tráfico, perfil de LinkedIn, email de trabajo, noticias."
   },
   "actionTitle": {
-    "message": "Abrir looot"
+    "message": "Abrir Whozit"
   },
   "siteLabel": {
     "message": "Sitio"
@@ -46,9 +46,6 @@
   },
   "siteTyped": {
     "message": "Dominio escrito"
-  },
-  "siteTab": {
-    "message": "Esta pestaña"
   },
   "domainChangeLabel": {
     "message": "Cambiar dominio"
@@ -90,7 +87,7 @@
     "message": "Encontrar un email de trabajo"
   },
   "actionEmailHint": {
-    "message": "La dirección de una persona en este dominio y luego una verificación de entrega."
+    "message": "A partir de un nombre en este dominio o del perfil de LinkedIn abierto, y luego una verificación de entrega."
   },
   "needTokenTitle": {
     "message": "Las consultas necesitan tu clave de looot"
@@ -116,9 +113,6 @@
   "priceUnavailable": {
     "message": "precio no disponible"
   },
-  "nameError": {
-    "message": "Escribe nombre y apellido."
-  },
   "firstName": {
     "message": "Nombre"
   },
@@ -127,9 +121,6 @@
   },
   "seePrice": {
     "message": "Ver precio"
-  },
-  "needsDomain": {
-    "message": "Necesita un dominio de empresa."
   },
   "overCap": {
     "message": "La consulta más barata cuesta $p1$, por encima de tu límite de $p2$ por consulta.",
@@ -147,14 +138,6 @@
   },
   "confirmLabel": {
     "message": "Confirmar: $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "confirmPerson": {
-    "message": "$p1$ en",
     "placeholders": {
       "p1": {
         "content": "$1"
@@ -224,49 +207,6 @@
         "content": "$1"
       }
     }
-  },
-  "runningCompany": {
-    "message": "Buscando la empresa detrás de $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningWhois": {
-    "message": "Leyendo el registro de $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningTech": {
-    "message": "Leyendo las tecnologías de $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningTraffic": {
-    "message": "Estimando el tráfico de $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningSeo": {
-    "message": "Contando backlinks de $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningEmail": {
-    "message": "Buscando la dirección"
   },
   "runningVerify": {
     "message": "Verificando $p1$",
@@ -678,5 +618,154 @@
   },
   "freeCheapest": {
     "message": "gratis con el proveedor más barato"
+  },
+  "kindCompany": {
+    "message": "Web de empresa"
+  },
+  "kindTeam": {
+    "message": "Página del equipo"
+  },
+  "kindArticle": {
+    "message": "Artículo"
+  },
+  "kindLinkedinPerson": {
+    "message": "Perfil de LinkedIn"
+  },
+  "kindLinkedinCompany": {
+    "message": "Página de empresa en LinkedIn"
+  },
+  "kindNone": {
+    "message": "Sin sitio"
+  },
+  "moreLookups": {
+    "message": "Más consultas ($p1$)",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "fewerLookups": {
+    "message": "Menos consultas"
+  },
+  "fieldsError": {
+    "message": "Rellena todos los campos."
+  },
+  "actionNewsTitle": {
+    "message": "Noticias recientes"
+  },
+  "actionNewsHint": {
+    "message": "Artículos de prensa sobre la empresa o la persona."
+  },
+  "actionLinkedinTitle": {
+    "message": "Perfil de LinkedIn"
+  },
+  "actionLinkedinHint": {
+    "message": "Titular, puesto actual, ubicación, seguidores y estudios de un perfil público."
+  },
+  "actionVerifyTitle": {
+    "message": "Verificar un email"
+  },
+  "actionVerifyHint": {
+    "message": "Comprueba si una dirección es entregable: válida, no válida, catch-all o arriesgada."
+  },
+  "fieldQuery": {
+    "message": "Buscar"
+  },
+  "fieldProfileUrl": {
+    "message": "URL del perfil de LinkedIn"
+  },
+  "fieldEmail": {
+    "message": "Dirección de email"
+  },
+  "fieldHeadline": {
+    "message": "Titular"
+  },
+  "fieldRole": {
+    "message": "Puesto actual"
+  },
+  "fieldLocation": {
+    "message": "Ubicación"
+  },
+  "fieldFollowers": {
+    "message": "Seguidores"
+  },
+  "fieldSchool": {
+    "message": "Estudios"
+  },
+  "emptyNews": {
+    "message": "No hay noticias para esta búsqueda."
+  },
+  "running_company": {
+    "message": "Buscando la empresa detrás de $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_whois": {
+    "message": "Leyendo el registro de $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_tech": {
+    "message": "Leyendo las tecnologías de $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_traffic": {
+    "message": "Estimando el tráfico de $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_seo": {
+    "message": "Contando backlinks de $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_news": {
+    "message": "Buscando noticias de $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_linkedin": {
+    "message": "Leyendo el perfil $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_email": {
+    "message": "Buscando la dirección: $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_verify": {
+    "message": "Verificando $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
   }
 }

@@ -1,15 +1,15 @@
 {
   "extName": {
-    "message": "looot Ricerca aziende: di chi è questo sito, tecnologie e traffico"
+    "message": "Whozit: di chi è questo sito, ricerca aziende ed email"
   },
   "extShortName": {
-    "message": "looot"
+    "message": "Whozit"
   },
   "extDescription": {
-    "message": "Azienda del sito aperto: proprietario, tecnologie, traffico, backlink, WHOIS, email di lavoro. Prezzo prima di ogni chiamata."
+    "message": "Info su sito e persone: proprietario del sito, azienda, tecnologie, traffico, profilo LinkedIn, email di lavoro, notizie."
   },
   "actionTitle": {
-    "message": "Apri looot"
+    "message": "Apri Whozit"
   },
   "siteLabel": {
     "message": "Sito"
@@ -46,9 +46,6 @@
   },
   "siteTyped": {
     "message": "Dominio inserito"
-  },
-  "siteTab": {
-    "message": "Questa scheda"
   },
   "domainChangeLabel": {
     "message": "Cambia dominio"
@@ -90,7 +87,7 @@
     "message": "Trova un'email di lavoro"
   },
   "actionEmailHint": {
-    "message": "L'indirizzo di una persona su questo dominio, poi una verifica di consegna."
+    "message": "Da un nome su questo dominio o dal profilo LinkedIn aperto, poi una verifica di consegna."
   },
   "needTokenTitle": {
     "message": "Le ricerche richiedono la tua chiave looot"
@@ -116,9 +113,6 @@
   "priceUnavailable": {
     "message": "prezzo non disponibile"
   },
-  "nameError": {
-    "message": "Inserisci nome e cognome."
-  },
   "firstName": {
     "message": "Nome"
   },
@@ -127,9 +121,6 @@
   },
   "seePrice": {
     "message": "Vedi prezzo"
-  },
-  "needsDomain": {
-    "message": "Serve un dominio aziendale."
   },
   "overCap": {
     "message": "La chiamata più economica costa $p1$, sopra il tuo limite di $p2$ per chiamata.",
@@ -147,14 +138,6 @@
   },
   "confirmLabel": {
     "message": "Conferma: $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "confirmPerson": {
-    "message": "$p1$ presso",
     "placeholders": {
       "p1": {
         "content": "$1"
@@ -224,49 +207,6 @@
         "content": "$1"
       }
     }
-  },
-  "runningCompany": {
-    "message": "Cerco l'azienda dietro $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningWhois": {
-    "message": "Leggo il registro di $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningTech": {
-    "message": "Leggo le tecnologie di $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningTraffic": {
-    "message": "Stimo il traffico di $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningSeo": {
-    "message": "Conto i backlink di $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningEmail": {
-    "message": "Cerco l'indirizzo"
   },
   "runningVerify": {
     "message": "Verifico $p1$",
@@ -678,5 +618,154 @@
   },
   "freeCheapest": {
     "message": "gratis con il fornitore più economico"
+  },
+  "kindCompany": {
+    "message": "Sito aziendale"
+  },
+  "kindTeam": {
+    "message": "Pagina del team"
+  },
+  "kindArticle": {
+    "message": "Articolo"
+  },
+  "kindLinkedinPerson": {
+    "message": "Profilo LinkedIn"
+  },
+  "kindLinkedinCompany": {
+    "message": "Pagina aziendale LinkedIn"
+  },
+  "kindNone": {
+    "message": "Nessun sito"
+  },
+  "moreLookups": {
+    "message": "Altre ricerche ($p1$)",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "fewerLookups": {
+    "message": "Meno ricerche"
+  },
+  "fieldsError": {
+    "message": "Compila tutti i campi."
+  },
+  "actionNewsTitle": {
+    "message": "Notizie recenti"
+  },
+  "actionNewsHint": {
+    "message": "Articoli di stampa sull'azienda o la persona."
+  },
+  "actionLinkedinTitle": {
+    "message": "Profilo LinkedIn"
+  },
+  "actionLinkedinHint": {
+    "message": "Titolo, ruolo attuale, luogo, follower e scuola da un profilo pubblico."
+  },
+  "actionVerifyTitle": {
+    "message": "Verifica un'email"
+  },
+  "actionVerifyHint": {
+    "message": "Verifica se un indirizzo è consegnabile: valido, non valido, catch-all o rischioso."
+  },
+  "fieldQuery": {
+    "message": "Cerca"
+  },
+  "fieldProfileUrl": {
+    "message": "URL del profilo LinkedIn"
+  },
+  "fieldEmail": {
+    "message": "Indirizzo email"
+  },
+  "fieldHeadline": {
+    "message": "Titolo"
+  },
+  "fieldRole": {
+    "message": "Ruolo attuale"
+  },
+  "fieldLocation": {
+    "message": "Luogo"
+  },
+  "fieldFollowers": {
+    "message": "Follower"
+  },
+  "fieldSchool": {
+    "message": "Scuola"
+  },
+  "emptyNews": {
+    "message": "Nessuna notizia per questa ricerca."
+  },
+  "running_company": {
+    "message": "Cerco l'azienda dietro $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_whois": {
+    "message": "Leggo il registro di $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_tech": {
+    "message": "Leggo le tecnologie di $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_traffic": {
+    "message": "Stimo il traffico di $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_seo": {
+    "message": "Conto i backlink di $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_news": {
+    "message": "Cerco notizie su $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_linkedin": {
+    "message": "Leggo il profilo $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_email": {
+    "message": "Cerco l'indirizzo: $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_verify": {
+    "message": "Verifico $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
   }
 }

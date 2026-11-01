@@ -70,8 +70,10 @@ a { color: var(--accent-text); text-underline-offset: 2px; }
 
 /* header */
 .top { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px 6px; }
-.brand { display: inline-flex; border-radius: 6px; margin-left: -6px; }
-.brand img { display: block; height: 30px; width: auto; }
+.brand { display: inline-flex; align-items: center; gap: 6px; border-radius: 6px; text-decoration: none; color: var(--ink); }
+.brand .product { font-size: 19px; font-weight: 750; letter-spacing: -0.03em; }
+.brand .by { font-size: 11px; color: var(--muted); }
+.brand img { display: block; height: 18px; width: auto; margin-left: -4px; }
 .balance { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.2; }
 .balance strong { font-size: 13px; }
 
@@ -234,3 +236,10 @@ pre { margin-top: 6px; padding: 8px; max-height: 180px; overflow: auto; backgrou
 /* over-cap hint */
 .warn-text { color: var(--warn); }
 .linkish { appearance: none; border: 0; background: none; padding: 0; font: inherit; color: var(--accent-text); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+
+/* more lookups, news list */
+.btn.more { width: 100%; margin-top: 2px; }
+.news { display: flex; flex-direction: column; gap: 8px; }
+.news li { display: flex; flex-direction: column; gap: 2px; }
+.news a { font-weight: 600; text-decoration: none; }
+.news a:hover { text-decoration: underline; }

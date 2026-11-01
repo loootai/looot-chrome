@@ -1,15 +1,15 @@
 {
   "extName": {
-    "message": "looot Firmensuche: Wem gehört diese Website? Tech-Stack & Traffic"
+    "message": "Whozit: Wem gehört diese Website? Firmensuche & E-Mail-Finder"
   },
   "extShortName": {
-    "message": "looot"
+    "message": "Whozit"
   },
   "extDescription": {
-    "message": "Firmeninfos zur offenen Website: Inhaber, Tech-Stack, Traffic, Backlinks, WHOIS, Firmen-E-Mails. Preis vor jedem Abruf sichtbar."
+    "message": "Infos zu Website und Personen: Inhaber, Firma, Tech-Stack, Traffic, LinkedIn-Profil, Firmen-E-Mail, News. Preis vor jedem Abruf."
   },
   "actionTitle": {
-    "message": "looot öffnen"
+    "message": "Whozit öffnen"
   },
   "siteLabel": {
     "message": "Website"
@@ -46,9 +46,6 @@
   },
   "siteTyped": {
     "message": "Eingegebene Domain"
-  },
-  "siteTab": {
-    "message": "Dieser Tab"
   },
   "domainChangeLabel": {
     "message": "Domain ändern"
@@ -90,7 +87,7 @@
     "message": "Firmen-E-Mail finden"
   },
   "actionEmailHint": {
-    "message": "Die Adresse einer Person bei dieser Domain, dann eine Zustellbarkeitsprüfung."
+    "message": "Aus einem Namen bei dieser Domain oder dem offenen LinkedIn-Profil, dann eine Zustellbarkeitsprüfung."
   },
   "needTokenTitle": {
     "message": "Abfragen brauchen Ihren looot-Schlüssel"
@@ -116,9 +113,6 @@
   "priceUnavailable": {
     "message": "Preis nicht verfügbar"
   },
-  "nameError": {
-    "message": "Geben Sie Vor- und Nachnamen ein."
-  },
   "firstName": {
     "message": "Vorname"
   },
@@ -127,9 +121,6 @@
   },
   "seePrice": {
     "message": "Preis ansehen"
-  },
-  "needsDomain": {
-    "message": "Braucht eine Firmen-Domain."
   },
   "overCap": {
     "message": "Der günstigste Abruf kostet $p1$, mehr als Ihr Limit von $p2$ pro Abruf.",
@@ -147,14 +138,6 @@
   },
   "confirmLabel": {
     "message": "Bestätigen: $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "confirmPerson": {
-    "message": "$p1$ bei",
     "placeholders": {
       "p1": {
         "content": "$1"
@@ -224,49 +207,6 @@
         "content": "$1"
       }
     }
-  },
-  "runningCompany": {
-    "message": "Suche die Firma hinter $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningWhois": {
-    "message": "Lese den Domain-Eintrag von $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningTech": {
-    "message": "Lese den Tech-Stack von $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningTraffic": {
-    "message": "Schätze den Traffic von $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningSeo": {
-    "message": "Zähle Backlinks zu $p1$",
-    "placeholders": {
-      "p1": {
-        "content": "$1"
-      }
-    }
-  },
-  "runningEmail": {
-    "message": "Suche die Adresse"
   },
   "runningVerify": {
     "message": "Prüfe $p1$",
@@ -678,5 +618,154 @@
   },
   "freeCheapest": {
     "message": "kostenlos beim günstigsten Anbieter"
+  },
+  "kindCompany": {
+    "message": "Firmen-Website"
+  },
+  "kindTeam": {
+    "message": "Team-Seite"
+  },
+  "kindArticle": {
+    "message": "Artikel"
+  },
+  "kindLinkedinPerson": {
+    "message": "LinkedIn-Profil"
+  },
+  "kindLinkedinCompany": {
+    "message": "LinkedIn-Firmenseite"
+  },
+  "kindNone": {
+    "message": "Keine Website"
+  },
+  "moreLookups": {
+    "message": "Weitere Abfragen ($p1$)",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "fewerLookups": {
+    "message": "Weniger Abfragen"
+  },
+  "fieldsError": {
+    "message": "Füllen Sie alle Felder aus."
+  },
+  "actionNewsTitle": {
+    "message": "Aktuelle News"
+  },
+  "actionNewsHint": {
+    "message": "Presseartikel über die Firma oder Person."
+  },
+  "actionLinkedinTitle": {
+    "message": "LinkedIn-Profil"
+  },
+  "actionLinkedinHint": {
+    "message": "Headline, aktuelle Rolle, Ort, Follower und Hochschule eines öffentlichen Profils."
+  },
+  "actionVerifyTitle": {
+    "message": "E-Mail prüfen"
+  },
+  "actionVerifyHint": {
+    "message": "Prüft, ob eine Adresse zustellbar ist: gültig, ungültig, Catch-all oder riskant."
+  },
+  "fieldQuery": {
+    "message": "Suchbegriff"
+  },
+  "fieldProfileUrl": {
+    "message": "URL des LinkedIn-Profils"
+  },
+  "fieldEmail": {
+    "message": "E-Mail-Adresse"
+  },
+  "fieldHeadline": {
+    "message": "Headline"
+  },
+  "fieldRole": {
+    "message": "Aktuelle Rolle"
+  },
+  "fieldLocation": {
+    "message": "Ort"
+  },
+  "fieldFollowers": {
+    "message": "Follower"
+  },
+  "fieldSchool": {
+    "message": "Hochschule"
+  },
+  "emptyNews": {
+    "message": "Keine News zu dieser Suche gefunden."
+  },
+  "running_company": {
+    "message": "Suche die Firma hinter $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_whois": {
+    "message": "Lese den Domain-Eintrag von $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_tech": {
+    "message": "Lese den Tech-Stack von $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_traffic": {
+    "message": "Schätze den Traffic von $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_seo": {
+    "message": "Zähle Backlinks zu $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_news": {
+    "message": "Suche News zu $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_linkedin": {
+    "message": "Lese das Profil $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_email": {
+    "message": "Suche die Adresse: $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "running_verify": {
+    "message": "Prüfe $p1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
   }
 }

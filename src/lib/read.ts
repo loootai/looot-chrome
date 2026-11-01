@@ -44,8 +44,14 @@ export function findValue(source: unknown, keys: string[]): string {
   return "";
 }
 
+/** The provider's own payload when a wrapper puts it under data, profile or person. */
+function payload(result: unknown): unknown {
+  const node = findNode(result, ["data", "profile", "person"]);
+  return node && typeof node === "object" ? node : result;
+}
+
 function pick(run: RunLike, keys: string[]): string {
-  return findValue(run.normalized?.fields ?? null, keys) || findValue(run.result ?? null, keys);
+  return findValue(run.normalized?.fields ?? null, keys) || findValue(payload(run.result ?? null), keys) || findValue(run.result ?? null, keys);
 }
 
 const EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
@@ -246,4 +252,50 @@ export function readTechnologies(run: RunLike, max = 60): string[] {
   visit(run.normalized?.fields ?? null, false, 0);
   visit(run.result ?? null, false, 0);
   return [...out];
+}
+
+/** LinkedIn profile: the name as headline, then role, location, followers, school and about. */
+export function readLinkedIn(run: RunLike, locale?: string): Card & { name: string } {
+  const src = payload(run.result ?? null);
+  const fields: Field[] = [];
+  const add = (label: string, value: string) => { if (value) fields.push({ label, value }); };
+  const name = findValue(src, ["name", "full_name", "fullName"]);
+  add("fieldHeadline", findValue(src, ["headline", "title"]));
+  const current = findNode(src, ["currentPosition", "current_position", "experience", "experiences"]);
+  const first = Array.isArray(current) ? current[0] : current;
+  const role = findValue(first, ["position", "title"]);
+  const company = findValue(first, ["companyName", "company", "company_name"]);
+  add("fieldRole", role && company ? `${role}, ${company}` : role || company);
+  add("fieldLocation", findValue(src, ["location", "city"]));
+  const followers = num(findNode(src, ["followers", "follower_count", "followersCount"]));
+  if (followers !== null) add("fieldFollowers", compact(followers, locale));
+  const school = findNode(src, ["education", "educations"]);
+  add("fieldSchool", findValue(Array.isArray(school) ? school[0] : school, ["school", "schoolName", "school_name"]));
+  add("fieldAbout", findValue(src, ["about", "summary"]).slice(0, 280));
+  return { name, fields, chips: [] };
+}
+
+export interface NewsItem {
+  title: string;
+  source: string;
+  url: string;
+  date: string;
+}
+
+/** Up to `max` news items with an http(s) link. Dates come back as YYYY-MM-DD. */
+export function readNews(run: RunLike, max = 6): NewsItem[] {
+  const list = findNode(payload(run.result ?? null), ["items", "news", "articles", "news_results", "results"]);
+  if (!Array.isArray(list)) return [];
+  const out: NewsItem[] = [];
+  for (const item of list) {
+    if (out.length >= max) break;
+    if (!item || typeof item !== "object") continue;
+    const url = findValue(item, ["url", "link"]);
+    const title = findValue(item, ["title"]);
+    if (!title || !/^https?:\/\//i.test(url)) continue;
+    const epoch = num(findNode(item, ["createdUtc", "timestamp"]));
+    const date = epoch !== null ? new Date(epoch * (epoch < 1e12 ? 1000 : 1)).toISOString().slice(0, 10) : day(findNode(item, ["date", "published", "publishedAt"]));
+    out.push({ title: title.slice(0, 160), source: findValue(item, ["source", "publisher"]), url, date });
+  }
+  return out;
 }

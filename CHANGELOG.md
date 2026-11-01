@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 (2026-11-01)
+
+- New name: Whozit (by looot). Store title "Whozit: Who Owns This Website, Company Lookup & Email Finder", localized in seven languages.
+- The panel reads the tab's URL and title (no content script, no new permission) and tells the page kind: company website, team page, article, LinkedIn profile, LinkedIn company page. It puts the lookups that fit first and the rest under "More lookups".
+- New lookups: LinkedIn profile (`linkedin.person.profile`), Recent news (`news.search`), Verify an email (`people.email.verify` on its own). Work email runs from the LinkedIn profile you are on. Company lookup works on a LinkedIn company page.
+- Readers look inside provider wrappers (`data`, `profile`, `person`) first, so a wrapper's own name field no longer wins.
+- Store kit re-rendered: five English screenshots (company, LinkedIn profile, traffic, tech stack and news, team page price), one per other language, tiles, video. Zip is `store/whozit-<version>.zip`.
+
 ## 0.2.0 (2026-11-01)
 
 - Company lookup for the open site: six lookups. New: Domain record (WHOIS, `domain.whois.lookup`), Website traffic (`company.traffic`), SEO and backlinks (`backlinks.domain.summary`). "Enrich this company" is now "Who owns this website".
